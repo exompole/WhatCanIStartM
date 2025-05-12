@@ -1,0 +1,79 @@
+.contact_section h1{
+    font-size: 48px;
+    font-weight: 800;
+
+
+}
+.contact_section p{
+    
+    font-weight: 500;
+
+
+}
+
+.container{
+    display: flex;
+    max-width: 1000px;
+    margin: 0 auto;
+    margin-top: 40px;
+    
+}
+.top_btn{
+    display: flex;
+    gap: 32px;
+    margin-top: 20px;
+    
+     
+}
+.contact_form {
+  display: flex;
+  flex-direction: column;
+  max-width: 1000px;
+  margin-top: 5px;
+  margin-left: -190px;
+}
+
+
+.contact_form form{
+    display: flex;
+    margin-top: 20px;
+    flex-direction: column;
+    padding-bottom: 20px;
+    gap: 20px;
+}
+
+.form_control{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+    
+}
+.form_control input{
+    height: 40px;
+    padding: 0 8 px;
+}
+
+.form_control label{
+    font-size: 14px;
+    position: absolute;
+    top: -12px;
+    left: 10px;
+    background-color: white;
+    padding: 0 10px;
+}
+
+
+
+
+
+.contact_image img {
+  max-width: 100%;
+  width: 600px;
+  height: auto;
+  margin-top: 38px;
+  margin-left: 150px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}

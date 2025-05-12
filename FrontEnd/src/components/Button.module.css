@@ -1,0 +1,42 @@
+.primary_btn {
+    padding: 14px 10px;
+    background-color: black;
+    color: white;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 220px;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+
+
+}
+
+
+.primary_btn:hover {
+  background-color: blanchedalmond;
+}
+
+
+.outline_btn{
+    padding: 14px 10px;
+    background-color: white;
+    border: 1px solid black;
+    color: rgb(7, 7, 7);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 220px;
+    justify-content: center;
+    width: 100%;
+    cursor: pointer;
+
+}
+.outline_btn:hover {
+  background-color: blanchedalmond;
+}
+

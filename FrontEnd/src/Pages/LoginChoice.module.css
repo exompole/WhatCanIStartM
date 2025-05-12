@@ -1,0 +1,79 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+
+.login_choice_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f8f9fa;
+    font-family: 'Segoe UI', sans-serif;
+    padding: 20px;
+    overflow: hidden;
+    min-height: 100vh;
+}
+
+.login_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 40%;
+}
+
+.vertical_line {
+    width: 1px;
+    height: 60%;
+    max-height: 500px;
+    background-color: #ccc;
+    margin: 0 20px;
+    margin-top: -140px;
+    
+}
+
+.login_option {
+    width: 100%;
+    padding: 40px;
+    text-align: center;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+    background-color: white;
+    margin-top: -140px;
+}
+
+.login_option:hover {
+    transform: translateY(-5px);
+}
+
+.admin {
+    border-top: 6px solid #007bff;
+}
+
+.user {
+    border-top: 6px solid #28a745;
+}
+
+.login_btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+    padding: 3px 3px;
+    border-radius: 10px;
+    transition: background-color 0.4s ease;
+}
+
+.user_btn:hover {
+    background-color: black;
+}
+.admin_btn:hover {
+    background-color: black;
+}
