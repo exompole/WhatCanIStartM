@@ -1,6 +1,7 @@
 import styles from "./UserLogin.module.css";
-import Button from "../components/Button";
-import userImg from "../images/UserLogin.png";
+import Button from "../../components/Button";
+import userImg from "../../images/UserLogin.png";
+import { Link } from "react-router-dom";
 
 const UserLogin = () => {
   return (
@@ -21,6 +22,11 @@ const UserLogin = () => {
         <div className={styles.Admin_btn}>
           <Button text="submit">Login</Button>
         </div>
+        <Link to="/registration">
+          <div>
+            <p>New user? Register now..</p>
+          </div>
+        </Link>
       </div>
 
       <div className={styles.User_img}>

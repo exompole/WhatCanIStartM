@@ -1,6 +1,7 @@
 import styles from './Registration.module.css'; 
-import registration from "../images/registration.png"
-import Button from "../components/Button"
+import registration from "../../images/registration.png"
+import Button from "../../components/Button"
+import { Link } from "react-router-dom";
 
 const Registration = () => {
   return (
@@ -38,6 +39,11 @@ const Registration = () => {
         </div>
         
         <Button text="submit" className={styles.register_btn}>Register</Button>
+        <Link to="/user-login">
+          <div>
+            <p>Already Registered? Login</p>
+          </div>
+        </Link>
       </form>
       <div className={styles.registration_img}><img src={registration} height="600px"  alt="registration" /></div>
       

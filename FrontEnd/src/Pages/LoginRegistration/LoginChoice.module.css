@@ -19,6 +19,7 @@ body {
     padding: 20px;
     overflow: hidden;
     min-height: 100vh;
+    
 }
 
 .login_section {
@@ -26,6 +27,7 @@ body {
     flex-direction: column;
     align-items: center;
     width: 40%;
+    
 }
 
 .vertical_line {
@@ -47,6 +49,7 @@ body {
     transition: transform 0.3s ease;
     background-color: white;
     margin-top: -140px;
+    text-decoration: none;
 }
 
 .login_option:hover {

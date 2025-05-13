@@ -1,6 +1,6 @@
 import styles from "./AdminLogin.module.css";
-import Button from "../components/Button";
-import adminImg from "../images/Admin_login.png";
+import Button from "../../components/Button";
+import adminImg from "../../images/Admin_login.png";
 
 const AdminLogin = () => {
   return (

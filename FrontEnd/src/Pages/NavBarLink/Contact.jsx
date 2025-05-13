@@ -1,9 +1,9 @@
-import Button from "../components/Button";
+import Button from "../../components/Button";
 import { IoIosMail } from "react-icons/io";
 import { MdCall } from "react-icons/md";
 import { IoMdChatbubbles } from "react-icons/io";
 import styles from "./Contact.module.css";
-import contactImg from "../images/contactImg.png";
+import contactImg from "../../images/contactImg.png";
 
 const Contact = () => {
   return (

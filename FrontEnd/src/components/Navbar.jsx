@@ -8,7 +8,7 @@ const Navbar = () => {
       <nav>
         <Link to="/"><img className="img" src={logo} alt="logo" /></Link>
         <ul>
-          <li><a href="https://www.youtube.com/watch?v=W7up-w1QYpw&t=3322s">Business</a></li>
+          <li><Link to="/business">Business</Link></li>
           <li><Link to="/contact">Contact</Link></li>
           <li><Link to="/about">About</Link></li>
         </ul>
