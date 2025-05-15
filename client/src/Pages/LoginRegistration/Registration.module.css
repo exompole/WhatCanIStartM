@@ -1,0 +1,95 @@
+.registration_form {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  margin-top: px; 
+}
+
+.form_fields {
+  flex: 1;
+  max-width: 50%;
+  background: white;
+  padding: 40px;
+  border-radius: 0 0 0 0;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.form_fields h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.form_item {
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form_item label {
+  margin-bottom: 5px;
+  color: #444;
+  font-weight: 500;
+}
+
+.form_item input {
+  padding: 12px 14px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  outline: none;
+  font-size: 14px;
+}
+
+.Admin_btn {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.Admin_btn button {
+  color: white;
+  padding: 12px 30px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 15px;
+  transition: background 0.3s;
+}
+
+.Admin_btn button:hover {
+  background-color: rgb(88, 86, 86);
+}
+
+.typewriter_section {
+  flex: 1;
+  max-width: 50%;
+  background-color: #f8f8f8;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+}
+
+.typewriter {
+  font-family: monospace;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 3px solid #6c3ec1;
+  animation: typing 3s steps(35, end) forwards, blink 0.75s step-end infinite;
+  width: 0ch;
+  font-size: 2rem;
+  color: #0a080c;
+}
+
+@keyframes typing {
+  from { width: 0ch; }
+  to { width: 23ch; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
