@@ -12,7 +12,7 @@ const AdminLogin = () => {
     email: "",
     password: "",
   });
-  const navigate = useNavigate();
+  
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -26,7 +26,10 @@ const AdminLogin = () => {
     try {
       const res = await axios.post("http://localhost:5000/api/admin-login", formData);
       alert(res.data.message);
-      navigate("/admin-dashboard", { state: res.data.user });
+      localStorage.setItem("adminUser", JSON.stringify(res.data.user));
+
+    
+    window.open("/admin-dashboard", "_blank");
       
     } catch (err) {
       alert("Login failed: " + (err.response?.data?.message || "Server error"));

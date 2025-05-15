@@ -1,21 +1,26 @@
 const User = require("../models/User");
+const Contact = require("../models/Contact");
 const bcrypt = require("bcryptjs");
-require("dotenv").config(); 
+require("dotenv").config();
 
-exports.register = async (req, res) => {
+const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY;
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
+const ADMIN_PHONE = process.env.ADMIN_PHONE;
+
+// -------------------- Register User --------------------
+const register = async (req, res) => {
   const { username, firstname, surname, email, phone, password } = req.body;
 
   try {
-    
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: "User already exists" });
     }
 
-   
     const hashedPassword = await bcrypt.hash(password, 10);
 
-    
     const user = new User({
       username,
       firstname,
@@ -33,7 +38,8 @@ exports.register = async (req, res) => {
   }
 };
 
-exports.login = async (req, res) => {
+// -------------------- Login User --------------------
+const login = async (req, res) => {
   const { username, password } = req.body;
 
   try {
@@ -42,13 +48,11 @@ exports.login = async (req, res) => {
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
-    
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Invalid username or password" });
     }
 
-    
     res.status(200).json({ message: "Login successful", user });
   } catch (error) {
     console.error("Login error:", error);
@@ -56,17 +60,8 @@ exports.login = async (req, res) => {
   }
 };
 
-
-
-
-
-const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY;
-const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD;
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME;
-const ADMIN_PHONE = process.env.ADMIN_PHONE;
-
-exports.adminLogin = async (req, res) => {
+// -------------------- Admin Login --------------------
+const adminLogin = async (req, res) => {
   const { key, email, password } = req.body;
 
   try {
@@ -90,9 +85,13 @@ exports.adminLogin = async (req, res) => {
         });
 
         await admin.save();
-        return res.status(201).json({ message: "Admin created and logged in", user: admin });
+        return res
+          .status(201)
+          .json({ message: "Admin created and logged in", user: admin });
       } else {
-        return res.status(404).json({ message: "Admin not found and credentials do not match setup" });
+        return res.status(404).json({
+          message: "Admin not found and credentials do not match setup",
+        });
       }
     }
 
@@ -108,4 +107,53 @@ exports.adminLogin = async (req, res) => {
   }
 };
 
+// -------------------- Submit Contact --------------------
+const submitContact = async (req, res) => {
+  try {
+    const { name, email, message } = req.body;
 
+    if (!name || !email || !message) {
+      return res.status(400).json({ message: "All fields are required." });
+    }
+
+    const newContact = new Contact({ name, email, message });
+    await newContact.save();
+
+    res.status(201).json({ message: "Contact form submitted successfully." });
+  } catch (error) {
+    console.error("Contact form error:", error);
+    res.status(500).json({ message: "Server error." });
+  }
+};
+
+// -------------------- Get All Contacts --------------------
+const getAllContacts = async (req, res) => {
+  try {
+    const contacts = await Contact.find().sort({ createdAt: -1 });
+    res.status(200).json(contacts);
+  } catch (err) {
+    console.error("Error fetching contacts:", err);
+    res.status(500).json({ message: "Error fetching contacts" });
+  }
+};
+
+// -------------------- Get All Users --------------------
+const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find().select("-password"); // Exclude passwords
+    res.status(200).json(users);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ message: "Error fetching users" });
+  }
+};
+
+// -------------------- Export All --------------------
+module.exports = {
+  register,
+  login,
+  adminLogin,
+  getAllUsers,
+  submitContact,
+  getAllContacts,
+};

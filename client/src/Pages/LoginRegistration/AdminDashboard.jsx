@@ -7,31 +7,49 @@ const AdminDashboard = () => {
   const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      const usersRes = await axios.get("http://localhost:5000/api/users");
-      const contactsRes = await axios.get("http://localhost:5000/api/contacts");
-      setUsers(usersRes.data);
-      setContacts(contactsRes.data);
+    const fetchAdminData = async () => {
+      try {
+        const userRes = await axios.get(
+          "http://localhost:5000/api/admin/users"
+        );
+        const contactRes = await axios.get(
+          "http://localhost:5000/api/admin/contacts"
+        );
+        setUsers(userRes.data);
+        setContacts(contactRes.data);
+      } catch (error) {
+        console.error("Error fetching dashboard data:", error);
+      }
     };
-    fetchData();
+
+    fetchAdminData();
   }, []);
 
   return (
-    <div>
+    <div >
       <h1>Admin Dashboard</h1>
-      <h2>Total Users: {users.length}</h2>
 
-      <h3>Contact Form Submissions:</h3>
-      <ul>
-        {contacts.map((msg, idx) => (
-          <li key={idx}>
-            <p><strong>Name:</strong> {msg.name}</p>
-            <p><strong>Email:</strong> {msg.email}</p>
-            <p><strong>Message:</strong> {msg.message}</p>
-            <hr />
-          </li>
-        ))}
-      </ul>
+      <section >
+        <h2>Total Users: {users.length}</h2>
+        <ul>
+          {users.map((user, idx) => (
+            <li key={idx}>
+              {user.firstname} {user.surname} ({user.email})
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section >
+        <h2>Contact Submissions: {contacts.length}</h2>
+        <ul>
+          {contacts.map((c, idx) => (
+            <li key={idx}>
+              <strong>{c.name}</strong>: {c.message} ({c.email})
+            </li>
+          ))}
+        </ul>
+      </section>
     </div>
   );
 };
