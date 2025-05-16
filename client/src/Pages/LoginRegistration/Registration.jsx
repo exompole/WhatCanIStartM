@@ -30,7 +30,7 @@ const Registration = () => {
 
     try {
       const res = await axios.post("http://localhost:5000/api/register", formData);
-      setSuccessMessage(res.data.message); // Show success message
+      setSuccessMessage(res.data.message); 
       setFormData({
         username: "",
         firstname: "",

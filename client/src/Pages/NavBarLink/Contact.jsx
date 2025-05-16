@@ -14,6 +14,33 @@ const Contact = () => {
     message: "",
   });
 
+  const handleEmail = () => {
+    console.log("button clicked")
+    try {
+      const gmailURl =
+        "https://mail.google.com/mail/?view=cm&fs=1&to=support@company.com";
+      const win = window.open(gmailURl, "_blank");
+
+      if (!win || win.closed || typeof win.closed === "undefined") {
+        alert(
+          "If Gmail didn't open, you can contact us at: support@company.com "
+        );
+      }
+    } catch {
+      alert("You can contact us at: support@company.com");
+    }
+  };
+
+  const handleCall = () => {
+    alert("Call us at:\n📞 +1-800-123-4567\n📞 +91-9876543210");
+  };
+
+  const handleChat = () => {
+    alert(
+      "Starting chat with our support executive...\n(Feature coming soon!)"
+    );
+  };
+
   const handleChange = (e) => {
     setFormData((prev) => ({
       ...prev,
@@ -23,9 +50,9 @@ const Contact = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-     console.log("Submitting:", formData);
+    console.log("Submitting:", formData);
     axios
-    
+
       .post("http://localhost:5000/api/contact", formData)
       .then((res) => {
         alert("Success: " + res.data.message);
@@ -34,8 +61,6 @@ const Contact = () => {
       .catch((err) => {
         alert("Error sending message");
         console.error(err);
-
-       
       });
   };
 
@@ -51,12 +76,17 @@ const Contact = () => {
         </div>
 
         <div className={styles.top_btn}>
-          <Button icon={<IoIosMail fontSize={24} />} text="VIA EMAIL" />
-          <Button icon={<MdCall fontSize={24} />} text="VIA CALL" />
+          <Button
+            icon={<IoIosMail fontSize={24} />}
+            text="VIA EMAIL"
+            onClick={handleEmail}
+          />
+          <Button icon={<MdCall fontSize={24} />} text="VIA CALL" onClick={handleCall}/>
           <Button
             isOutline={true}
             icon={<IoMdChatbubbles fontSize={24} />}
             text="CHAT SUPPORT"
+            onClick={handleChat}
           />
         </div>
 

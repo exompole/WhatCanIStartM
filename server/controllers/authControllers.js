@@ -2,6 +2,9 @@ const User = require("../models/User");
 const Contact = require("../models/Contact");
 const bcrypt = require("bcryptjs");
 require("dotenv").config();
+const crypto = require("crypto");
+const nodemailer = require("nodemailer");
+const ResetToken = require("../models/ResetToken");
 
 const ADMIN_SECRET_KEY = process.env.ADMIN_SECRET_KEY;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
@@ -148,12 +151,82 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+//-----------------------ForgotPassword----------------------//
+
+const forgotPassword = async (req, res) => {
+  const { email } = req.body;
+  try {
+    const user = await User.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const token = crypto.randomBytes(32).toString("hex");
+    await new ResetToken({ userId: user._id, token }).save();
+
+    const resetLink = `http://localhost:3000/reset-password/${token}`;
+
+    // Send email (use nodemailer)
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+
+    await transporter.sendMail({
+      to: email,
+      subject: "Password Reset",
+      html: `<p>Click the link below to reset your password:</p>
+             <a href="${resetLink}">${resetLink}</a>`,
+    });
+
+    res.json({ message: "Password reset link sent to email." });
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+//......................ResetPassword---------------------//
+
+const resetPassword = async (req, res) => {
+  const { token } = req.params;
+  const { password } = req.body;
+
+  try {
+    const resetToken = await ResetToken.findOne({ token });
+    if (!resetToken) return res.status(400).json({ message: "Invalid or expired token" });
+
+    const user = await User.findById(resetToken.userId);
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    await ResetToken.deleteOne({ _id: resetToken._id });
+
+    res.json({ message: "Password reset successfully." });
+  } catch (err) {
+    console.error("Reset password error:", err);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+
+
+
 // -------------------- Export All --------------------
 module.exports = {
+  forgotPassword,
   register,
   login,
   adminLogin,
   getAllUsers,
   submitContact,
   getAllContacts,
+  forgotPassword,
+  resetPassword,
 };
+
+

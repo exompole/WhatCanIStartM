@@ -65,6 +65,9 @@ const UserLogin = () => {
           <Link to="/registration">
             <p>New user? Register now..</p>
           </Link>
+          <p>
+            Forgot your password? <Link to="/forgot-password">Reset here</Link>
+          </p>
         </div>
       </div>
 

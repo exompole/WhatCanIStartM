@@ -12,6 +12,8 @@ import RawMaterials from "./Pages/NavBarLink/Buisness/RawMaterial";
 import Farming from "./Pages/NavBarLink/Buisness/Farming";
 import Skills from "./Pages/NavBarLink/Buisness/skill";
 import AdminDashboard from "./Pages/LoginRegistration/AdminDashboard";
+import ForgotPassword from "./components/ForgotPassword";
+import ResetPassword from "./components/ResetPassword";
 
 
 export const routes = [
@@ -28,6 +30,8 @@ export const routes = [
   { path: "/farming", element: <Farming/> },
   { path: "/skill", element: <Skills/> },
   { path: "/admin-dashboard", element: <AdminDashboard/> },
+  { path: "/forgot-password", element: <ForgotPassword />},
+  { path: "/reset-password/:token", element: <ResetPassword/>},
   
   
 ];
