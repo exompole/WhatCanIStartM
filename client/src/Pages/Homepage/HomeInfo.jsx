@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import Chart from "chart.js/auto";
 import "./Pages.css";
+import { Link, useNavigate } from "react-router-dom";
 
 const HomeInfo = () => {
   useEffect(() => {
@@ -34,7 +35,17 @@ const HomeInfo = () => {
     }
   }, []);
 
-  
+  const useService = (isLoggedIn) => {
+      const navigate = useNavigate(); 
+      if(!isLoggedIn){
+        // alert{"Please Login to use service"};
+        navigate("/user-login");
+        }
+      else{
+          console.log("access granted");
+      }
+
+  }
 
   return (
     <>
@@ -62,16 +73,16 @@ const HomeInfo = () => {
       </main>
 
     
-      <section id="services" className="services-section">
-        <h2>How We Help You</h2>
-        <div className="services-container">
-          <div className="service-card"><h3>Legal Compliances</h3></div>
-          <div className="service-card"><h3>Proposal Creation & Funding</h3></div>
-          <div className="service-card"><h3>Business Performance Improvement</h3></div>
-          <div className="service-card"><h3>Professional Services</h3></div>
-          <div className="service-card"><h3>Marketing</h3></div>
-        </div>
-      </section>
+        <section id="services" className="services-section">
+          <h2>How We Help You</h2>
+          <div className="services-container" >
+            <div className="service-card" onClick={useService}><h3>Legal Compliances</h3></div>
+            <div className="service-card"><h3>Proposal Creation & Funding</h3></div>
+            <div className="service-card"><h3>Business Performance Improvement</h3></div>
+            <div className="service-card"><h3>Professional Services</h3></div>
+            <div className="service-card"><h3>Marketing</h3></div>
+          </div>
+        </section>
 
     
       <section id="india-stats" className="chart-section">

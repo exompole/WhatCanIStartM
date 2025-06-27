@@ -1,7 +1,6 @@
 import styles from "./UserLogin.module.css";
 import Button from "../../components/Button";
-
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
 
@@ -10,6 +9,8 @@ const UserLogin = () => {
     username: "",
     password: "",
   });
+
+  const navigate = useNavigate(); // ✅ for redirect after login
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -23,8 +24,15 @@ const UserLogin = () => {
 
     try {
       const res = await axios.post("http://localhost:5000/api/login", formData);
+
       alert(res.data.message);
       console.log("Logged in user:", res.data.user);
+
+      // ✅ Store user in localStorage
+      localStorage.setItem("user", JSON.stringify(res.data.user));
+
+      // ✅ Redirect to home or any page
+      navigate("/");
     } catch (err) {
       alert("Login failed: " + (err.response?.data?.message || "Server error"));
       console.error(err);

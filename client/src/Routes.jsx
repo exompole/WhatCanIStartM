@@ -14,6 +14,8 @@ import Skills from "./Pages/NavBarLink/Buisness/skill";
 import AdminDashboard from "./Pages/LoginRegistration/AdminDashboard";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
+import IdeaPage from "./Pages/Idea/IdeaPage";
+
 
 
 export const routes = [
@@ -32,6 +34,7 @@ export const routes = [
   { path: "/admin-dashboard", element: <AdminDashboard/> },
   { path: "/forgot-password", element: <ForgotPassword />},
   { path: "/reset-password/:token", element: <ResetPassword/>},
+  { path: "/Idea", element: <IdeaPage/>},
   
   
 ];

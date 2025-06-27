@@ -4,6 +4,7 @@ import Button from "./Button";
 
 const FloatingHelp = () => {
   const [isOpen, setIsOpen] = useState(false);
+  
 
   const toggleChat = () => {
     setIsOpen((prev) => !prev);

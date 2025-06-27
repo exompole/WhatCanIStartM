@@ -1,0 +1,92 @@
+.wrapper {
+  background-color: #fdfdfd;
+  min-height: 100vh;
+  padding: 40px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  font-family: "Poppins", sans-serif;
+}
+
+.container {
+  max-width: 700px;
+  width: 100%;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.05);
+}
+
+.heading {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.textarea {
+  width: 100%;
+  font-size: 16px;
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: vertical;
+  margin-bottom: 20px;
+  font-family: inherit;
+}
+
+.button {
+  width: 100%;
+  padding: 12px;
+  background-color: #d01c28;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.button:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.resultBox {
+  background-color: #f3f3f3;
+  padding: 20px;
+  margin-top: 24px;
+  border-left: 4px solid #d01c28;
+  border-radius: 8px;
+}
+
+.markdown {
+  background-color: #f9f9f9;
+  padding: 16px;
+  border-radius: 6px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.markdown ul {
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.markdown ol {
+  padding-left: 20px;
+  list-style-type: decimal;
+}
+
+.markdown h1,
+.markdown h2,
+.markdown h3 {
+  margin-top: 16px;
+  font-weight: bold;
+}
+
+.markdown p {
+  margin: 8px 0;
+}
+

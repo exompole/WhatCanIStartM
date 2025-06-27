@@ -3,6 +3,8 @@ import Navbar from "./components/Navbar";
 import{Routes,Route} from "react-router-dom"
 import { routes } from "./Routes";
 import FloatingHelp from "./components/FloatingHelp";
+import IdeaGenerator from "./components/IdeaGenerator";
+import Footer from "./components/Footer";
 
 
 function App() {
@@ -10,7 +12,9 @@ function App() {
     <>
     
       <Navbar></Navbar>
-      <FloatingHelp/>
+      {/*    */}
+      {/* <IdeaGenerator/> */}
+      
       <>
         <Routes>
           {routes.map(({path,element})=>(
@@ -18,6 +22,7 @@ function App() {
           ))}
         </Routes>
       </>
+      <Footer/>
     </>
   );
 }

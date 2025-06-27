@@ -9,7 +9,6 @@ const Business = () => {
   return (
     <div className={styles.container}>
       <h1>Businesses You Can Start In</h1>
-
       <div className={styles.imageRow}>
         <div className={styles.image}>
           <h3>Land</h3>
