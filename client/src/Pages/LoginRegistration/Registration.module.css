@@ -3,7 +3,6 @@
   height: 100vh;
   width: 100%;
   font-family: 'Poppins', sans-serif;
-  margin-top: px; 
 }
 
 .form_fields {
@@ -79,15 +78,17 @@
   overflow: hidden;
   white-space: nowrap;
   border-right: 3px solid #6c3ec1;
-  animation: typing 3s steps(35, end) forwards, blink 0.75s step-end infinite;
-  width: 0ch;
+  animation: typing 3s steps(40, end) forwards, blink 0.75s step-end infinite;
+  width: 28ch;
+  max-width: 100%;
   font-size: 2rem;
   color: #0a080c;
+  box-sizing: border-box;
 }
 
 @keyframes typing {
   from { width: 0ch; }
-  to { width: 23ch; }
+  to { width: 28ch; }
 }
 
 @keyframes blink {

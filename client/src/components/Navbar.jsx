@@ -22,6 +22,22 @@ const Navbar = () => {
           <li><Link to="/business">Business</Link></li>
           <li><Link to="/contact">Contact</Link></li>
           <li><Link to="/about">About</Link></li>
+          <li>
+            <a
+              href="#"
+              onClick={e => {
+                if (!user) {
+                  e.preventDefault();
+                  alert("Please login to access lemon by-products.");
+                  navigate("/login");
+                } else {
+                  navigate("/lemon");
+                }
+              }}
+            >
+              Lemon
+            </a>
+          </li>
         </ul>
 
         <ul>
@@ -33,15 +49,7 @@ const Navbar = () => {
               <li>
                 <button
                   onClick={handleLogout}
-                  style={{
-                    background: "#f44336",
-                    border: "none",
-                    color: "white",
-                    padding: "6px 12px",
-                    borderRadius: "4px",
-                    cursor: "pointer",
-                    fontWeight: "bold"
-                  }}
+                  className={styles.logoutButton}
                 >
                   Logout
                 </button>
@@ -53,7 +61,22 @@ const Navbar = () => {
               <li><Link to="/registration">Register</Link></li>
             </>
           )}
-          <li><Link to="/Idea">Idea</Link></li>
+          <li>
+            <a
+              href="#"
+              onClick={e => {
+                if (!user) {
+                  e.preventDefault();
+                  alert("Please login to access business ideas.");
+                  navigate("/login");
+                } else {
+                  navigate("/Idea");
+                }
+              }}
+            >
+              Idea
+            </a>
+          </li>
         </ul>
       </nav>
     </div>

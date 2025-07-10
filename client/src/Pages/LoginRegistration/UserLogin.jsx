@@ -3,6 +3,7 @@ import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import axios from "axios";
+import logo from "../../images/Logo.png";
 
 const UserLogin = () => {
   const [formData, setFormData] = useState({
@@ -42,6 +43,7 @@ const UserLogin = () => {
   return (
     <form className={styles.login_form} onSubmit={handleSubmit}>
       <div className={styles.form_fields}>
+        <img src={logo} alt="Logo" className={styles.form_logo} />
         <h2>User Login</h2>
 
         <div className={styles.form_item}>
@@ -51,6 +53,8 @@ const UserLogin = () => {
             id="user_name"
             name="username"
             onChange={handleChange}
+            autoComplete="username"
+            required
           />
         </div>
 
@@ -61,12 +65,13 @@ const UserLogin = () => {
             id="password"
             name="password"
             onChange={handleChange}
+            autoComplete="current-password"
             required
           />
         </div>
 
         <div className={styles.Admin_btn}>
-          <Button text="submit">Login</Button>
+          <Button text="Login" type="submit" />
         </div>
 
         <div className={styles.Link}>
@@ -77,13 +82,6 @@ const UserLogin = () => {
             Forgot your password? <Link to="/forgot-password">Reset here</Link>
           </p>
         </div>
-      </div>
-
-      <div className={styles.typewriter_section}>
-        <p className={styles.typewriter}>
-          We are so happy to <br />
-          have you back...!!!
-        </p>
       </div>
     </form>
   );

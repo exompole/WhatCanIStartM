@@ -27,10 +27,9 @@ const Registration = () => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
-
     try {
       const res = await axios.post("http://localhost:5000/api/register", formData);
-      setSuccessMessage(res.data.message); 
+      setSuccessMessage(res.data.message);
       setFormData({
         username: "",
         firstname: "",
@@ -38,9 +37,9 @@ const Registration = () => {
         email: "",
         phone: "",
         password: "",
-      }); // Clear form fields
+      });
     } catch (error) {
-      setError(error.response?.data?.message || "Registration failed"); // Handle error response
+      setError(error.response?.data?.message || "Registration failed");
     }
   };
 
@@ -48,7 +47,6 @@ const Registration = () => {
     <form className={styles.registration_form} onSubmit={handleSubmit}>
       <div className={styles.form_fields}>
         <h2>User Registration</h2>
-
         <div className={styles.form_item}>
           <label htmlFor="username">User Name:</label>
           <input
@@ -60,7 +58,6 @@ const Registration = () => {
             required
           />
         </div>
-
         <div className={styles.form_item}>
           <label htmlFor="firstname">First Name:</label>
           <input
@@ -72,7 +69,6 @@ const Registration = () => {
             required
           />
         </div>
-
         <div className={styles.form_item}>
           <label htmlFor="surname">Surname:</label>
           <input
@@ -84,7 +80,6 @@ const Registration = () => {
             required
           />
         </div>
-
         <div className={styles.form_item}>
           <label htmlFor="phone">Phone Number:</label>
           <input
@@ -96,7 +91,6 @@ const Registration = () => {
             required
           />
         </div>
-
         <div className={styles.form_item}>
           <label htmlFor="email">Email:</label>
           <input
@@ -108,7 +102,6 @@ const Registration = () => {
             required
           />
         </div>
-
         <div className={styles.form_item}>
           <label htmlFor="password">Password:</label>
           <input
@@ -120,24 +113,19 @@ const Registration = () => {
             required
           />
         </div>
-
         <div className={styles.Admin_btn}>
-          <Button text="Register">Submit</Button>
+          <Button text="Register" type="submit" />
         </div>
-
         <Link to="/user-login">
           <p>Already Registered? Login</p>
         </Link>
+        {error && <p className={styles.error_message}>{error}</p>}
+        {successMessage && <p className={styles.success_message}>{successMessage}</p>}
       </div>
-
-      {error && <p className={styles.error_message}>{error}</p>}
-      {successMessage && <p className={styles.success_message}>{successMessage}</p>}
-
       <div className={styles.typewriter_section}>
-        <p className={styles.typewriter}>
-          Join us today...<br />
-          and grow your business!
-        </p>
+        <span className={styles.typewriter}>
+          Join us today...and grow
+        </span>
       </div>
     </form>
   );

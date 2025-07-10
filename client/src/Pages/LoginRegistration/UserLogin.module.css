@@ -1,102 +1,133 @@
+/* Modern, professional login page styles */
 .login_form {
   display: flex;
-  height: 100vh;
-  width: 100%;
-  
+  min-height: 100vh;
+  width: 100vw;
+  background: linear-gradient(120deg, #f8fafc 60%, #e0e7ff 100%);
   font-family: 'Poppins', sans-serif;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
 }
 
 .form_fields {
   flex: 1;
-  max-width: 50%;
-  background: white;
-  padding: 40px;
-  border-radius: 0 0 0 0;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+  max-width: 420px;
+  background: #fff;
+  padding: 48px 36px 36px 36px;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(60, 60, 120, 0.10);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 170px;
+  align-items: center;
+  margin: 40px 0;
+  position: relative;
 }
 
 .form_fields h2 {
   text-align: center;
-  color: black;
-  margin-bottom: 10px;
+  color: #1e293b;
+  margin-bottom: 18px;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.form_logo {
+  width: 60px;
+  height: 60px;
+  margin-bottom: 18px;
+  border-radius: 50%;
+  box-shadow: 0 2px 8px rgba(60,60,120,0.10);
+  object-fit: contain;
 }
 
 .form_item {
-  margin-bottom: 20px;
+  margin-bottom: 22px;
+  width: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .form_item label {
-  margin-bottom: 5px;
-  color: #444;
-  font-weight: 500;
+  margin-bottom: 7px;
+  color: #334155;
+  font-weight: 600;
+  font-size: 1rem;
 }
 
 .form_item input {
-  padding: 12px 14px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
+  padding: 13px 16px;
+  border: 1.5px solid #cbd5e1;
+  border-radius: 8px;
   outline: none;
-  font-size: 14px;
+  font-size: 1rem;
+  background: #f8fafc;
+  transition: border 0.2s, box-shadow 0.2s;
 }
-
-.Link {
-  margin-top: 20px;
+.form_item input:focus {
+  border: 1.5px solid #6366f1;
+  box-shadow: 0 2px 8px #6366f122;
 }
 
 .Admin_btn {
   margin-top: 10px;
   text-align: center;
+  width: 100%;
 }
 
 .Admin_btn button {
   color: white;
-  padding: 12px 30px;
+  background: linear-gradient(90deg, #6366f1 60%, #4f46e5 100%);
+  padding: 13px 0;
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  font-weight: 600;
-  font-size: 15px;
-  transition: background 0.3s;
+  font-weight: 700;
+  font-size: 1.1rem;
+  width: 100%;
+  box-shadow: 0 2px 8px #6366f122;
+  transition: background 0.2s, box-shadow 0.2s, transform 0.1s;
+}
+.Admin_btn button:hover {
+  background: linear-gradient(90deg, #4f46e5 60%, #6366f1 100%);
+  box-shadow: 0 4px 16px #6366f133;
+  transform: translateY(-2px) scale(1.03);
 }
 
-.Admin_btn button:hover {
-  background-color: rgb(88, 86, 86);
+.Link {
+  margin-top: 22px;
+  text-align: center;
+  color: #64748b;
+  font-size: 0.98rem;
+}
+.Link a {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.Link a:hover {
+  color: #4f46e5;
+  text-decoration: underline;
 }
 
 .typewriter_section {
-  flex: 1;
-  background-color: #f8f8f8; 
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-left: 1px solid #eee;
-  padding: 30px;
+  display: none;
 }
 
-.typewriter {
-  font-family: monospace;
-  overflow: hidden;
-  white-space: nowrap;
-  border-right: 3px solid #6c3ec1;
-  animation: typing 3s steps(35, end) forwards, blink 0.75s step-end infinite;
-  width: 0ch;
-  font-size: 2.0rem;
-  color: #0a080c;
-  margin-bottom: 100px;
-}
-
-@keyframes typing {
-  from { width: 0ch; }
-  to { width: 19ch; } 
-}
-
-@keyframes blink {
-  50% { border-color: transparent; }
+@media (max-width: 700px) {
+  .login_form {
+    flex-direction: column;
+    padding: 0;
+    min-height: 100vh;
+  }
+  .form_fields {
+    max-width: 95vw;
+    margin: 32px 0;
+    border-radius: 16px;
+    padding: 32px 10px 24px 10px;
+  }
 }
 

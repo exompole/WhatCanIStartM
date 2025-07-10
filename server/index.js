@@ -1,9 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+require("dotenv").config();
+
 const authRoutes = require("./routes/authRoutes");
 const geminiRoutes = require("./routes/geminiRoutes");
-require("dotenv").config(); 
+const lemonRoutes = require("./routes/lemonRoutes");
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -16,6 +18,9 @@ app.use(express.json());
 // Existing routes
 app.use("/api", authRoutes);
 
+// Lemon routes
+app.use("/api/lemon-products", lemonRoutes);
+
 // Gemini routes
 app.use("/api/gemini", geminiRoutes);
 
@@ -24,8 +29,8 @@ app.get("/", (req, res) => {
   res.json("Backend Working");
 });
 
-// MongoDB connection
-mongoose.connect(MONGO_URI, {})
+// MongoDB connection and server start
+mongoose.connect(MONGO_URI)
   .then(() => {
     console.log("MongoDB connected");
     app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

@@ -1,4 +1,3 @@
-
 import HomeInfo from "./Pages/Homepage/HomeInfo";
 import LoginChoice from "./Pages/LoginRegistration/LoginChoice";
 import AdminLogin from "./Pages/LoginRegistration/AdminLogin";
@@ -15,6 +14,8 @@ import AdminDashboard from "./Pages/LoginRegistration/AdminDashboard";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import IdeaPage from "./Pages/Idea/IdeaPage";
+import LemonProducts from "./components/LemonProduct";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 
 
@@ -27,6 +28,7 @@ export const routes = [
   { path: "/registration", element: <Registration /> },
   { path: "/about", element: <About/> },
   { path: "/business", element: <Business/> },
+  { path: "/lemon", element: <ProtectedRoute><LemonProducts/></ProtectedRoute> },
   { path: "/land", element: <Land/> },
   { path: "/raw-material", element: <RawMaterials/> },
   { path: "/farming", element: <Farming/> },
@@ -34,7 +36,7 @@ export const routes = [
   { path: "/admin-dashboard", element: <AdminDashboard/> },
   { path: "/forgot-password", element: <ForgotPassword />},
   { path: "/reset-password/:token", element: <ResetPassword/>},
-  { path: "/Idea", element: <IdeaPage/>},
+  { path: "/Idea", element: <ProtectedRoute><IdeaPage/></ProtectedRoute>},
   
   
 ];

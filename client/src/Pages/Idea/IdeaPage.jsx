@@ -8,6 +8,7 @@ const IdeaPage = () => {
   const [input, setInput] = useState("");
   const [idea, setIdea] = useState("");
   const [loading, setLoading] = useState(false);
+  const [expanded, setExpanded] = useState({}); // For collapsible sections
 
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,7 +34,18 @@ const IdeaPage = () => {
     setLoading(true);
     try {
       const res = await axios.post("http://localhost:5000/api/gemini/generateidea", {
-        prompt: `Suggest a business idea based on: ${promptToSend}`,
+        prompt: `
+        Give me a detailed business plan for: ${promptToSend}
+        Include the following:
+        1. 📋 Executive Summary
+        2. 💰 Budget with itemized costs
+        3. ⚖️ Legal/Licensing Requirements
+        4. 🛠️ Step-by-step Implementation Plan
+        5. 📣 Marketing Strategy
+        6. 🚧 Risks & Mitigation
+        7. 📈 Scalability Potential
+        Format the answer in markdown for easy parsing.
+        `,
       });
       setIdea(res.data.result);
     } catch (err) {
@@ -42,6 +54,37 @@ const IdeaPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const toggleSection = (title) => {
+    setExpanded((prev) => ({ ...prev, [title]: !prev[title] }));
+  };
+
+  // Split into sections
+  const renderSections = (markdown) => {
+    const rawSections = markdown.split(/^###\s+/gm).filter(Boolean);
+    return rawSections.map((section, index) => {
+      const [titleLine, ...rest] = section.split("\n");
+      const title = titleLine.trim();
+      const content = rest.join("\n");
+
+      return (
+        <div key={index} className={styles.section}>
+          <div
+            className={styles.sectionHeader}
+            onClick={() => toggleSection(title)}
+          >
+            <span>{expanded[title] ? "▼" : "▶"} {title}</span>
+          </div>
+          {expanded[title] && (
+            <div
+              className={styles.sectionBody}
+              dangerouslySetInnerHTML={{ __html: marked(content) }}
+            />
+          )}
+        </div>
+      );
+    });
   };
 
   return (
@@ -53,7 +96,7 @@ const IdeaPage = () => {
           rows="6"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter your skills, interests, or available resources..."
+          placeholder="Enter your idea, e.g. 'Lemon Oil Extraction'"
         />
         <button
           className={styles.button}
@@ -62,13 +105,11 @@ const IdeaPage = () => {
         >
           {loading ? "Generating..." : "Generate Idea"}
         </button>
+
         {idea && (
           <div className={styles.resultBox}>
-            <h3>Your Generated Idea:</h3>
-            <div
-              dangerouslySetInnerHTML={{ __html: marked(idea) }}
-              className={styles.markdown}
-            />
+            <h3>📊 Generated Business Plan</h3>
+            {renderSections(idea)}
           </div>
         )}
       </div>
