@@ -3,14 +3,16 @@
   justify-content: space-between;
   align-items: center;
   padding: 16px 32px;
-  background-color: #2e2e2e;
-  color: #fff;
+  background-color: #2c3e50;
+  color: #ecf0f1;
   flex-shrink: 0;
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .footer p {
   margin: 0;
   font-size: 14px;
+  color: #ecf0f1;
 }
 
 .right {
@@ -20,10 +22,10 @@
 
 .icon {
   font-size: 20px;
-  color: #ffffff;
-  transition: color 0.2s ease-in-out;
+  color: #ecf0f1;
+  transition: color 0.3s ease;
 }
 
 .icon:hover {
-  color: #d01c28; /* matches your primary red color */
+  color: #3498db;
 }

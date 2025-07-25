@@ -164,6 +164,15 @@ const forgotPassword = async (req, res) => {
 
     const resetLink = `http://localhost:3000/reset-password/${token}`;
 
+    // Check if email configuration is available
+    if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
+      console.log("Email configuration missing. Reset link:", resetLink);
+      return res.json({ 
+        message: "Password reset link generated. Check server logs for the link.",
+        resetLink: resetLink 
+      });
+    }
+
     // Send email (use nodemailer)
     const transporter = nodemailer.createTransport({
       service: "Gmail",
@@ -198,6 +207,15 @@ const resetPassword = async (req, res) => {
     const resetToken = await ResetToken.findOne({ token });
     if (!resetToken) return res.status(400).json({ message: "Invalid or expired token" });
 
+    // Check if token is expired (1 hour)
+    const tokenAge = Date.now() - resetToken.createdAt.getTime();
+    const oneHour = 60 * 60 * 1000; // 1 hour in milliseconds
+    
+    if (tokenAge > oneHour) {
+      await ResetToken.deleteOne({ _id: resetToken._id });
+      return res.status(400).json({ message: "Token has expired. Please request a new password reset." });
+    }
+
     const user = await User.findById(resetToken.userId);
     if (!user) return res.status(404).json({ message: "User not found" });
 
@@ -218,7 +236,6 @@ const resetPassword = async (req, res) => {
 
 // -------------------- Export All --------------------
 module.exports = {
-  forgotPassword,
   register,
   login,
   adminLogin,

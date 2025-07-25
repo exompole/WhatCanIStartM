@@ -17,6 +17,13 @@ import IdeaPage from "./Pages/Idea/IdeaPage";
 import LemonProducts from "./components/LemonProduct";
 import ProtectedRoute from "./components/ProtectedRoute";
 
+// Service Pages
+import LegalCompliance from "./Pages/Services/LegalCompliance";
+import ProposalFunding from "./Pages/Services/ProposalFunding";
+import PerformanceImprovement from "./Pages/Services/PerformanceImprovement";
+import ProfessionalServices from "./Pages/Services/ProfessionalServices";
+import Marketing from "./Pages/Services/Marketing";
+
 
 
 export const routes = [
@@ -38,5 +45,10 @@ export const routes = [
   { path: "/reset-password/:token", element: <ResetPassword/>},
   { path: "/Idea", element: <ProtectedRoute><IdeaPage/></ProtectedRoute>},
   
-  
+  // Service Routes
+  { path: "/services/legal-compliance", element: <LegalCompliance /> },
+  { path: "/services/proposal-funding", element: <ProposalFunding /> },
+  { path: "/services/performance-improvement", element: <PerformanceImprovement /> },
+  { path: "/services/professional-services", element: <ProfessionalServices /> },
+  { path: "/services/marketing", element: <Marketing /> },
 ];

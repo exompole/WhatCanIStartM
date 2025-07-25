@@ -4,6 +4,8 @@ import "./Pages.css";
 import { Link, useNavigate } from "react-router-dom";
 
 const HomeInfo = () => {
+  const navigate = useNavigate();
+
   useEffect(() => {
     const ctx = document.getElementById("startupChart")?.getContext("2d");
     if (ctx) {
@@ -35,28 +37,26 @@ const HomeInfo = () => {
     }
   }, []);
 
-  const useService = (isLoggedIn) => {
-      const navigate = useNavigate(); 
-      if(!isLoggedIn){
-        // alert{"Please Login to use service"};
-        navigate("/user-login");
-        }
-      else{
-          console.log("access granted");
-      }
-
-  }
+  const useService = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    if (!user) {
+      alert("Please login to use the service");
+      navigate("/user-login");
+    } else {
+      // You can navigate to the actual service page here
+      // Example: navigate("/services/legal-compliances");
+      console.log("Access granted");
+    }
+  };
 
   return (
     <>
-      
       <div className="scroll-nav">
         <a href="#services">Services</a>
         <a href="#india-stats">India Stats</a>
       </div>
 
       <main className="main-content">
-        
         <div className="content-text">
           <h1>You Name Anything, We Give You A Business Idea</h1>
           <p>
@@ -72,19 +72,27 @@ const HomeInfo = () => {
         </div>
       </main>
 
-    
-        <section id="services" className="services-section">
-          <h2>How We Help You</h2>
-          <div className="services-container" >
-            <div className="service-card" onClick={useService}><h3>Legal Compliances</h3></div>
-            <div className="service-card"><h3>Proposal Creation & Funding</h3></div>
-            <div className="service-card"><h3>Business Performance Improvement</h3></div>
-            <div className="service-card"><h3>Professional Services</h3></div>
-            <div className="service-card"><h3>Marketing</h3></div>
+      <section id="services" className="services-section">
+        <h2>How We Help You</h2>
+        <div className="services-container">
+          <div className="service-card" onClick={() => navigate("/services/legal-compliance")}>
+            <h3>Legal Compliances</h3>
           </div>
-        </section>
+          <div className="service-card" onClick={() => navigate("/services/proposal-funding")}>
+            <h3>Proposal Creation & Funding</h3>
+          </div>
+          <div className="service-card" onClick={() => navigate("/services/performance-improvement")}>
+            <h3>Business Performance Improvement</h3>
+          </div>
+          <div className="service-card" onClick={() => navigate("/services/professional-services")}>
+            <h3>Professional Services</h3>
+          </div>
+          <div className="service-card" onClick={() => navigate("/services/marketing")}>
+            <h3>Marketing</h3>
+          </div>
+        </div>
+      </section>
 
-    
       <section id="india-stats" className="chart-section">
         <h2>Why India is a Great Place for Entrepreneurs</h2>
         <p>
@@ -102,9 +110,6 @@ const HomeInfo = () => {
           <canvas id="startupChart"></canvas>
         </div>
       </section>
-
-      
-      
     </>
   );
 };
