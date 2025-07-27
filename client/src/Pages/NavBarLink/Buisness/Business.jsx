@@ -8,7 +8,15 @@ import styles from "./business.module.css";
 const Business = () => {
   return (
     <div className={styles.container}>
-      <h1>Businesses You Can Start In</h1>
+      <div className={styles.header}>
+        <h1>Businesses You Can Start In</h1>
+        <p className={styles.description}>
+          Discover profitable business opportunities based on the resources you already have. 
+          Whether you own land, have raw materials, farming experience, or specific skills, 
+          we'll help you find the perfect business idea to start your entrepreneurial journey.
+        </p>
+      </div>
+      
       <div className={styles.imageRow}>
         <div className={styles.image}>
           <h3>Land</h3>

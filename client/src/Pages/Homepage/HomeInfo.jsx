@@ -7,6 +7,8 @@ const HomeInfo = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    
     const ctx = document.getElementById("startupChart")?.getContext("2d");
     if (ctx) {
       new Chart(ctx, {
@@ -43,18 +45,18 @@ const HomeInfo = () => {
       alert("Please login to use the service");
       navigate("/user-login");
     } else {
-      // You can navigate to the actual service page here
-      // Example: navigate("/services/legal-compliances");
+      // Logic to use the service
+      // For example, navigate to a service page or show a message
       console.log("Access granted");
     }
   };
 
   return (
     <>
-      <div className="scroll-nav">
+      {/* <div className="scroll-nav">
         <a href="#services">Services</a>
         <a href="#india-stats">India Stats</a>
-      </div>
+      </div> */}
 
       <main className="main-content">
         <div className="content-text">

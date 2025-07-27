@@ -1,7 +1,7 @@
 import styles from "./UserLogin.module.css";
 import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import logo from "../../images/Logo.png";
 
@@ -10,77 +10,182 @@ const UserLogin = () => {
     username: "",
     password: "",
   });
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [validationErrors, setValidationErrors] = useState({});
 
-  const navigate = useNavigate(); // ✅ for redirect after login
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const validateForm = () => {
+    const errors = {};
+    
+    // Username validation
+    if (!formData.username.trim()) {
+      errors.username = "Username is required";
+    }
+    
+    // Password validation
+    if (!formData.password.trim()) {
+      errors.password = "Password is required";
+    }
+    
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
 
   const handleChange = (e) => {
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }));
+    
+    // Clear validation error when user starts typing
+    if (validationErrors[name]) {
+      setValidationErrors(prev => ({
+        ...prev,
+        [name]: ""
+      }));
+    }
+    
+    // Clear general error when user starts typing
+    if (error) {
+      setError(null);
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError(null);
 
+    if (!validateForm()) {
+      return;
+    }
+
+    setIsLoading(true);
     try {
       const res = await axios.post("http://localhost:5000/api/login", formData);
-
-      alert(res.data.message);
-      console.log("Logged in user:", res.data.user);
-
-      // ✅ Store user in localStorage
+      
+      // Store user in localStorage
       localStorage.setItem("user", JSON.stringify(res.data.user));
-
-      // ✅ Redirect to home or any page
+      
+      // Dispatch custom event to update navbar
+      window.dispatchEvent(new Event("userLogin"));
+      
+      // Redirect to home
       navigate("/");
     } catch (err) {
-      alert("Login failed: " + (err.response?.data?.message || "Server error"));
+      setError(err.response?.data?.message || "Login failed. Please check your credentials.");
       console.error(err);
+    } finally {
+      setIsLoading(false);
     }
+  };
+
+  const getInputClassName = (fieldName) => {
+    return `${styles.form_input} ${validationErrors[fieldName] ? styles.error_input : ''}`;
   };
 
   return (
     <form className={styles.login_form} onSubmit={handleSubmit}>
       <div className={styles.form_fields}>
-        <img src={logo} alt="Logo" className={styles.form_logo} />
-        <h2>User Login</h2>
-
-        <div className={styles.form_item}>
-          <label htmlFor="user_name">User Name</label>
-          <input
-            type="text"
-            id="user_name"
-            name="username"
-            onChange={handleChange}
-            autoComplete="username"
-            required
-          />
+        <div className={styles.header_section}>
+          <img src={logo} alt="Logo" className={styles.form_logo} />
+          <h2>Welcome Back</h2>
+          <p className={styles.subtitle}>Sign in to continue your business journey</p>
         </div>
 
-        <div className={styles.form_item}>
-          <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            onChange={handleChange}
-            autoComplete="current-password"
-            required
-          />
-        </div>
+        <div className={styles.form_content}>
+          <div className={styles.form_item}>
+            <label htmlFor="username">Username *</label>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              className={getInputClassName('username')}
+              onChange={handleChange}
+              value={formData.username}
+              placeholder="Enter your username"
+              autoComplete="username"
+              required
+            />
+            {validationErrors.username && (
+              <span className={styles.error_text}>{validationErrors.username}</span>
+            )}
+          </div>
 
-        <div className={styles.Admin_btn}>
-          <Button text="Login" type="submit" />
-        </div>
+          <div className={styles.form_item}>
+            <label htmlFor="password">Password *</label>
+            <div className={styles.password_container}>
+              <input
+                type={showPassword ? "text" : "password"}
+                id="password"
+                name="password"
+                className={getInputClassName('password')}
+                onChange={handleChange}
+                value={formData.password}
+                placeholder="Enter your password"
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                className={styles.password_toggle}
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? "👁️" : "👁️‍🗨️"}
+              </button>
+            </div>
+            {validationErrors.password && (
+              <span className={styles.error_text}>{validationErrors.password}</span>
+            )}
+          </div>
 
-        <div className={styles.Link}>
-          <Link to="/registration">
-            <p>New user? Register now..</p>
-          </Link>
-          <p>
-            Forgot your password? <Link to="/forgot-password">Reset here</Link>
-          </p>
+          <div className={styles.submit_section}>
+            <div className={styles.Admin_btn}>
+              <Button 
+                text={isLoading ? "Signing In..." : "Sign In"} 
+                type="submit" 
+                disabled={isLoading}
+                className={styles.loginButton}
+              />
+            </div>
+          </div>
+
+          <div className={styles.Link}>
+            <div className={styles.forgot_link}>
+              <p>Forgot your password? <Link to="/forgot-password">Reset here</Link></p>
+            </div>
+          </div>
+
+          {error && <p className={styles.error_message}>{error}</p>}
+        </div>
+      </div>
+
+      <div className={styles.typewriter_section}>
+        <div className={styles.typewriter_content}>
+          <span className={styles.typewriter}>
+            Welcome back...let's grow together
+          </span>
+          <div className={styles.features}>
+            <div className={styles.feature}>
+              <span className={styles.feature_icon}>🚀</span>
+              <span>Continue Your Journey</span>
+            </div>
+            <div className={styles.feature}>
+              <span className={styles.feature_icon}>💡</span>
+              <span>Access Your Ideas</span>
+            </div>
+            <div className={styles.feature}>
+              <span className={styles.feature_icon}>📈</span>
+              <span>Track Your Progress</span>
+            </div>
+          </div>
         </div>
       </div>
     </form>

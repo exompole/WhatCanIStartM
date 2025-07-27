@@ -1,122 +1,292 @@
-nav {
+.Navbar {
+  background-color: #2c3e50;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 24px;
-  height: 67px;
+  padding: 0;
+  height: 80px;
   width: 100%;
   background-color: #2c3e50;
-  box-sizing: border-box;
-  overflow: hidden;
-  flex-shrink: 0;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
-nav ul {
+/* Left Section - Logo and Brand Name */
+.leftSection {
+  display: flex;
+  align-items: center;
+  padding-left: 24px;
+}
+
+.logoLink {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  gap: 12px;
+}
+
+.logo {
+  height: 50px;
+  width: 50px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.brandName {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #ecf0f1;
+  letter-spacing: -0.5px;
+}
+
+/* Center Section - Navigation Links */
+.centerSection {
+  display: flex;
+  justify-content: center;
+  flex: 1;
+}
+
+.navLinks {
   display: flex;
   list-style: none;
-  gap: 32px; 
+  gap: 32px;
   margin: 0;
   padding: 0;
-  margin-top: 40px;
-  height: 100%;
+  align-items: center;
 }
 
-nav ul li a {
+.navLink {
   text-decoration: none;
   color: #ecf0f1;
   font-weight: 500;
   font-size: 16px;
-  padding: 9px 22px;
-  border-radius: 6px;
+  padding: 12px 16px;
+  border-radius: 8px;
   transition: all 0.3s ease;
   cursor: pointer;
+  position: relative;
+  
 }
 
-nav ul li a:hover {
+.navLink:hover {
   background-color: #34495e;
   color: #ffffff;
+  transform: translateY(-1px);
 }
 
-nav ul li a.disabled {
-  color: #95a5a6;
-  pointer-events: none;
-  cursor: not-allowed;
+.navButton {
+  background: none;
+  border: none;
+  color: #ecf0f1;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  font-family: inherit;
 }
 
-nav ul li a::after {
-  content: '';
-  display: block;
-  width: 0%;
-  height: 2px;
-  background-color: #3498db;
-  transition: width 0.2s;
-  margin-top: 4px;
+.navButton:hover {
+  background-color: #34495e;
+  color: #ffffff;
+  transform: translateY(-1px);
 }
 
-nav ul li a:hover::after {
-  width: 100%;
+/* Right Section - Auth and User Actions */
+.rightSection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding-right: 24px;
 }
 
-nav img {
-  margin-top: 7px;
-  height: 58px;
-  width: 58px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+/* User Section (Logged In) */
+.userSection {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.welcomeText {
+  font-size: 12px;
+  color: #bdc3c7;
+  font-weight: 400;
+}
+
+.userName {
+  font-size: 14px;
+  color: #ecf0f1;
+  font-weight: 600;
+}
+
+.userActions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ideaButton {
+  background: #6c6a78;
+  border: none;
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.2);
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: inherit;
+}
+
+.ideaButton:hover {
+  background: #2980c3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
 .logoutButton {
-  background: #e74c3c;
+  background: #6c6a78;
   border: none;
   color: #ffffff;
-  padding: 10px 20px;
+  padding: 10px 16px;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   font-size: 14px;
   box-shadow: 0 2px 8px rgba(231, 76, 60, 0.2);
-  letter-spacing: 0.5px;
   transition: all 0.3s ease;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 80px;
+  font-family: inherit;
 }
 
 .logoutButton:hover {
-  background: #c0392b;
+  background: #c3bfd3;
+  transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(231, 76, 60, 0.3);
+}
+
+/* Auth Buttons (Not Logged In) */
+.authButtons {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.loginButton {
+  text-decoration: none;
+  color: #ecf0f1;
+  font-weight: 500;
+  font-size: 16px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.loginButton:hover {
+  background-color: #34495e;
+  color: #ffffff;
   transform: translateY(-1px);
 }
 
-.leftLinks {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  gap: 32px;
-  margin: 0;
-  padding: 0;
-  height: 67px;
+
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .nav {
+    padding: 0 20px;
+  }
+  
+  .navLinks {
+    gap: 24px;
+  }
+  
+  .brandName {
+    font-size: 1.3rem;
+  }
 }
 
-.rightLinks {
-  display: flex;
-  align-items: center;
-  list-style: none;
-  gap: 18px;
-  margin: 0;
-  padding: 0;
-  height: 67px;
+@media (max-width: 768px) {
+  .nav {
+    padding: 0 16px;
+    height: 70px;
+  }
+  
+  .brandName {
+    display: none;
+  }
+  
+  .navLinks {
+    gap: 16px;
+  }
+  
+  .navLink, .navButton {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+  
+  .userSection {
+    gap: 12px;
+  }
+  
+  .userInfo {
+    display: none;
+  }
+  
+  .ideaButton, .logoutButton {
+    font-size: 12px;
+    padding: 8px 12px;
+  }
+  
+  .authButtons {
+    gap: 8px;
+  }
+  
+  .loginButton {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
 }
 
-.userInfo {
-  font-weight: 600;
-  color: #ecf0f1;
-  display: flex;
-  align-items: center;
-  height: 100%;
-  padding-right: 8px;
-  font-size: 14px;
+@media (max-width: 480px) {
+  .nav {
+    padding: 0 12px;
+  }
+  
+  .navLinks {
+    gap: 8px;
+  }
+  
+  .navLink, .navButton {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
+  
+  .ideaButton, .logoutButton {
+    font-size: 11px;
+    padding: 6px 8px;
+  }
+  
+  .loginButton {
+    font-size: 12px;
+    padding: 6px 8px;
+  }
 }
 

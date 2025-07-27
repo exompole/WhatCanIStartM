@@ -14,6 +14,8 @@ const IdeaPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
+    window.scrollTo(0, 0);
+    
     if (location.state?.prompt) {
       setInput(location.state.prompt);
       generateIdea(location.state.prompt);
@@ -35,16 +37,93 @@ const IdeaPage = () => {
     try {
       const res = await axios.post("http://localhost:5000/api/gemini/generateidea", {
         prompt: `
-        Give me a detailed business plan for: ${promptToSend}
-        Include the following:
-        1. 📋 Executive Summary
-        2. 💰 Budget with itemized costs
-        3. ⚖️ Legal/Licensing Requirements
-        4. 🛠️ Step-by-step Implementation Plan
-        5. 📣 Marketing Strategy
-        6. 🚧 Risks & Mitigation
-        7. 📈 Scalability Potential
-        Format the answer in markdown for easy parsing.
+        Create a comprehensive business plan for: ${promptToSend}
+        
+        Please provide detailed information in the following sections:
+        
+        1. 📋 **Executive Summary**
+           - Business concept overview
+           - Unique value proposition
+           - Target market size and opportunity
+           - Competitive advantage
+        
+        2. 💰 **Financial Planning & Budget**
+           - Startup costs breakdown (equipment, licenses, marketing, etc.)
+           - Monthly operational expenses
+           - Revenue projections for first 12 months
+           - Break-even analysis
+           - Funding requirements and sources
+        
+        3. ⚖️ **Legal & Regulatory Requirements**
+           - Required business registrations (GST, MSME, etc.)
+           - Industry-specific licenses and permits
+           - Compliance requirements
+           - Insurance needs
+           - Tax obligations
+        
+        4. 🛠️ **Step-by-Step Implementation Plan**
+           - Phase 1: Setup and preparation (1-3 months)
+           - Phase 2: Launch and initial operations (3-6 months)
+           - Phase 3: Growth and scaling (6-12 months)
+           - Key milestones and timelines
+           - Resource requirements at each phase
+        
+        5. 📣 **Marketing & Sales Strategy**
+           - Target customer segments
+           - Marketing channels (digital, traditional, local)
+           - Brand positioning and messaging
+           - Sales process and customer acquisition
+           - Pricing strategy
+           - Customer retention strategies
+        
+        6. 🚧 **Risk Analysis & Mitigation**
+           - Market risks and solutions
+           - Operational risks and contingency plans
+           - Financial risks and safeguards
+           - Regulatory risks and compliance measures
+           - Technology risks (if applicable)
+        
+        7. 📈 **Growth & Scalability Potential**
+           - Expansion opportunities
+           - Diversification possibilities
+           - Franchising potential
+           - Technology integration opportunities
+           - Long-term growth projections
+        
+        8. 🎥 **Visual & Media References**
+           - YouTube video links for similar businesses
+           - Instagram/Facebook business examples
+           - Pinterest inspiration boards
+           - Industry-specific websites and resources
+           - Equipment and setup photos references
+        
+        9. 🔧 **Equipment & Technology Requirements**
+           - Essential equipment list with estimated costs
+           - Software and technology needs
+           - Space and infrastructure requirements
+           - Supplier recommendations
+        
+        10. 👥 **Team & Skills Required**
+            - Key roles and responsibilities
+            - Required skills and qualifications
+            - Training needs
+            - Outsourcing opportunities
+        
+        11. 📊 **Market Analysis**
+            - Industry trends and growth potential
+            - Competitor analysis
+            - Market gaps and opportunities
+            - Seasonal considerations
+            - Geographic market potential
+        
+        12. 💡 **Innovation & Differentiation**
+            - Unique selling points
+            - Innovation opportunities
+            - Technology integration possibilities
+            - Sustainability aspects
+            - Future-proofing strategies
+        
+        Please format the response in clear markdown with proper headings, bullet points, and sections. Include practical, actionable advice that someone can immediately implement. Provide specific examples, case studies, and real-world references where possible.
         `,
       });
       setIdea(res.data.result);

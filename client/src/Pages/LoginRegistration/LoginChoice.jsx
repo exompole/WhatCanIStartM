@@ -1,9 +1,14 @@
+import { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styles from "./LoginChoice.module.css";
 import { RiAdminFill } from "react-icons/ri";
 import { FaUserCircle } from "react-icons/fa";
 
 const LoginChoice = () => {
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className={styles.login_choice_container}>
       <div className={styles.login_section}>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import Button from "../../components/Button";
 import { IoIosMail } from "react-icons/io";
@@ -13,6 +13,10 @@ const Contact = () => {
     email: "",
     message: "",
   });
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   const handleEmail = () => {
     console.log("button clicked")

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./LemonProducts.module.css";
-import { Search, Sparkles, Filter, TrendingUp, DollarSign, MapPin } from "lucide-react";
+import { Search, Sparkles, Filter, TrendingUp, DollarSign,IndianRupee } from "lucide-react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
 
 function LemonProducts() {
@@ -136,7 +136,7 @@ function LemonProducts() {
           </div>
 
           <div className={styles.filterGroup}>
-            <DollarSign size={16} />
+            <IndianRupee size={16} />
             <select 
               value={filterInvestment} 
               onChange={(e) => setFilterInvestment(e.target.value)}

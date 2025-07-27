@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import { useNavigate } from "react-router-dom";
 import adminImg from "../../images/Admin_login.png";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 
 const AdminLogin = () => {
@@ -36,6 +36,10 @@ const AdminLogin = () => {
       console.error(err);
     }
   };
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <form className={styles.login_form} onSubmit={handleSubmit}>

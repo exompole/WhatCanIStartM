@@ -1,45 +1,146 @@
 .container {
-  max-width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
   padding: 40px 20px;
   text-align: center;
-  margin-top: -29px;
+}
+
+.header {
+  margin-bottom: 50px;
 }
 
 .container h1 {
-  font-size: 32px;
-  font-weight: bold;
-  margin-bottom: 40px;
-  
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+  color: #1e40af;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.description {
+  font-size: 1.1rem;
+  color: #6b7280;
+  max-width: 800px;
+  margin: 0 auto;
+  line-height: 1.6;
+  padding: 0 20px;
 }
 
 .imageRow {
   display: flex;
-  width: 100%;
+  flex-direction: row;
   gap: 0;
+  align-items: stretch;
+  justify-content: center;
 }
 
 .image {
+  background: white;
+  border-radius: 0;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 2px solid #e5e7eb;
   flex: 1;
-  margin: 0;
-  padding: 0;
+  max-width: 300px;
+}
+
+.image:first-child {
+  border-top-left-radius: 12px;
+  border-bottom-left-radius: 12px;
+}
+
+.image:last-child {
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+}
+
+.image:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15);
+  border-color: #667eea;
+  z-index: 10;
 }
 
 .image h3 {
   margin: 0;
-  padding: 10px 0;
-  background-color: #f4f4f4;
-  font-size: 18px;
-  font-weight: 500;
+  padding: 20px 15px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  text-align: center;
+  border-bottom: 2px solid #e5e7eb;
 }
 
 .image img {
   width: 100%;
   height: auto;
   display: block;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s ease;
+  object-fit: cover;
 }
 
-.image img:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+.image:hover img {
+  transform: scale(1.02);
+}
+
+.image a {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .container h1 {
+    font-size: 2rem;
+  }
+  
+  .description {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+  
+  .imageRow {
+    flex-direction: column;
+    gap: 0;
+  }
+  
+  .image {
+    max-width: 100%;
+    border-radius: 12px;
+    margin-bottom: 0;
+  }
+  
+  .image:first-child {
+    border-radius: 12px;
+  }
+  
+  .image:last-child {
+    border-radius: 12px;
+  }
+  
+  .image h3 {
+    font-size: 1.3rem;
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    padding: 20px 15px;
+  }
+  
+  .container h1 {
+    font-size: 1.8rem;
+  }
+  
+  .description {
+    font-size: 0.95rem;
+  }
+  
+  .image {
+    max-width: 100%;
+  }
 }
