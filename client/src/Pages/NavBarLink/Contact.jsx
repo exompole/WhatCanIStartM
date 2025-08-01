@@ -57,7 +57,7 @@ const Contact = () => {
     console.log("Submitting:", formData);
     axios
 
-      .post("http://localhost:5000/api/contact", formData)
+              .post("/api/contact", formData)
       .then((res) => {
         alert("Success: " + res.data.message);
         console.log("Server Response:", res.data);

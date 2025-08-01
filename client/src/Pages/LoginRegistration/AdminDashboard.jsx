@@ -16,10 +16,10 @@ const AdminDashboard = () => {
     const fetchAdminData = async () => {
       try {
         const userRes = await axios.get(
-          "http://localhost:5000/api/admin/users"
+          "/api/admin/users"
         );
         const contactRes = await axios.get(
-          "http://localhost:5000/api/admin/contacts"
+          "/api/admin/contacts"
         );
         setUsers(userRes.data);
         setContacts(contactRes.data);
