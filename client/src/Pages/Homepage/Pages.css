@@ -118,7 +118,6 @@ body {
   box-sizing: border-box;
 }
 
-
 .main-content {
   display: flex;
   justify-content: space-between;
@@ -126,6 +125,7 @@ body {
   padding: 40px;
   gap: 40px;
   background-color: #f0f8ff;
+  min-height: 80vh;
 }
 
 .content-text {
@@ -137,12 +137,15 @@ body {
   line-height: 90px;
   font-size: 64px;
   max-width: 650px;
+  margin: 0 0 20px 0;
 }
 
 .content-text p {
   font-weight: 600;
   font-size: 18px;
   max-width: 500px;
+  line-height: 1.6;
+  margin: 0;
 }
 
 .content-logo img {
@@ -151,7 +154,6 @@ body {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   border-radius: 20px;
 }
-
 
 .scroll-nav {
   position: fixed;
@@ -162,7 +164,6 @@ body {
   flex-direction: column;
   gap: 10px;
 }
-
 
 .scroll-nav a {
   padding: 10px 14px;
@@ -180,7 +181,6 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
 }
-
 
 .chart-section {
   padding: 4rem 2rem;
@@ -209,7 +209,6 @@ body {
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   border: 1px solid #bdc3c7;
 }
-
 
 .services-section {
   padding: 4rem 2rem;
@@ -246,6 +245,120 @@ body {
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
   border-color: #3498db;
 }
+
 .services-container :hover{
   transform: scale(1.02);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .main-content {
+    padding: 30px;
+    gap: 30px;
+  }
+  
+  .content-text h1 {
+    font-size: 48px;
+    line-height: 60px;
+  }
+  
+  .content-logo img {
+    height: 500px;
+  }
+  
+  .scroll-nav {
+    right: 15px;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    flex-direction: column;
+    padding: 20px;
+    gap: 30px;
+    text-align: center;
+  }
+  
+  .content-text h1 {
+    font-size: 36px;
+    line-height: 45px;
+    max-width: 100%;
+  }
+  
+  .content-text p {
+    font-size: 16px;
+    max-width: 100%;
+  }
+  
+  .content-logo img {
+    height: 400px;
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .scroll-nav {
+    display: none; /* Hide on mobile */
+  }
+  
+  .chart-section,
+  .services-section {
+    padding: 3rem 1rem;
+  }
+  
+  .chart-section h2,
+  .services-section h2 {
+    font-size: 1.5rem;
+  }
+  
+  .services-container {
+    gap: 15px;
+  }
+  
+  .service-card {
+    min-width: 150px;
+    padding: 15px 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 15px;
+    gap: 20px;
+  }
+  
+  .content-text h1 {
+    font-size: 28px;
+    line-height: 35px;
+  }
+  
+  .content-text p {
+    font-size: 14px;
+  }
+  
+  .content-logo img {
+    height: 300px;
+  }
+  
+  .chart-section,
+  .services-section {
+    padding: 2rem 0.5rem;
+  }
+  
+  .chart-section h2,
+  .services-section h2 {
+    font-size: 1.3rem;
+  }
+  
+  .services-container {
+    gap: 10px;
+  }
+  
+  .service-card {
+    min-width: 120px;
+    padding: 12px 15px;
+  }
+  
+  .service-card h3 {
+    font-size: 14px;
+  }
 }

@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-import logo from "../../images/Logo.png";
+const logo = "/Logo.png";
 
 const UserLogin = () => {
   const [formData, setFormData] = useState({

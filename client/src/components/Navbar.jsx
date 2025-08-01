@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "./Navbar.module.css";
-import logo from "../images/Logo.png";
+const logo = "/Logo.png";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const updateUserState = () => {
     const userData = JSON.parse(localStorage.getItem("user"));
@@ -35,6 +36,7 @@ const Navbar = () => {
     localStorage.removeItem("user");
     setUser(null);
     setIsDropdownOpen(false);
+    setIsMobileMenuOpen(false);
     // Dispatch custom event
     window.dispatchEvent(new Event("userLogout"));
     navigate("/");
@@ -47,6 +49,11 @@ const Navbar = () => {
     } else {
       navigate(route);
     }
+    setIsMobileMenuOpen(false);
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -60,12 +67,21 @@ const Navbar = () => {
           </Link>
         </div>
 
+        {/* Mobile Menu Button */}
+        <div className={styles.mobileMenuButton}>
+          <button onClick={toggleMobileMenu} className={styles.hamburgerButton}>
+            <span className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.active : ''}`}></span>
+            <span className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.active : ''}`}></span>
+            <span className={`${styles.hamburgerLine} ${isMobileMenuOpen ? styles.active : ''}`}></span>
+          </button>
+        </div>
+
         {/* Center Section - Navigation Links */}
-        <div className={styles.centerSection}>
+        <div className={`${styles.centerSection} ${isMobileMenuOpen ? styles.mobileOpen : ''}`}>
           <ul className={styles.navLinks}>
-            <li><Link to="/business" className={styles.navLink}>Business</Link></li>
-            <li><Link to="/contact" className={styles.navLink}>Contact</Link></li>
-            <li><Link to="/about" className={styles.navLink}>About</Link></li>
+            <li><Link to="/business" className={styles.navLink} onClick={() => setIsMobileMenuOpen(false)}>Business</Link></li>
+            <li><Link to="/contact" className={styles.navLink} onClick={() => setIsMobileMenuOpen(false)}>Contact</Link></li>
+            <li><Link to="/about" className={styles.navLink} onClick={() => setIsMobileMenuOpen(false)}>About</Link></li>
             <li>
               <button 
                 className={styles.navButton}
@@ -78,7 +94,7 @@ const Navbar = () => {
         </div>
 
         {/* Right Section - Auth and User Actions */}
-        <div className={styles.rightSection}>
+        <div className={`${styles.rightSection} ${isMobileMenuOpen ? styles.mobileOpen : ''}`}>
           {user ? (
             <div className={styles.userSection}>
               <div className={styles.userInfo}>
@@ -88,7 +104,10 @@ const Navbar = () => {
               <div className={styles.userActions}>
                 <button 
                   className={styles.ideaButton}
-                  onClick={() => navigate("/Idea")}
+                  onClick={() => {
+                    navigate("/Idea");
+                    setIsMobileMenuOpen(false);
+                  }}
                 >
                  Generate Idea
                 </button>
@@ -102,8 +121,8 @@ const Navbar = () => {
             </div>
           ) : (
             <div className={styles.authButtons}>
-              <Link to="/login" className={styles.loginButton}>Login</Link>
-              <Link to="/registration" className={styles.loginButton}>Register</Link>
+              <Link to="/login" className={styles.loginButton} onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
+              <Link to="/registration" className={styles.loginButton} onClick={() => setIsMobileMenuOpen(false)}>Register</Link>
               <button 
                 className={styles.ideaButton}
                 onClick={() => handleProtectedLink("/Idea", "Please login to access business ideas.")}

@@ -29,3 +29,43 @@
 .icon:hover {
   color: #3498db;
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    padding: 20px 16px;
+    text-align: center;
+  }
+  
+  .footer p {
+    font-size: 13px;
+  }
+  
+  .right {
+    gap: 12px;
+  }
+  
+  .icon {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: 16px 12px;
+  }
+  
+  .footer p {
+    font-size: 12px;
+  }
+  
+  .right {
+    gap: 10px;
+  }
+  
+  .icon {
+    font-size: 16px;
+  }
+}

@@ -55,5 +55,48 @@
   font-size: 0.9rem;
 }
 
+/* Responsive Design */
+@media (max-width: 768px) {
+  .floating_help {
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 14px;
+    font-size: 20px;
+  }
+  
+  .chat_modal {
+    bottom: 80px;
+    right: 20px;
+    left: 20px;
+    width: auto;
+    max-width: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .floating_help {
+    bottom: 15px;
+    right: 15px;
+    padding: 8px 12px;
+    font-size: 18px;
+  }
+  
+  .chat_modal {
+    bottom: 70px;
+    right: 15px;
+    left: 15px;
+    padding: 12px;
+  }
+  
+  .chat_modal h4 {
+    font-size: 0.9rem;
+  }
+  
+  .chat_modal textarea {
+    height: 80px;
+    font-size: 0.8rem;
+  }
+}
+
 
 
