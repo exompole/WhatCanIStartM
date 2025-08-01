@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 
 const authRoutes = require("./routes/authRoutes");
 const geminiRoutes = require("./routes/geminiRoutes");

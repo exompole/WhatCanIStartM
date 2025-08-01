@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Lemon = require("./models/lemonModel");
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 
 const MONGO_URI = process.env.MONGO_URI || "your_mongo_uri_here";
 

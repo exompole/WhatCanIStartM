@@ -1,7 +1,7 @@
 const User = require("../models/User");
 const Contact = require("../models/Contact");
 const bcrypt = require("bcryptjs");
-require("dotenv").config();
+require("dotenv").config({ path: "../../.env" });
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const ResetToken = require("../models/ResetToken");
