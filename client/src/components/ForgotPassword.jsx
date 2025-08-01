@@ -1,12 +1,16 @@
 
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
+import Button from "./Button";
+import styles from "./ForgotPassword.module.css";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const [resetLink, setResetLink] = useState("");
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -17,13 +21,20 @@ const ForgotPassword = () => {
     setLoading(true);
     setMessage("");
     setError("");
+    setResetLink("");
+    
     try {
       const res = await axios.post("http://localhost:5000/api/forgot-password", { email });
       setMessage(res.data.message);
       
       // If reset link is provided (when email is not configured)
       if (res.data.resetLink) {
-        setMessage(`${res.data.message} Reset link: ${res.data.resetLink}`);
+        // Extract the token from the backend URL and create a proper frontend URL
+        const token = res.data.resetLink.split('/').pop();
+        const frontendResetLink = `${window.location.origin}/reset-password/${token}`;
+        setResetLink(frontendResetLink);
+        console.log("Original backend link:", res.data.resetLink);
+        console.log("Frontend link:", frontendResetLink);
       }
     } catch (err) {
       setError(err.response?.data?.message || "Error sending reset link");
@@ -31,24 +42,93 @@ const ForgotPassword = () => {
     setLoading(false);
   };
 
+  const copyToClipboard = () => {
+    navigator.clipboard.writeText(resetLink).then(() => {
+      setMessage("Reset link copied to clipboard!");
+    }).catch(() => {
+      setError("Failed to copy link. Please copy it manually.");
+    });
+  };
+
+  const handleResetLinkClick = (e) => {
+    e.preventDefault();
+    console.log("Navigating to:", resetLink);
+    window.location.href = resetLink;
+  };
+
   return (
-    <div style={{ maxWidth: 400, margin: "40px auto", padding: 24, border: "1px solid #eee", borderRadius: 8, background: "#fafafa" }}>
-      <form onSubmit={handleSubmit}>
-        <h2 style={{ textAlign: "center" }}>Forgot Password</h2>
-        <input
-          type="email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-          placeholder="Enter your email"
-          style={{ width: "100%", padding: 8, marginBottom: 16, borderRadius: 4, border: "1px solid #ccc" }}
-        />
-        <button type="submit" disabled={loading} style={{ width: "100%", padding: 10, borderRadius: 4, background: "#f7c948", border: "none", fontWeight: "bold" }}>
-          {loading ? "Sending..." : "Send Reset Link"}
-        </button>
-        {message && <div style={{ color: "green", marginTop: 16 }}>{message}</div>}
-        {error && <div style={{ color: "red", marginTop: 16 }}>{error}</div>}
-      </form>
+    <div className={styles.forgotPasswordContainer}>
+      <div className={styles.formCard}>
+        <div className={styles.header}>
+          <h2>Forgot Password</h2>
+          <p>Enter your email to receive a password reset link</p>
+        </div>
+        
+        <form onSubmit={handleSubmit} className={styles.form}>
+          <div className={styles.inputGroup}>
+            <label htmlFor="email">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              placeholder="Enter your email address"
+              className={styles.input}
+            />
+          </div>
+          
+          <div className={styles.buttonGroup}>
+            <Button 
+              text={loading ? "Sending..." : "Send Reset Link"} 
+              type="submit" 
+              disabled={loading}
+              className={styles.submitButton}
+            />
+          </div>
+          
+          <div className={styles.links}>
+            <Link to="/user-login" className={styles.backLink}>
+              ← Back to Login
+            </Link>
+          </div>
+        </form>
+        
+        {message && (
+          <div className={styles.message}>
+            {message}
+          </div>
+        )}
+        
+        {resetLink && (
+          <div className={styles.resetLinkSection}>
+            <h3>Reset Link Generated</h3>
+            <p>Click the link below to reset your password:</p>
+            <a 
+              href={resetLink} 
+              className={styles.resetLink}
+              onClick={handleResetLinkClick}
+            >
+              {resetLink}
+            </a>
+            <button 
+              onClick={copyToClipboard}
+              className={styles.copyButton}
+            >
+              📋 Copy Link
+            </button>
+            <p className={styles.debugInfo}>
+              <small>Debug: Current origin is {window.location.origin}</small>
+            </p>
+          </div>
+        )}
+        
+        {error && (
+          <div className={styles.error}>
+            {error}
+          </div>
+        )}
+      </div>
     </div>
   );
 };
