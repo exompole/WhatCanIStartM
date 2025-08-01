@@ -70,7 +70,7 @@ const HomeInfo = () => {
           </p>
         </div>
         <div className="content-logo">
-          <img src="/Logo.png" alt="Platform Logo" />
+          <img src="./src/images/logo.png" alt="Platform Logo" />
         </div>
       </main>
 
