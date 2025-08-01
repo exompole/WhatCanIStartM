@@ -9,7 +9,7 @@ import Contact from "./Pages/NavBarLink/Contact";
 import Land from "./Pages/NavBarLink/Buisness/Land";
 import RawMaterials from "./Pages/NavBarLink/Buisness/RawMaterial";
 import Farming from "./Pages/NavBarLink/Buisness/Farming";
-import Skills from "./Pages/NavBarLink/Buisness/skill";
+import Skills from "./Pages/NavBarLink/Buisness/Skill";
 import AdminDashboard from "./Pages/LoginRegistration/AdminDashboard";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
