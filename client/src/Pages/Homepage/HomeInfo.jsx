@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import Chart from "chart.js/auto";
 import "./Pages.css";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "../../images/Logo.png"
 
 const HomeInfo = () => {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ const HomeInfo = () => {
           </p>
         </div>
         <div className="content-logo">
-          <img src="./src/images/Logo.png" alt="Platform Logo" />
+          <img src={logo} alt="Platform Logo" />
         </div>
       </main>
 
