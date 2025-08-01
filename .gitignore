@@ -1,6 +1,11 @@
 .vercel
 .env
 
+# Dependencies
+node_modules/
+client/node_modules/
+server/node_modules/
+
 # ignore all .a files
 *.a
 
