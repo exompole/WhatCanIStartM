@@ -24,9 +24,22 @@ app.use("/api/lemon-products", lemonRoutes);
 // Gemini routes
 app.use("/api/gemini", geminiRoutes);
 
-// Simple test route
+// Health check route for Vercel
 app.get("/", (req, res) => {
-  res.json("Backend Working");
+  res.json({ 
+    message: "Backend Working", 
+    status: "healthy",
+    timestamp: new Date().toISOString()
+  });
+});
+
+// Health check route for API
+app.get("/api/health", (req, res) => {
+  res.json({ 
+    message: "API is running", 
+    status: "healthy",
+    timestamp: new Date().toISOString()
+  });
 });
 
 // MongoDB connection and server start
