@@ -3,7 +3,7 @@ import Land_img from "../../../images/Land_module_image.png";
 import RawMaterial_img from "../../../images/raw_Material.png";
 import Farmer_img from "../../../images/farmer.png";
 import Skill from "../../../images/skill.png";
-import styles from "./business.module.css";
+import styles from "./Business.module.css";
 
 const Business = () => {
   return (
