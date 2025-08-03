@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config();
+require("dotenv").config({ path: "../.env" });
 
 const authRoutes = require("./routes/authRoutes");
 const geminiRoutes = require("./routes/geminiRoutes");
@@ -10,6 +10,9 @@ const lemonRoutes = require("./routes/lemonRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
+console.log("🔍 Debug - MONGO_URI loaded:", !!MONGO_URI);
+console.log("🔍 Debug - MONGO_URI length:", MONGO_URI ? MONGO_URI.length : 'undefined');
+console.log("🔍 Debug - MONGO_URI preview:", MONGO_URI ? MONGO_URI.substring(0, 50) + '...' : 'undefined');
 
 // Middlewares
 app.use(cors());
