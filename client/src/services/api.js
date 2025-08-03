@@ -23,6 +23,11 @@ console.log('🔍 API Service Debug:');
 console.log('📡 API_URL:', API_URL);
 console.log('🌐 Base URL:', api.defaults.baseURL);
 
+// Test URL construction
+const testUrl = api.defaults.baseURL + '/register';
+console.log('🧪 Test URL construction:', testUrl);
+console.log('🎯 Expected server path: /api/register');
+
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
@@ -48,8 +53,22 @@ api.interceptors.request.use(
 
 // Response interceptor for error handling
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    console.log('✅ API Response:', {
+      status: response.status,
+      url: response.config.url,
+      data: response.data
+    });
+    return response;
+  },
   (error) => {
+    console.log('❌ API Error:', {
+      status: error.response?.status,
+      url: error.config?.url,
+      message: error.message,
+      response: error.response?.data
+    });
+    
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
