@@ -1,6 +1,6 @@
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { authAPI } from "../services/api";
 import { Link } from "react-router-dom";
 import Button from "./Button";
 import styles from "./ForgotPassword.module.css";
@@ -24,7 +24,7 @@ const ForgotPassword = () => {
     setResetLink("");
     
     try {
-      const res = await axios.post("/forgot-password", { email });
+      const res = await authAPI.forgotPassword({ email });
       setMessage(res.data.message);
       
       // If reset link is provided (when email is not configured)

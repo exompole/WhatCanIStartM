@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import adminImg from "../../images/Admin_login.png";
 
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { authAPI } from "../../services/api";
 
 const AdminLogin = () => {
   const [formData, setFormData] = useState({
@@ -24,7 +24,7 @@ const AdminLogin = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post("/admin-login", formData);
+      const res = await authAPI.adminLogin(formData);
       alert(res.data.message);
       localStorage.setItem("adminUser", JSON.stringify(res.data.user));
 

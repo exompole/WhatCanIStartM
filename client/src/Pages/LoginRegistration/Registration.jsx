@@ -2,7 +2,7 @@ import styles from "./Registration.module.css";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { authAPI } from "../../services/api";
 
 const Registration = () => {
   const [formData, setFormData] = useState({
@@ -88,7 +88,7 @@ const Registration = () => {
     
     setIsLoading(true);
     try {
-      const res = await axios.post("/register", formData);
+      const res = await authAPI.register(formData);
       setSuccessMessage(res.data.message);
       setFormData({
         username: "",

@@ -1,7 +1,7 @@
 
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { authAPI } from "../services/api";
 import Button from "./Button";
 import styles from "./ResetPassword.module.css";
 
@@ -38,7 +38,7 @@ const ResetPassword = () => {
     setError("");
     
     try {
-              const res = await axios.post(`/reset-password/${token}`, { password });
+              const res = await authAPI.resetPassword(token, password);
       setMessage(res.data.message);
       
       // Clear password fields on success
