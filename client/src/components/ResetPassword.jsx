@@ -38,7 +38,7 @@ const ResetPassword = () => {
     setError("");
     
     try {
-              const res = await axios.post(`/api/reset-password/${token}`, { password });
+              const res = await axios.post(`/reset-password/${token}`, { password });
       setMessage(res.data.message);
       
       // Clear password fields on success

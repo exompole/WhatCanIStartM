@@ -47,11 +47,11 @@ api.interceptors.response.use(
 
 // AUTH APIs
 export const authAPI = {
-  login: (credentials) => api.post('/auth/login', credentials),
-  register: (userData) => api.post('/auth/register', userData),
-  forgotPassword: (email) => api.post('/auth/forgot-password', email),
-  resetPassword: (token, password) => api.post('/auth/reset-password', { token, password }),
-  adminLogin: (credentials) => api.post('/admin/login', credentials),
+  login: (credentials) => api.post('/login', credentials),
+  register: (userData) => api.post('/register', userData),
+  forgotPassword: (email) => api.post('/forgot-password', email),
+  resetPassword: (token, password) => api.post('/reset-password', { token, password }),
+  adminLogin: (credentials) => api.post('/admin-login', credentials),
 };
 
 // CONTACT API

@@ -88,7 +88,7 @@ const Registration = () => {
     
     setIsLoading(true);
     try {
-      const res = await axios.post("/api/register", formData);
+      const res = await axios.post("/register", formData);
       setSuccessMessage(res.data.message);
       setFormData({
         username: "",
