@@ -2,7 +2,7 @@ import styles from "./UserLogin.module.css";
 import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { authAPI } from "../../services/api";
 import Logo from "../../images/Logo.png"
 
 const UserLogin = () => {
@@ -69,7 +69,7 @@ const UserLogin = () => {
 
     setIsLoading(true);
     try {
-      const res = await axios.post("/api/login", formData);
+      const res = await authAPI.login(formData);
       
       // Store user in localStorage
       localStorage.setItem("user", JSON.stringify(res.data.user));

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { contactAPI } from "../../services/api";
 import Button from "../../components/Button";
 import { IoIosMail } from "react-icons/io";
 import { MdCall } from "react-icons/md";
@@ -55,9 +55,7 @@ const Contact = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Submitting:", formData);
-    axios
-
-              .post("/api/contact", formData)
+    contactAPI.submit(formData)
       .then((res) => {
         alert("Success: " + res.data.message);
         console.log("Server Response:", res.data);

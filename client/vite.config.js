@@ -20,8 +20,6 @@ export default defineConfig({
   },
   server: {
     historyApiFallback: true,
-    proxy: {
-      '/api': 'http://localhost:5000',
-    },
+    // Proxy removed - using environment variables instead
   }
 })

@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
+import { geminiAPI } from "../../services/api";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./IdeaPage.module.css";
 import { marked } from "marked";
@@ -35,8 +35,7 @@ const IdeaPage = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post("/api/gemini/generateidea", {
-        prompt: `
+      const res = await geminiAPI.generateIdea(`
         Create a comprehensive business plan for: ${promptToSend}
         
         Please provide detailed information in the following sections:
@@ -124,8 +123,7 @@ const IdeaPage = () => {
             - Future-proofing strategies
         
         Please format the response in clear markdown with proper headings, bullet points, and sections. Include practical, actionable advice that someone can immediately implement. Provide specific examples, case studies, and real-world references where possible.
-        `,
-      });
+        `);
       setIdea(res.data.result);
     } catch (err) {
       console.error(err);

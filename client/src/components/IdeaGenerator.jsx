@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import { geminiAPI } from "../services/api";
 
 const IdeaGenerator = () => {
   const [input, setInput] = useState("");
@@ -9,9 +9,7 @@ const IdeaGenerator = () => {
   const generateIdea = async () => {
     setLoading(true);
     try {
-      const res = await axios.post("/api/gemini/generateidea", {
-  prompt: `Suggest a business idea based on: ${input}`,
-});
+      const res = await geminiAPI.generateIdea(`Suggest a business idea based on: ${input}`);
 
       setIdea(res.data.result);
     } catch (err) {

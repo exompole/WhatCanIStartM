@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { adminAPI } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 // import styles from "./AdminDashboard.module.css";
 
@@ -15,12 +15,8 @@ const AdminDashboard = () => {
   useEffect(() => {
     const fetchAdminData = async () => {
       try {
-        const userRes = await axios.get(
-          "/api/admin/users"
-        );
-        const contactRes = await axios.get(
-          "/api/admin/contacts"
-        );
+        const userRes = await adminAPI.getUsers();
+        const contactRes = await adminAPI.getContacts();
         setUsers(userRes.data);
         setContacts(contactRes.data);
       } catch (error) {
