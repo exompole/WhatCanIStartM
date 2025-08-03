@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
-require("dotenv").config({ path: "../.env" });
+require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
 const geminiRoutes = require("./routes/geminiRoutes");
@@ -43,9 +43,19 @@ app.get("/api/health", (req, res) => {
 });
 
 // MongoDB connection and server start
+if (!MONGO_URI) {
+  console.error("❌ MONGO_URI environment variable is not set!");
+  console.error("Please set your MongoDB Atlas connection string in the .env file");
+  process.exit(1);
+}
+
 mongoose.connect(MONGO_URI)
   .then(() => {
-    console.log("MongoDB connected");
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    console.log("✅ MongoDB connected successfully");
+    app.listen(PORT, () => console.log(`🚀 Server running on port ${PORT}`));
   })
-  .catch((err) => console.error("MongoDB connection error:", err));
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err.message);
+    console.error("Please check your MONGO_URI in the .env file");
+    process.exit(1);
+  });
