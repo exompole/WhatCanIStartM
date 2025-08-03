@@ -11,7 +11,7 @@ if (import.meta.env.DEV) {
 
 // Create axios instance with default configuration
 const api = axios.create({
-  baseURL: API_URL,
+  baseURL: API_URL, // Should end with /api in .env file
   timeout: 10000,
   headers: {
     'Content-Type': 'application/json',
@@ -37,7 +37,6 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response?.status === 401) {
-      // Handle unauthorized access
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       window.location.href = '/user-login';
@@ -46,32 +45,36 @@ api.interceptors.response.use(
   }
 );
 
-// API endpoints
+// AUTH APIs
 export const authAPI = {
-  login: (credentials) => api.post('/api/login', credentials),
-  register: (userData) => api.post('/api/register', userData),
-  adminLogin: (credentials) => api.post('/api/admin/login', credentials),
-  forgotPassword: (email) => api.post('/api/forgot-password', email),
-  resetPassword: (token, password) => api.post('/api/reset-password', { token, password }),
+  login: (credentials) => api.post('/auth/login', credentials),
+  register: (userData) => api.post('/auth/register', userData),
+  forgotPassword: (email) => api.post('/auth/forgot-password', email),
+  resetPassword: (token, password) => api.post('/auth/reset-password', { token, password }),
+  adminLogin: (credentials) => api.post('/admin/login', credentials),
 };
 
+// CONTACT API
 export const contactAPI = {
-  submit: (formData) => api.post('/api/contact', formData),
+  submit: (formData) => api.post('/contact', formData),
 };
 
+// GEMINI API
 export const geminiAPI = {
-  generateIdea: (prompt) => api.post('/api/gemini/generateidea', { prompt }),
+  generateIdea: (prompt) => api.post('/gemini/generateidea', { prompt }),
 };
 
+// LEMON PRODUCTS API
 export const lemonAPI = {
-  getAllProducts: () => api.get('/api/lemon-products'),
-  getProductById: (id) => api.get(`/api/lemon-products/${id}`),
+  getAllProducts: () => api.get('/lemon-products'),
+  getProductById: (id) => api.get(`/lemon-products/${id}`),
 };
 
+// ADMIN APIs
 export const adminAPI = {
-  getUsers: () => api.get('/api/admin/users'),
-  getContacts: () => api.get('/api/admin/contacts'),
+  getUsers: () => api.get('/admin/users'),
+  getContacts: () => api.get('/admin/contacts'),
 };
 
-// Export the base API instance for custom calls
-export default api; 
+
+export default api;
