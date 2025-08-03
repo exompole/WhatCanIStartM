@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
-const logo = "/Logo.png";
+import Logo from "../../images/Logo.png"
 
 const UserLogin = () => {
   const [formData, setFormData] = useState({
@@ -95,7 +95,7 @@ const UserLogin = () => {
     <form className={styles.login_form} onSubmit={handleSubmit}>
       <div className={styles.form_fields}>
         <div className={styles.header_section}>
-          <img src={logo} alt="Logo" className={styles.form_logo} />
+          <img src={Logo} alt="Logo" className={styles.form_logo} />
           <h2>Welcome Back</h2>
           <p className={styles.subtitle}>Sign in to continue your business journey</p>
         </div>

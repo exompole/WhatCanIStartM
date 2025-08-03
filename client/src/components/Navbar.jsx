@@ -82,6 +82,7 @@ const Navbar = () => {
             <li><Link to="/business" className={styles.navLink} onClick={() => setIsMobileMenuOpen(false)}>Business</Link></li>
             <li><Link to="/contact" className={styles.navLink} onClick={() => setIsMobileMenuOpen(false)}>Contact</Link></li>
             <li><Link to="/about" className={styles.navLink} onClick={() => setIsMobileMenuOpen(false)}>About</Link></li>
+            <li><Link to="/PaymentForm" className={styles.navLink} onClick={() => setIsMobileMenuOpen(false)}>PaymentForm</Link></li>
             <li>
               <button 
                 className={styles.navButton}

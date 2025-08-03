@@ -16,6 +16,7 @@ import ResetPassword from "./components/ResetPassword";
 import IdeaPage from "./Pages/Idea/IdeaPage";
 import LemonProducts from "./components/LemonProduct";
 import ProtectedRoute from "./components/ProtectedRoute";
+import PaymentForm from "./components/PaymentForm";
 
 // Service Pages
 import LegalCompliance from "./Pages/Services/LegalCompliance";
@@ -44,6 +45,8 @@ export const routes = [
   { path: "/forgot-password", element: <ForgotPassword />},
   { path: "/reset-password/:token", element: <ResetPassword/>},
   { path: "/Idea", element: <ProtectedRoute><IdeaPage/></ProtectedRoute>},
+  { path: "/PaymentForm", element: <PaymentForm/>},
+
   
   // Service Routes
   { path: "/services/legal-compliance", element: <LegalCompliance /> },
