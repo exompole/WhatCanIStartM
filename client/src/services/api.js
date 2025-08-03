@@ -18,6 +18,11 @@ const api = axios.create({
   },
 });
 
+// Debug logging
+console.log('🔍 API Service Debug:');
+console.log('📡 API_URL:', API_URL);
+console.log('🌐 Base URL:', api.defaults.baseURL);
+
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
@@ -25,6 +30,15 @@ api.interceptors.request.use(
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
+    
+    // Debug logging for requests
+    console.log('🚀 API Request:', {
+      method: config.method?.toUpperCase(),
+      url: config.url,
+      fullUrl: config.baseURL + config.url,
+      data: config.data
+    });
+    
     return config;
   },
   (error) => {
@@ -50,7 +64,7 @@ export const authAPI = {
   login: (credentials) => api.post('/login', credentials),
   register: (userData) => api.post('/register', userData),
   forgotPassword: (email) => api.post('/forgot-password', email),
-  resetPassword: (token, password) => api.post('/reset-password', { token, password }),
+  resetPassword: (token, password) => api.post(`/reset-password/${token}`, { password }),
   adminLogin: (credentials) => api.post('/admin-login', credentials),
 };
 
