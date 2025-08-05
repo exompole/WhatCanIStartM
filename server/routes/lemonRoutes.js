@@ -1,22 +1,14 @@
-const express = require('express');
-const app = express();
+const express = require("express");
+const router = express.Router();
+const {
+  getAllLemonProducts,
+  addLemonProduct
+} = require("../controllers/lemonController");
 
-// Body parser
-app.use(express.json());
+// GET all lemon products
+router.get("/", getAllLemonProducts);
 
-// Import routes
-const lemonRoutes = require('./routes/lemonRoutes');
+// POST new lemon product (optional admin)
+router.post("/", addLemonProduct);
 
-// Use routes
-app.use('/api/lemon-products', lemonRoutes);
-
-// Test route
-app.get('/api/test', (req, res) => {
-  res.send('✅ API is working');
-});
-
-// Start server
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+module.exports = router;
