@@ -12,7 +12,7 @@ if (import.meta.env.DEV) {
 // Create axios instance with default configuration
 const api = axios.create({
   baseURL: API_URL, // Should end with /api in .env file
-  timeout: 10000,
+  timeout: 30000, // Increased from 10000 to 30000 (30 seconds)
   headers: {
     'Content-Type': 'application/json',
   },
@@ -66,8 +66,15 @@ api.interceptors.response.use(
       status: error.response?.status,
       url: error.config?.url,
       message: error.message,
-      response: error.response?.data
+      response: error.response?.data,
+      code: error.code
     });
+    
+    // Handle specific error types
+    if (error.code === 'ECONNABORTED' || error.message.includes('timeout')) {
+      console.error('Request timeout - the server took too long to respond');
+      error.message = 'Request timed out. Please try again or check your internet connection.';
+    }
     
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
@@ -94,7 +101,27 @@ export const contactAPI = {
 
 // GEMINI API
 export const geminiAPI = {
-  generateIdea: (prompt) => api.post('/gemini/generateidea', { prompt }),
+  generateIdea: async (prompt, retries = 2) => {
+    for (let attempt = 1; attempt <= retries + 1; attempt++) {
+      try {
+        const response = await api.post('/gemini/generateidea', { prompt });
+        return response;
+      } catch (error) {
+        console.log(`Attempt ${attempt} failed:`, error.message);
+        
+        // If it's the last attempt or not a timeout error, throw the error
+        if (attempt === retries + 1 || 
+            (error.code !== 'ECONNABORTED' && !error.message.includes('timeout'))) {
+          throw error;
+        }
+        
+        // Wait before retrying (exponential backoff)
+        const delay = Math.pow(2, attempt) * 1000;
+        console.log(`Retrying in ${delay}ms...`);
+        await new Promise(resolve => setTimeout(resolve, delay));
+      }
+    }
+  },
 };
 
 // LEMON PRODUCTS API

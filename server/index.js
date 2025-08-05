@@ -12,6 +12,14 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
+// Set server timeout for long-running requests
+app.use((req, res, next) => {
+  // Set timeout for all requests to 60 seconds
+  req.setTimeout(60000);
+  res.setTimeout(60000);
+  next();
+});
+
 // CORS setup for frontend
 app.use(cors({
   origin: [

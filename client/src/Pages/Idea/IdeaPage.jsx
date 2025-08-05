@@ -8,6 +8,7 @@ const IdeaPage = () => {
   const [input, setInput] = useState("");
   const [idea, setIdea] = useState("");
   const [loading, setLoading] = useState(false);
+  const [showTimeoutWarning, setShowTimeoutWarning] = useState(false);
   const [expanded, setExpanded] = useState({}); // For collapsible sections
 
   const location = useLocation();
@@ -34,6 +35,13 @@ const IdeaPage = () => {
     if (!promptToSend.trim()) return;
 
     setLoading(true);
+    setShowTimeoutWarning(false);
+    
+    // Show timeout warning after 15 seconds
+    const timeoutWarning = setTimeout(() => {
+      setShowTimeoutWarning(true);
+    }, 15000);
+
     try {
       const res = await geminiAPI.generateIdea(`
         Create a comprehensive business plan for: ${promptToSend}
@@ -124,12 +132,31 @@ const IdeaPage = () => {
         
         Please format the response in clear markdown with proper headings, bullet points, and sections. Include practical, actionable advice that someone can immediately implement. Provide specific examples, case studies, and real-world references where possible.
         `);
+      
+      clearTimeout(timeoutWarning);
       setIdea(res.data.result);
     } catch (err) {
-      console.error(err);
-      setIdea("❌ Failed to generate idea.");
+      clearTimeout(timeoutWarning);
+      console.error('Idea generation error:', err);
+      
+      let errorMessage = "❌ Failed to generate idea.";
+      
+      if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
+        errorMessage = "⏰ Request timed out. The AI is taking longer than expected. Please try again.";
+      } else if (err.response?.status === 408) {
+        errorMessage = "⏰ AI service timeout. Please try again with a simpler request.";
+      } else if (err.response?.status === 429) {
+        errorMessage = "🚫 Too many requests. Please wait a moment and try again.";
+      } else if (err.response?.status === 500) {
+        errorMessage = "🔧 Server error. Please try again later.";
+      } else if (err.response?.data?.error) {
+        errorMessage = `❌ ${err.response.data.error}`;
+      }
+      
+      setIdea(errorMessage);
     } finally {
       setLoading(false);
+      setShowTimeoutWarning(false);
     }
   };
 
@@ -182,6 +209,13 @@ const IdeaPage = () => {
         >
           {loading ? "Generating..." : "Generate Idea"}
         </button>
+
+        {showTimeoutWarning && (
+          <div className={styles.timeoutWarning}>
+            ⚠️ The AI is taking longer than expected. Please try again or
+            simplify your request.
+          </div>
+        )}
 
         {idea && (
           <div className={styles.resultBox}>
