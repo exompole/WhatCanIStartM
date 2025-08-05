@@ -19,14 +19,14 @@ const api = axios.create({
 });
 
 // Debug logging
-console.log('🔍 API Service Debug:');
-console.log('📡 API_URL:', API_URL);
-console.log('🌐 Base URL:', api.defaults.baseURL);
+console.log('API Service Debug:');
+console.log('API_URL:', API_URL);
+console.log('Base URL:', api.defaults.baseURL);
 
 // Test URL construction
 const testUrl = api.defaults.baseURL + '/register';
-console.log('🧪 Test URL construction:', testUrl);
-console.log('🎯 Expected server path: /api/register');
+console.log('Test URL construction:', testUrl);
+console.log('Expected server path: /api/register');
 
 // Request interceptor to add auth token
 api.interceptors.request.use(
@@ -37,7 +37,7 @@ api.interceptors.request.use(
     }
     
     // Debug logging for requests
-    console.log('🚀 API Request:', {
+    console.log('API Request:', {
       method: config.method?.toUpperCase(),
       url: config.url,
       fullUrl: config.baseURL + config.url,
@@ -54,7 +54,7 @@ api.interceptors.request.use(
 // Response interceptor for error handling
 api.interceptors.response.use(
   (response) => {
-    console.log('✅ API Response:', {
+    console.log('API Response:', {
       status: response.status,
       url: response.config.url,
       data: response.data
@@ -62,7 +62,7 @@ api.interceptors.response.use(
     return response;
   },
   (error) => {
-    console.log('❌ API Error:', {
+    console.log('API Error:', {
       status: error.response?.status,
       url: error.config?.url,
       message: error.message,

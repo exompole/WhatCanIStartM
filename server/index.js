@@ -11,11 +11,6 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 
-// Debugging logs
-console.log("🔍 Debug - MONGO_URI loaded:", !!MONGO_URI);
-console.log("🔍 Debug - MONGO_URI length:", MONGO_URI ? MONGO_URI.length : 'undefined');
-console.log("🔍 Debug - MONGO_URI preview:", MONGO_URI ? MONGO_URI.substring(0, 50) + '...' : 'undefined');
-
 // CORS setup for Vercel frontend
 app.use(cors({
   origin: ["https://what-can-i-start-m.vercel.app", "https://whatcanistartm.vercel.app", "http://localhost:3000", "http://localhost:5173"],

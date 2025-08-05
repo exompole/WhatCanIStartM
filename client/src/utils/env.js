@@ -19,9 +19,9 @@ export const validateEnv = () => {
   const missing = required.filter((key) => !import.meta.env[key]);
 
   if (missing.length > 0) {
-    console.warn('⚠️ Missing environment variables:', missing.join(', '));
-    console.warn('🛠️ Please check your .env file');
-  }
+    console.warn('Missing environment variables:', missing.join(', '));
+    console.warn('Please check your .env file');
+  } 
 
   return missing.length === 0;
 };
@@ -29,7 +29,7 @@ export const validateEnv = () => {
 // Get API URL with fallback
 export const getApiUrl = () => {
   if (!ENV.API_URL) {
-    console.error('❌ VITE_API_URL is not set. Defaulting to localhost.');
+    console.error('VITE_API_URL is not set. Defaulting to localhost.');
     return 'http://localhost:5000/api';
   }
   return ENV.API_URL;
@@ -37,13 +37,13 @@ export const getApiUrl = () => {
 
 // Log detailed environment info (for dev only)
 export const logEnvInfo = () => {
-  console.log('🧪 Environment Info:');
-  console.log('📡 API URL:', ENV.API_URL);
-  console.log('📦 App Name:', ENV.APP_NAME);
-  console.log('🧮 App Version:', ENV.APP_VERSION);
-  console.log('🌐 Mode:', ENV.MODE);
-  console.log('🛠️ Development:', ENV.IS_DEVELOPMENT);
-  console.log('🚀 Production:', ENV.IS_PRODUCTION);
+  console.log('Environment Info:');
+  console.log('API URL:', ENV.API_URL);
+  console.log('App Name:', ENV.APP_NAME);
+  console.log('App Version:', ENV.APP_VERSION);
+  console.log('Mode:', ENV.MODE);
+  console.log('Development:', ENV.IS_DEVELOPMENT);
+  console.log('Production:', ENV.IS_PRODUCTION);
 };
 
 // Optional: Immediately validate when imported (dev only)
