@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./LemonProducts.module.css";
 import { Search, Sparkles, Filter, TrendingUp, DollarSign,IndianRupee } from "lucide-react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { lemonAPI } from "../services/api";
 
 function LemonProducts() {
   const [products, setProducts] = useState([]);
@@ -17,13 +18,9 @@ function LemonProducts() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/lemon-products")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch data");
-        return res.json();
-      })
-      .then((data) => {
-        setProducts(data);
+    lemonAPI.getAllProducts()
+      .then((response) => {
+        setProducts(response.data);
         setLoading(false);
       })
       .catch((err) => {
