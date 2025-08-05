@@ -28,6 +28,15 @@ const testUrl = api.defaults.baseURL + '/register';
 console.log('Test URL construction:', testUrl);
 console.log('Expected server path: /api/register');
 
+// Additional debugging for all API calls
+console.log('Available API endpoints:');
+console.log('- POST /api/login');
+console.log('- POST /api/register');
+console.log('- POST /api/gemini/generateidea');
+console.log('- GET /api/lemon-products');
+console.log('- POST /api/contact');
+console.log('- GET /api/health');
+
 // Request interceptor to add auth token
 api.interceptors.request.use(
   (config) => {
@@ -136,5 +145,10 @@ export const adminAPI = {
   getContacts: () => api.get('/admin/contacts'),
 };
 
+// Test function for debugging
+export const testAPI = {
+  health: () => api.get('/health'),
+  test: () => api.get('/test'),
+};
 
 export default api;

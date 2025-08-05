@@ -1,128 +1,139 @@
-import { useState, useEffect } from 'react';
-import { ENV, validateEnv, logEnvInfo } from '../utils/env';
-import api from '../services/api';
+import { useState } from 'react';
+import { getApiUrl, logEnvInfo } from '../utils/env';
+import { testAPI } from '../services/api';
 
 const EnvTest = () => {
-  const [envInfo, setEnvInfo] = useState({});
-  const [apiTest, setApiTest] = useState(null);
+  const [testResults, setTestResults] = useState({});
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    // Log environment info
-    logEnvInfo();
-    
-    // Set environment info for display
-    setEnvInfo({
-      API_URL: ENV.API_URL,
-      APP_NAME: ENV.APP_NAME,
-      APP_VERSION: ENV.APP_VERSION,
-      MODE: ENV.MODE,
-      IS_DEVELOPMENT: ENV.IS_DEVELOPMENT,
-      IS_PRODUCTION: ENV.IS_PRODUCTION,
-    });
-
-    // Validate environment
-    const isValid = validateEnv();
-    console.log('Environment validation:', isValid ? '✅ Passed' : '❌ Failed');
-  }, []);
-
-  const testApiConnection = async () => {
+  const runTests = async () => {
     setLoading(true);
+    const results = {};
+
     try {
-      const response = await api.get('/api/health');
-      setApiTest({
-        success: true,
-        data: response.data,
-        status: response.status,
-      });
+      // Test 1: Environment variables
+      results.env = {
+        API_URL: getApiUrl(),
+        VITE_API_URL: import.meta.env.VITE_API_URL,
+        MODE: import.meta.env.MODE,
+        DEV: import.meta.env.DEV,
+        PROD: import.meta.env.PROD
+      };
+
+      // Test 2: Health endpoint
+      try {
+        const healthRes = await testAPI.health();
+        results.health = { success: true, data: healthRes.data };
+      } catch (error) {
+        results.health = { success: false, error: error.message, status: error.response?.status };
+      }
+
+      // Test 3: Test endpoint
+      try {
+        const testRes = await testAPI.test();
+        results.test = { success: true, data: testRes.data };
+      } catch (error) {
+        results.test = { success: false, error: error.message, status: error.response?.status };
+      }
+
+      // Test 4: Direct fetch to API
+      try {
+        const apiUrl = getApiUrl();
+        const fetchRes = await fetch(`${apiUrl}/health`);
+        results.directFetch = { 
+          success: fetchRes.ok, 
+          status: fetchRes.status,
+          url: `${apiUrl}/health`
+        };
+      } catch (error) {
+        results.directFetch = { success: false, error: error.message };
+      }
+
     } catch (error) {
-      setApiTest({
-        success: false,
-        error: error.message,
-        status: error.response?.status,
-      });
-    } finally {
-      setLoading(false);
+      results.error = error.message;
     }
+
+    setTestResults(results);
+    setLoading(false);
   };
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-      <h2>🔧 Environment Variables Test</h2>
+      <h2>🔧 Environment & API Test</h2>
       
-      <div style={{ marginBottom: '20px' }}>
-        <h3>📋 Environment Information</h3>
-        <div style={{ 
-          backgroundColor: '#f5f5f5', 
-          padding: '15px', 
-          borderRadius: '8px',
-          fontFamily: 'monospace'
-        }}>
-          {Object.entries(envInfo).map(([key, value]) => (
-            <div key={key} style={{ marginBottom: '5px' }}>
-              <strong>{key}:</strong> {String(value)}
+      <button 
+        onClick={runTests} 
+        disabled={loading}
+        style={{ 
+          padding: '10px 20px', 
+          marginBottom: '20px',
+          backgroundColor: loading ? '#ccc' : '#007bff',
+          color: 'white',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: loading ? 'not-allowed' : 'pointer'
+        }}
+      >
+        {loading ? 'Testing...' : 'Run Tests'}
+      </button>
+
+      {Object.keys(testResults).length > 0 && (
+        <div style={{ textAlign: 'left' }}>
+          <h3>Test Results:</h3>
+          
+          {testResults.env && (
+            <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
+              <h4>🌍 Environment Variables:</h4>
+              <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '3px', overflow: 'auto' }}>
+                {JSON.stringify(testResults.env, null, 2)}
+              </pre>
             </div>
-          ))}
+          )}
+
+          {testResults.health && (
+            <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
+              <h4>🏥 Health Endpoint:</h4>
+              <div style={{ color: testResults.health.success ? 'green' : 'red' }}>
+                {testResults.health.success ? '✅ Success' : '❌ Failed'}
+              </div>
+              <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '3px', overflow: 'auto' }}>
+                {JSON.stringify(testResults.health, null, 2)}
+              </pre>
+            </div>
+          )}
+
+          {testResults.test && (
+            <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
+              <h4>🧪 Test Endpoint:</h4>
+              <div style={{ color: testResults.test.success ? 'green' : 'red' }}>
+                {testResults.test.success ? '✅ Success' : '❌ Failed'}
+              </div>
+              <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '3px', overflow: 'auto' }}>
+                {JSON.stringify(testResults.test, null, 2)}
+              </pre>
+            </div>
+          )}
+
+          {testResults.directFetch && (
+            <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
+              <h4>🌐 Direct Fetch:</h4>
+              <div style={{ color: testResults.directFetch.success ? 'green' : 'red' }}>
+                {testResults.directFetch.success ? '✅ Success' : '❌ Failed'}
+              </div>
+              <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '3px', overflow: 'auto' }}>
+                {JSON.stringify(testResults.directFetch, null, 2)}
+              </pre>
+            </div>
+          )}
+
+          {testResults.error && (
+            <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ff6b6b', borderRadius: '5px', backgroundColor: '#ffe6e6' }}>
+              <h4>❌ General Error:</h4>
+              <pre style={{ color: 'red' }}>{testResults.error}</pre>
+            </div>
+          )}
         </div>
-      </div>
-
-      <div style={{ marginBottom: '20px' }}>
-        <h3>🔗 API Connection Test</h3>
-        <button 
-          onClick={testApiConnection}
-          disabled={loading}
-          style={{
-            padding: '10px 20px',
-            backgroundColor: '#007bff',
-            color: 'white',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: loading ? 'not-allowed' : 'pointer'
-          }}
-        >
-          {loading ? 'Testing...' : 'Test API Connection'}
-        </button>
-
-        {apiTest && (
-          <div style={{ 
-            marginTop: '10px',
-            padding: '15px',
-            backgroundColor: apiTest.success ? '#d4edda' : '#f8d7da',
-            borderRadius: '5px',
-            border: `1px solid ${apiTest.success ? '#c3e6cb' : '#f5c6cb'}`
-          }}>
-            <h4>{apiTest.success ? '✅ Success' : '❌ Failed'}</h4>
-            <pre style={{ fontSize: '12px', overflow: 'auto' }}>
-              {JSON.stringify(apiTest, null, 2)}
-            </pre>
-          </div>
-        )}
-      </div>
-
-      <div style={{ marginBottom: '20px' }}>
-        <h3>📝 Instructions</h3>
-        <ol>
-          <li>Check that all environment variables are loaded correctly</li>
-          <li>Test the API connection to your backend</li>
-          <li>Verify the API URL points to your Render backend in production</li>
-          <li>Make sure CORS is configured properly on your backend</li>
-        </ol>
-      </div>
-
-      <div style={{ 
-        backgroundColor: '#fff3cd', 
-        padding: '15px', 
-        borderRadius: '5px',
-        border: '1px solid #ffeaa7'
-      }}>
-        <h4>💡 Tips</h4>
-        <ul>
-          <li>In development: API should point to <code>http://localhost:5000</code></li>
-          <li>In production: API should point to your Render URL</li>
-          <li>Make sure your backend is running and accessible</li>
-          <li>Check browser console for any CORS errors</li>
-        </ul>
-      </div>
+      )}
     </div>
   );
 };

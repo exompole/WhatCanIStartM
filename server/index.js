@@ -34,6 +34,12 @@ app.use(cors({
 // JSON body parser
 app.use(express.json());
 
+// Debug middleware to log all requests
+app.use((req, res, next) => {
+  console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
+  next();
+});
+
 // Route integrations
 app.use("/api", authRoutes);                 // /api/auth/login etc.
 app.use("/api/lemon-products", lemonRoutes); // /api/lemon-products/*
@@ -53,6 +59,48 @@ app.get("/api/health", (req, res) => {
     message: "API is running",
     status: "healthy",
     timestamp: new Date().toISOString()
+  });
+});
+
+// Test endpoint for debugging
+app.get("/api/test", (req, res) => {
+  res.json({ 
+    message: "Test endpoint working",
+    timestamp: new Date().toISOString(),
+    env: {
+      NODE_ENV: process.env.NODE_ENV,
+      PORT: process.env.PORT,
+      hasMongoUri: !!process.env.MONGO_URI,
+      hasGeminiKey: !!process.env.GEMINI_API_KEY
+    }
+  });
+});
+
+// Catch-all route for unmatched API endpoints
+app.use("/api/*", (req, res) => {
+  console.log(`404 - API endpoint not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ 
+    error: "API endpoint not found",
+    path: req.originalUrl,
+    method: req.method,
+    availableRoutes: [
+      "/api/login",
+      "/api/register", 
+      "/api/gemini/generateidea",
+      "/api/lemon-products",
+      "/api/contact",
+      "/api/health"
+    ]
+  });
+});
+
+// Catch-all route for all other requests
+app.use("*", (req, res) => {
+  console.log(`404 - Route not found: ${req.method} ${req.originalUrl}`);
+  res.status(404).json({ 
+    error: "Route not found",
+    path: req.originalUrl,
+    method: req.method
   });
 });
 
