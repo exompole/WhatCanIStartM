@@ -26,7 +26,7 @@ const IdeaPage = () => {
   const generateIdea = async (promptText) => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
-      alert("⚠️ Please login first to use the idea generator.");
+      alert(" Please login first to use the idea generator.");
       navigate("/user-login");
       return;
     }
@@ -44,38 +44,38 @@ const IdeaPage = () => {
 
     try {
       const res = await geminiAPI.generateIdea(`
-        Create a comprehensive business plan for: ${promptToSend}
+        Create a comprehensive business plan for: ${promptToSend} according Indian Market 
         
         Please provide detailed information in the following sections:
         
-        1. 📋 **Executive Summary**
+        1.  **Executive Summary**
            - Business concept overview
            - Unique value proposition
            - Target market size and opportunity
            - Competitive advantage
         
-        2. 💰 **Financial Planning & Budget**
+        2.  **Financial Planning & Budget**
            - Startup costs breakdown (equipment, licenses, marketing, etc.)
            - Monthly operational expenses
            - Revenue projections for first 12 months
            - Break-even analysis
            - Funding requirements and sources
         
-        3. ⚖️ **Legal & Regulatory Requirements**
+        3.  **Legal & Regulatory Requirements**
            - Required business registrations (GST, MSME, etc.)
            - Industry-specific licenses and permits
            - Compliance requirements
            - Insurance needs
            - Tax obligations
         
-        4. 🛠️ **Step-by-Step Implementation Plan**
+        4.  **Step-by-Step Implementation Plan**
            - Phase 1: Setup and preparation (1-3 months)
            - Phase 2: Launch and initial operations (3-6 months)
            - Phase 3: Growth and scaling (6-12 months)
            - Key milestones and timelines
            - Resource requirements at each phase
         
-        5. 📣 **Marketing & Sales Strategy**
+        5.  **Marketing & Sales Strategy**
            - Target customer segments
            - Marketing channels (digital, traditional, local)
            - Brand positioning and messaging
@@ -83,40 +83,40 @@ const IdeaPage = () => {
            - Pricing strategy
            - Customer retention strategies
         
-        6. 🚧 **Risk Analysis & Mitigation**
+        6.  **Risk Analysis & Mitigation**
            - Market risks and solutions
            - Operational risks and contingency plans
            - Financial risks and safeguards
            - Regulatory risks and compliance measures
            - Technology risks (if applicable)
         
-        7. 📈 **Growth & Scalability Potential**
+        7.  **Growth & Scalability Potential**
            - Expansion opportunities
            - Diversification possibilities
            - Franchising potential
            - Technology integration opportunities
            - Long-term growth projections
         
-        8. 🎥 **Visual & Media References**
+        8.  **Visual & Media References**
            - YouTube video links for similar businesses
            - Instagram/Facebook business examples
            - Pinterest inspiration boards
            - Industry-specific websites and resources
            - Equipment and setup photos references
         
-        9. 🔧 **Equipment & Technology Requirements**
+        9.  **Equipment & Technology Requirements**
            - Essential equipment list with estimated costs
            - Software and technology needs
            - Space and infrastructure requirements
            - Supplier recommendations
         
-        10. 👥 **Team & Skills Required**
+        10.  **Team & Skills Required**
             - Key roles and responsibilities
             - Required skills and qualifications
             - Training needs
             - Outsourcing opportunities
         
-        11. 📊 **Market Analysis**
+        11.  **Market Analysis**
             - Industry trends and growth potential
             - Competitor analysis
             - Market gaps and opportunities
@@ -139,18 +139,18 @@ const IdeaPage = () => {
       clearTimeout(timeoutWarning);
       console.error('Idea generation error:', err);
       
-      let errorMessage = "❌ Failed to generate idea.";
+      let errorMessage = "Failed to generate idea.";
       
       if (err.code === 'ECONNABORTED' || err.message.includes('timeout')) {
-        errorMessage = "⏰ Request timed out. The AI is taking longer than expected. Please try again.";
+        errorMessage = " Request timed out. The AI is taking longer than expected. Please try again.";
       } else if (err.response?.status === 408) {
-        errorMessage = "⏰ AI service timeout. Please try again with a simpler request.";
+        errorMessage = " AI service timeout. Please try again with a simpler request.";
       } else if (err.response?.status === 429) {
-        errorMessage = "🚫 Too many requests. Please wait a moment and try again.";
+        errorMessage = " Too many requests. Please wait a moment and try again.";
       } else if (err.response?.status === 500) {
-        errorMessage = "🔧 Server error. Please try again later.";
+        errorMessage = " Server error. Please try again later.";
       } else if (err.response?.data?.error) {
-        errorMessage = `❌ ${err.response.data.error}`;
+        errorMessage = ` ${err.response.data.error}`;
       }
       
       setIdea(errorMessage);
@@ -212,14 +212,14 @@ const IdeaPage = () => {
 
         {showTimeoutWarning && (
           <div className={styles.timeoutWarning}>
-            ⚠️ The AI is taking longer than expected. Please try again or
+             The AI is taking longer than expected. Please try again or
             simplify your request.
           </div>
         )}
 
         {idea && (
           <div className={styles.resultBox}>
-            <h3>📊 Generated Business Plan</h3>
+            <h3>Generated Business Plan</h3>
             {renderSections(idea)}
           </div>
         )}
