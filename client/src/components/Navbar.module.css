@@ -145,26 +145,45 @@
 .userSection {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 16px;
 }
 
 .userInfo {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 2px;
+  gap: 4px;
 }
 
-.welcomeText {
-  font-size: 12px;
-  color: #bdc3c7;
-  font-weight: 400;
-}
-
-.userName {
-  font-size: 14px;
+.username {
   color: #ecf0f1;
-  font-weight: 600;
+  font-weight: 500;
+  font-size: 14px;
+}
+
+.sessionTime {
+  color: #bdc3c7;
+  font-size: 12px;
+  font-weight: 400;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.logoutBtn {
+  background: #e74c3c;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.logoutBtn:hover {
+  background: #c0392b;
 }
 
 .userActions {
@@ -219,25 +238,38 @@
 /* Auth Buttons (Not Logged In) */
 .authButtons {
   display: flex;
-  align-items: center;
   gap: 12px;
 }
 
-.loginButton {
-  text-decoration: none;
+.loginBtn,
+.registerBtn {
   color: #ecf0f1;
+  text-decoration: none;
+  padding: 8px 16px;
+  border-radius: 6px;
   font-weight: 500;
-  font-size: 16px;
-  padding: 10px 16px;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  cursor: pointer;
+  transition: all 0.2s;
+  font-size: 14px;
 }
 
-.loginButton:hover {
-  background-color: #34495e;
-  color: #ffffff;
-  transform: translateY(-1px);
+.loginBtn {
+  background: transparent;
+  border: 1px solid #ecf0f1;
+}
+
+.loginBtn:hover {
+  background: #ecf0f1;
+  color: #2c3e50;
+}
+
+.registerBtn {
+  background: #0077ff;
+  border: 1px solid #0077ff;
+}
+
+.registerBtn:hover {
+  background: #0056cc;
+  border-color: #0056cc;
 }
 
 /* Responsive Design */

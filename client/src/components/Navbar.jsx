@@ -1,13 +1,15 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import styles from "./Navbar.module.css";
-import  logo  from "../images/Logo.png"; 
+import logo from "../images/Logo.png";
+import SessionManager from "../utils/sessionManager";
 
 const Navbar = () => {
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [remainingTime, setRemainingTime] = useState("");
 
   const updateUserState = () => {
     const userData = JSON.parse(localStorage.getItem("user"));
@@ -23,22 +25,40 @@ const Navbar = () => {
       updateUserState();
     };
 
+    // Listen for session refresh events
+    const handleSessionRefresh = () => {
+      updateUserState();
+    };
+
     window.addEventListener("userLogin", handleUserChange);
     window.addEventListener("userLogout", handleUserChange);
+    window.addEventListener("sessionRefreshed", handleSessionRefresh);
+
+    // Check session remaining time every 30 seconds
+    const sessionInterval = setInterval(() => {
+      if (SessionManager.isSessionValid()) {
+        const remaining = SessionManager.getRemainingTime();
+        const minutes = Math.floor(remaining / 60000);
+        const seconds = Math.floor((remaining % 60000) / 1000);
+        setRemainingTime(`${minutes}:${seconds.toString().padStart(2, '0')}`);
+      } else {
+        setRemainingTime("");
+      }
+    }, 30000);
 
     return () => {
       window.removeEventListener("userLogin", handleUserChange);
       window.removeEventListener("userLogout", handleUserChange);
+      window.removeEventListener("sessionRefreshed", handleSessionRefresh);
+      clearInterval(sessionInterval);
     };
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem("user");
+    SessionManager.clearSession();
     setUser(null);
     setIsDropdownOpen(false);
     setIsMobileMenuOpen(false);
-    // Dispatch custom event
-    window.dispatchEvent(new Event("userLogout"));
     navigate("/");
   };
 
@@ -99,37 +119,25 @@ const Navbar = () => {
           {user ? (
             <div className={styles.userSection}>
               <div className={styles.userInfo}>
-                <span className={styles.welcomeText}>Welcome,</span>
-                <span className={styles.userName}>{user.username || user.name || "User"}</span>
+                <span className={styles.username}>Welcome, {user.username}</span>
+                {remainingTime && (
+                  <span className={styles.sessionTime}>
+                    Session: {remainingTime}
+                  </span>
+                )}
               </div>
-              <div className={styles.userActions}>
-                <button 
-                  className={styles.ideaButton}
-                  onClick={() => {
-                    navigate("/Idea");
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                 Generate Idea
-                </button>
-                <button
-                  onClick={handleLogout}
-                  className={styles.logoutButton}
-                >
-                  Logout
-                </button>
-              </div>
+              <button onClick={handleLogout} className={styles.logoutBtn}>
+                Logout
+              </button>
             </div>
           ) : (
             <div className={styles.authButtons}>
-              <Link to="/login" className={styles.loginButton} onClick={() => setIsMobileMenuOpen(false)}>Login</Link>
-              <Link to="/registration" className={styles.loginButton} onClick={() => setIsMobileMenuOpen(false)}>Register</Link>
-              <button 
-                className={styles.ideaButton}
-                onClick={() => handleProtectedLink("/Idea", "Please login to access business ideas.")}
-              >
-               Generate Idea
-              </button>
+              <Link to="/user-login" className={styles.loginBtn}>
+                Login
+              </Link>
+              <Link to="/registration" className={styles.registerBtn}>
+                Register
+              </Link>
             </div>
           )}
         </div>

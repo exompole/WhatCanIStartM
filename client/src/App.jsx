@@ -5,6 +5,7 @@ import { routes } from "./Routes";
 import FloatingHelp from "./components/FloatingHelp";
 import IdeaGenerator from "./components/IdeaGenerator";
 import Footer from "./components/Footer";
+import SessionTimeoutWarning from "./components/SessionTimeoutWarning";
 
 
 function App() {
@@ -24,7 +25,7 @@ function App() {
         </Routes>
       </>
       <footer><Footer/></footer>
-      
+      <SessionTimeoutWarning />
     </>
   );
 }

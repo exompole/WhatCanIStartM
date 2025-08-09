@@ -3,7 +3,8 @@ import Button from "../../components/Button";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { authAPI } from "../../services/api";
-import Logo from "../../images/Logo.png"
+import Logo from "../../images/Logo.png";
+import SessionManager from "../../utils/sessionManager";
 
 const UserLogin = () => {
   const [formData, setFormData] = useState({
@@ -73,6 +74,10 @@ const UserLogin = () => {
       
       // Store user in localStorage
       localStorage.setItem("user", JSON.stringify(res.data.user));
+      
+      // Set session expiration using SessionManager
+      const expireTime = new Date().getTime() + SessionManager.SESSION_DURATION;
+      localStorage.setItem("sessionExpire", expireTime.toString());
       
       // Dispatch custom event to update navbar
       window.dispatchEvent(new Event("userLogin"));
@@ -164,28 +169,6 @@ const UserLogin = () => {
           </div>
 
           {error && <p className={styles.error_message}>{error}</p>}
-        </div>
-      </div>
-
-      <div className={styles.typewriter_section}>
-        <div className={styles.typewriter_content}>
-          <span className={styles.typewriter}>
-            Welcome back...let's grow together
-          </span>
-          <div className={styles.features}>
-            <div className={styles.feature}>
-              <span className={styles.feature_icon}>🚀</span>
-              <span>Continue Your Journey</span>
-            </div>
-            <div className={styles.feature}>
-              <span className={styles.feature_icon}>💡</span>
-              <span>Access Your Ideas</span>
-            </div>
-            <div className={styles.feature}>
-              <span className={styles.feature_icon}>📈</span>
-              <span>Track Your Progress</span>
-            </div>
-          </div>
         </div>
       </div>
     </form>

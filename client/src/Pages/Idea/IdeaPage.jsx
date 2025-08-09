@@ -123,7 +123,7 @@ const IdeaPage = () => {
             - Seasonal considerations
             - Geographic market potential
         
-        12. 💡 **Innovation & Differentiation**
+        12.  **Innovation & Differentiation**
             - Unique selling points
             - Innovation opportunities
             - Technology integration possibilities
