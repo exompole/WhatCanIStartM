@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import styles from "./LemonProducts.module.css";
 import { Search, Sparkles, Filter, TrendingUp, DollarSign,IndianRupee } from "lucide-react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
+import { lemonAPI } from "../services/api";
 
 function LemonProducts() {
   const [products, setProducts] = useState([]);
@@ -17,19 +18,27 @@ function LemonProducts() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("/api/lemon-products")
-      .then((res) => {
-        if (!res.ok) throw new Error("Failed to fetch data");
-        return res.json();
-      })
-      .then((data) => {
-        setProducts(data);
+    let mounted = true;
+    const load = async () => {
+      try {
+        const res = await lemonAPI.getAllProducts();
+        if (!mounted) return;
+        setProducts(res.data || []);
         setLoading(false);
-      })
-      .catch((err) => {
-        setError(err.message);
-        setLoading(false);
-      });
+      } catch (err) {
+        console.error('Failed to load lemon products:', err);
+        // Prefer informative message from server when available
+        const msg = err.response?.data?.message || err.response?.data?.error || err.message || 'Failed to fetch data';
+        if (mounted) {
+          setError(msg);
+          setLoading(false);
+        }
+      }
+    };
+
+    load();
+
+    return () => { mounted = false; };
   }, []);
 
   const handleGeminiClick = (productName) => {
