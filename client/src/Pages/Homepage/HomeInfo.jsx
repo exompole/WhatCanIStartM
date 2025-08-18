@@ -3,6 +3,7 @@ import Chart from "chart.js/auto";
 import "./Pages.css";
 import { Link, useNavigate } from "react-router-dom";
 import logo from "../../images/Logo.png"
+import { FiBarChart2, FiTrendingUp, FiBriefcase } from 'react-icons/fi';
 
 const HomeInfo = () => {
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ const HomeInfo = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       alert("Please login to use the service");
-      navigate("/user-login");
+              navigate("/LoginRegistration");
     } else {
       // Logic to use the service
       // For example, navigate to a service page or show a message
@@ -105,9 +106,9 @@ const HomeInfo = () => {
           India is becoming the ideal hub for launching innovative businesses.
         </p>
         <div className="stats-graph">
-          <p>📊 85,000+ startups registered in India (2023)</p>
-          <p>🚀 India ranks 3rd in global startup ecosystems</p>
-          <p>💼 1M+ jobs created through startups</p>
+          <p><FiBarChart2 /> 85,000+ startups registered in India (2023)</p>
+          <p><FiTrendingUp /> India ranks 3rd in global startup ecosystems</p>
+          <p><FiBriefcase /> 1M+ jobs created through startups</p>
         </div>
         <div className="chart-box">
           <canvas id="startupChart"></canvas>

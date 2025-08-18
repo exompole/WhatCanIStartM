@@ -1,0 +1,91 @@
+/* Premium Plans Page Styles */
+.wrapper {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 32px 16px;
+  background: #f7f7fa;
+  border-radius: 18px;
+  box-shadow: 0 8px 32px rgba(44,62,80,0.10);
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #232946;
+  margin-bottom: 32px;
+}
+.plansGrid {
+  display: flex;
+  gap: 32px;
+  justify-content: center;
+  margin-bottom: 32px;
+  flex-wrap: wrap;
+}
+.planCard {
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(35,41,70,0.08);
+  padding: 32px 24px;
+  min-width: 320px;
+  max-width: 380px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.planName {
+  font-size: 1.6rem;
+  font-weight: 600;
+  color: #2c3e50;
+  margin-bottom: 8px;
+}
+.price {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #6c6a78;
+  margin-bottom: 18px;
+}
+.featuresList {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 24px;
+  text-align: left;
+}
+.featureItem {
+  font-size: 1.1rem;
+  color: #232946;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.ctaBtn {
+  background: linear-gradient(135deg, #232946 0%, #6c6a78 100%);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 32px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.ctaBtn:hover {
+  background: linear-gradient(135deg, #6c6a78 0%, #232946 100%);
+}
+.note {
+  margin-top: 24px;
+  font-size: 1.1rem;
+  color: #7f8c8d;
+}
+@media (max-width: 700px) {
+  .plansGrid {
+    flex-direction: column;
+    gap: 24px;
+  }
+  .planCard {
+    min-width: 90vw;
+    max-width: 100vw;
+  }
+}

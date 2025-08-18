@@ -21,9 +21,9 @@ const LoginChoice = () => {
       <div className={styles.vertical_line}></div>
 
       <div className={styles.login_section}>
-        <Link to="/user-login" className={`${styles.login_option} ${styles.user}`}>
-          <h2><FaUserCircle fontSize={24} /> User Login</h2>
-          <p>Login as a user to access your profile and features.</p>
+        <Link to="/LoginRegistration" className={`${styles.login_option} ${styles.user}`}>
+          <h2><FaUserCircle fontSize={24} /> User Login/Registration</h2>
+          <p>Login or create a new account to access your profile and features.</p>
         </Link>
       </div>
     </div>

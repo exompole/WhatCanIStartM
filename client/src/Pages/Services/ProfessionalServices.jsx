@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './Services.module.css';
 import { Link } from 'react-router-dom';
+import { FiBarChart2, FiShield, FiTool, FiBriefcase, FiTrendingUp, FiCheck } from 'react-icons/fi';
 
 const ProfessionalServices = () => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const ProfessionalServices = () => {
 
         <section className={styles.servicesGrid}>
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📊</div>
+            <div className={styles.serviceIcon}><FiBarChart2 /></div>
             <h3>Accounting & Bookkeeping</h3>
             <ul>
               <li>Financial Statement Preparation</li>
@@ -38,7 +39,7 @@ const ProfessionalServices = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>⚖️</div>
+            <div className={styles.serviceIcon}><FiShield /></div>
             <h3>Legal Services</h3>
             <ul>
               <li>Business Law Consultation</li>
@@ -50,7 +51,7 @@ const ProfessionalServices = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🏗️</div>
+            <div className={styles.serviceIcon}><FiTool /></div>
             <h3>Business Consulting</h3>
             <ul>
               <li>Strategic Planning</li>
@@ -62,7 +63,7 @@ const ProfessionalServices = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>💼</div>
+            <div className={styles.serviceIcon}><FiBriefcase /></div>
             <h3>HR & Recruitment</h3>
             <ul>
               <li>Employee Recruitment</li>
@@ -74,7 +75,7 @@ const ProfessionalServices = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🔧</div>
+            <div className={styles.serviceIcon}><FiTool /></div>
             <h3>IT & Technology</h3>
             <ul>
               <li>Software Development</li>
@@ -86,7 +87,7 @@ const ProfessionalServices = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📈</div>
+            <div className={styles.serviceIcon}><FiTrendingUp /></div>
             <h3>Financial Advisory</h3>
             <ul>
               <li>Investment Planning</li>
@@ -128,27 +129,27 @@ const ProfessionalServices = () => {
           <h2>Why Choose Our Professional Services?</h2>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefit}>
-              <h4>✅ Qualified Experts</h4>
+              <h4><FiCheck /> Qualified Experts</h4>
               <p>Access to certified and experienced professionals</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Quality Assurance</h4>
+              <h4><FiCheck /> Quality Assurance</h4>
               <p>All services are quality-checked and guaranteed</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Cost Effective</h4>
+              <h4><FiCheck /> Cost Effective</h4>
               <p>Competitive pricing for professional services</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Convenient Access</h4>
+              <h4><FiCheck /> Convenient Access</h4>
               <p>Easy access to multiple professional services</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Reliable Support</h4>
+              <h4><FiCheck /> Reliable Support</h4>
               <p>Dependable professional support when you need it</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Business Growth</h4>
+              <h4><FiCheck /> Business Growth</h4>
               <p>Professional services that support your business growth</p>
             </div>
           </div>

@@ -2,6 +2,7 @@ import styles from "./Registration.module.css";
 import Button from "../../components/Button";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { FiZap, FiCheckCircle, FiTrendingUp } from 'react-icons/fi';
 import { authAPI } from "../../services/api";
 
 const Registration = () => {
@@ -253,15 +254,15 @@ const Registration = () => {
           </span>
           <div className={styles.features}>
             <div className={styles.feature}>
-              <span className={styles.feature_icon}>🚀</span>
+              <span className={styles.feature_icon}><FiZap /></span>
               <span>Start Your Business</span>
             </div>
             <div className={styles.feature}>
-              <span className={styles.feature_icon}>💡</span>
+              <span className={styles.feature_icon}><FiCheckCircle /></span>
               <span>Get Expert Ideas</span>
             </div>
             <div className={styles.feature}>
-              <span className={styles.feature_icon}>📈</span>
+              <span className={styles.feature_icon}><FiTrendingUp /></span>
               <span>Scale & Succeed</span>
             </div>
           </div>

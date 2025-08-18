@@ -23,8 +23,11 @@ const ForgotPassword = () => {
     setError("");
     setResetLink("");
     
+    console.log("ForgotPassword - Submitting email:", email);
+    
     try {
       const res = await authAPI.forgotPassword({ email });
+      console.log("ForgotPassword - API response:", res.data);
       setMessage(res.data.message);
       
       // If reset link is provided (when email is not configured)
@@ -88,7 +91,7 @@ const ForgotPassword = () => {
           </div>
           
           <div className={styles.links}>
-            <Link to="/user-login" className={styles.backLink}>
+            <Link to="/LoginRegistration" className={styles.backLink}>
               ← Back to Login
             </Link>
           </div>
@@ -115,7 +118,7 @@ const ForgotPassword = () => {
               onClick={copyToClipboard}
               className={styles.copyButton}
             >
-              📋 Copy Link
+              Copy Link
             </button>
             <p className={styles.debugInfo}>
               <small>Debug: Current origin is {window.location.origin}</small>

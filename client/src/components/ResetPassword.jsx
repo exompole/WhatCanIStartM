@@ -47,7 +47,7 @@ const ResetPassword = () => {
         setConfirmPassword("");
         // Redirect to login after 3 seconds
         setTimeout(() => {
-          navigate("/user-login");
+          navigate("/LoginRegistration");
         }, 3000);
       }
     } catch (err) {
@@ -121,7 +121,7 @@ const ResetPassword = () => {
           </div>
           
           <div className={styles.links}>
-            <Link to="/user-login" className={styles.backLink}>
+            <Link to="/LoginRegistration" className={styles.backLink}>
               ← Back to Login
             </Link>
           </div>

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import styles from "./About.module.css";
+import { FiTarget, FiZap, FiBarChart2, FiShield, FiVideo, FiClipboard, FiTrendingUp } from 'react-icons/fi';
 
 const About = () => {
   useEffect(() => {
@@ -46,7 +47,7 @@ const About = () => {
       {/* Mission & Vision */}
       <div className={styles.mission_vision}>
         <div className={styles.mission_card}>
-          <div className={styles.card_icon}>🎯</div>
+            <div className={styles.card_icon}><FiTarget /></div>
           <h3>Our Mission</h3>
           <p>
             To democratize entrepreneurship by providing accessible, practical, and 
@@ -55,7 +56,7 @@ const About = () => {
           </p>
         </div>
         <div className={styles.vision_card}>
-          <div className={styles.card_icon}>🔮</div>
+                <div className={styles.card_icon}><FiBarChart2 /></div>
           <h3>Our Vision</h3>
           <p>
             A world where everyone has the tools, knowledge, and confidence to turn 
@@ -70,22 +71,22 @@ const About = () => {
         <h2>Our Core Values</h2>
         <div className={styles.values_grid}>
           <div className={styles.value_item}>
-            <div className={styles.value_icon}>💡</div>
+            <div className={styles.value_icon}><FiZap /></div>
             <h4>Innovation</h4>
             <p>Constantly evolving our approach to provide cutting-edge business solutions</p>
           </div>
           <div className={styles.value_item}>
-            <div className={styles.value_icon}>🤝</div>
+                  <div className={styles.value_icon}><FiZap /></div>
             <h4>Accessibility</h4>
             <p>Making entrepreneurship accessible to everyone, regardless of background</p>
           </div>
           <div className={styles.value_item}>
-            <div className={styles.value_icon}>📈</div>
+                  <div className={styles.value_icon}><FiBarChart2 /></div>
             <h4>Sustainability</h4>
             <p>Promoting business models that are economically and environmentally sustainable</p>
           </div>
           <div className={styles.value_item}>
-            <div className={styles.value_icon}>🎓</div>
+                  <div className={styles.value_icon}><FiBarChart2 /></div>
             <h4>Education</h4>
             <p>Empowering through knowledge, practical guidance, and continuous learning</p>
           </div>
@@ -120,32 +121,32 @@ const About = () => {
         <h2>What We Offer</h2>
         <div className={styles.services_grid}>
           <div className={styles.service_item}>
-            <div className={styles.service_icon}>🤖</div>
+                  <div className={styles.service_icon}><FiBarChart2 /></div>
             <h4>AI-Powered Idea Generation</h4>
             <p>Advanced AI technology that creates personalized business plans based on your resources</p>
           </div>
           <div className={styles.service_item}>
-            <div className={styles.service_icon}>📋</div>
+            <div className={styles.service_icon}><FiClipboard /></div>
             <h4>Comprehensive Business Plans</h4>
             <p>Detailed plans including financial projections, legal requirements, and implementation strategies</p>
           </div>
           <div className={styles.service_item}>
-            <div className={styles.service_icon}>⚖️</div>
+            <div className={styles.service_icon}><FiShield /></div>
             <h4>Legal Compliance Guidance</h4>
             <p>Expert guidance on business registration, licenses, and regulatory requirements</p>
           </div>
           <div className={styles.service_item}>
-            <div className={styles.service_icon}>📊</div>
+            <div className={styles.service_icon}><FiBarChart2 /></div>
             <h4>Market Analysis</h4>
             <p>In-depth market research and competitive analysis for informed decision-making</p>
           </div>
           <div className={styles.service_item}>
-            <div className={styles.service_icon}>🎥</div>
+            <div className={styles.service_icon}><FiVideo /></div>
             <h4>Visual References</h4>
             <p>Video tutorials, photo examples, and real-world business case studies</p>
           </div>
-          <div className={styles.service_item}>
-            <div className={styles.service_icon}>🚀</div>
+            <div className={styles.service_item}>
+            <div className={styles.service_icon}><FiTrendingUp /></div>
             <h4>Growth Strategies</h4>
             <p>Scalability plans and long-term growth strategies for sustainable success</p>
           </div>

@@ -29,6 +29,12 @@ body {
   flex-direction: column;
 }
 
+/* Ensure main content has proper spacing from footer */
+main {
+  flex: 1;
+  padding-bottom: 20px;
+}
+
 /* Prevent horizontal scroll on mobile */
 @media (max-width: 768px) {
   body {

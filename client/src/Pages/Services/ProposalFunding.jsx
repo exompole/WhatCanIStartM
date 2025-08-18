@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './Services.module.css';
 import { Link } from 'react-router-dom';
+import { FiCheck, FiBarChart2, FiTrendingUp, FiFileText, FiDollarSign, FiCreditCard, FiTarget, FiSearch } from 'react-icons/fi';
 
 const ProposalFunding = () => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const ProposalFunding = () => {
 
         <section className={styles.servicesGrid}>
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📝</div>
+            <div className={styles.serviceIcon}><FiFileText /></div>
             <h3>Business Plan Development</h3>
             <ul>
               <li>Executive Summary Creation</li>
@@ -38,7 +39,7 @@ const ProposalFunding = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>💰</div>
+            <div className={styles.serviceIcon}><FiDollarSign /></div>
             <h3>Government Scheme Applications</h3>
             <ul>
               <li>PMEGP Scheme Applications</li>
@@ -50,7 +51,7 @@ const ProposalFunding = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🏦</div>
+            <div className={styles.serviceIcon}><FiCreditCard /></div>
             <h3>Bank Loan Assistance</h3>
             <ul>
               <li>Loan Application Preparation</li>
@@ -62,7 +63,7 @@ const ProposalFunding = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📊</div>
+            <div className={styles.serviceIcon}><FiBarChart2 /></div>
             <h3>Financial Modeling</h3>
             <ul>
               <li>Revenue Projections</li>
@@ -74,7 +75,7 @@ const ProposalFunding = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🎯</div>
+            <div className={styles.serviceIcon}><FiTarget /></div>
             <h3>Investor Pitch Decks</h3>
             <ul>
               <li>Professional Presentation Design</li>
@@ -86,7 +87,7 @@ const ProposalFunding = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🔍</div>
+            <div className={styles.serviceIcon}><FiSearch /></div>
             <h3>Market Research</h3>
             <ul>
               <li>Industry Analysis Reports</li>
@@ -128,27 +129,27 @@ const ProposalFunding = () => {
           <h2>Why Choose Our Funding Services?</h2>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefit}>
-              <h4>✅ Expert Guidance</h4>
+              <h4><FiCheck /> Expert Guidance</h4>
               <p>Access to experienced financial consultants and business advisors</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Higher Success Rate</h4>
+              <h4><FiCheck /> Higher Success Rate</h4>
               <p>Proven track record of successful funding applications</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Time Savings</h4>
+              <h4><FiCheck /> Time Savings</h4>
               <p>Focus on your business while we handle the funding process</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Multiple Options</h4>
+              <h4><FiCheck /> Multiple Options</h4>
               <p>Access to various funding sources and government schemes</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Ongoing Support</h4>
+              <h4><FiCheck /> Ongoing Support</h4>
               <p>Continuous support throughout the funding journey</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Cost Effective</h4>
+              <h4><FiCheck /> Cost Effective</h4>
               <p>Affordable services with success-based pricing options</p>
             </div>
           </div>

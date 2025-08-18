@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './Services.module.css';
 import { Link } from 'react-router-dom';
+import { FiShield, FiBarChart2, FiCheck, FiFileText, FiHome, FiLock, FiUsers } from 'react-icons/fi';
 
 const LegalCompliance = () => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const LegalCompliance = () => {
 
         <section className={styles.servicesGrid}>
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📋</div>
+            <div className={styles.serviceIcon}><FiFileText /></div>
             <h3>Business Registration</h3>
             <ul>
               <li>MSME/Udyam Registration</li>
@@ -38,7 +39,7 @@ const LegalCompliance = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🏭</div>
+            <div className={styles.serviceIcon}><FiHome /></div>
             <h3>Industry-Specific Licenses</h3>
             <ul>
               <li>FSSAI Food License</li>
@@ -50,7 +51,7 @@ const LegalCompliance = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>⚖️</div>
+            <div className={styles.serviceIcon}><FiShield /></div>
             <h3>Compliance Management</h3>
             <ul>
               <li>Regular Compliance Audits</li>
@@ -62,7 +63,7 @@ const LegalCompliance = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📊</div>
+            <div className={styles.serviceIcon}><FiBarChart2 /></div>
             <h3>Tax Compliance</h3>
             <ul>
               <li>Income Tax Filing</li>
@@ -74,7 +75,7 @@ const LegalCompliance = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🔒</div>
+            <div className={styles.serviceIcon}><FiLock /></div>
             <h3>Intellectual Property</h3>
             <ul>
               <li>Trademark Registration</li>
@@ -86,7 +87,7 @@ const LegalCompliance = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🤝</div>
+            <div className={styles.serviceIcon}><FiUsers /></div>
             <h3>Contract Management</h3>
             <ul>
               <li>Business Agreement Drafting</li>
@@ -128,27 +129,27 @@ const LegalCompliance = () => {
           <h2>Benefits of Our Legal Services</h2>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefit}>
-              <h4>✅ Risk Mitigation</h4>
+              <h4><FiCheck /> Risk Mitigation</h4>
               <p>Minimize legal risks and avoid costly penalties</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Time Savings</h4>
+              <h4><FiCheck /> Time Savings</h4>
               <p>Focus on your business while we handle legal formalities</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Expert Guidance</h4>
+              <h4><FiCheck /> Expert Guidance</h4>
               <p>Access to experienced legal professionals</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Cost Effective</h4>
+              <h4><FiCheck /> Cost Effective</h4>
               <p>Affordable legal services tailored to your budget</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Ongoing Support</h4>
+              <h4><FiCheck /> Ongoing Support</h4>
               <p>Continuous legal support and compliance monitoring</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Peace of Mind</h4>
+              <h4><FiCheck /> Peace of Mind</h4>
               <p>Confidence that your business is legally compliant</p>
             </div>
           </div>

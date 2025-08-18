@@ -12,7 +12,7 @@ const Farming = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       alert("Please login to explore this business idea.");
-      navigate("/user-login");
+              navigate("/LoginRegistration");
     } else {
       navigate("/idea", { state: { prompt: idea } });
     }

@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import styles from "./LemonProducts.module.css";
 import { Search, Sparkles, Filter, TrendingUp, DollarSign,IndianRupee } from "lucide-react";
 import { FaChevronDown, FaChevronUp } from "react-icons/fa";
-import { lemonAPI } from "../services/api";
 
 function LemonProducts() {
   const [products, setProducts] = useState([]);
@@ -18,9 +17,13 @@ function LemonProducts() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    lemonAPI.getAllProducts()
-      .then((response) => {
-        setProducts(response.data);
+    fetch("/api/lemon-products")
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch data");
+        return res.json();
+      })
+      .then((data) => {
+        setProducts(data);
         setLoading(false);
       })
       .catch((err) => {
@@ -99,9 +102,9 @@ function LemonProducts() {
   );
 
   return (
-    <div className={styles.container}>
+  <div className={styles.container}>
       <div className={styles.header}>
-        <h2 className={styles.heading}>🍋 Lemon Business Opportunities</h2>
+        <h2 className={styles.heading}>Lemon Business Opportunities</h2>
         <p className={styles.subheading}>Discover 24+ profitable lemon-based business ideas</p>
       </div>
 
@@ -206,26 +209,26 @@ function LemonProducts() {
             {expandedIndex === index && (
               <div className={styles.details}>
                 <div className={styles.description}>
-                  <h4>📝 Description</h4>
+                  <h4>Description</h4>
                   <p>{product.description}</p>
                 </div>
 
                 <div className={styles.keyInfo}>
                   <div className={styles.infoSection}>
-                    <h4>💰 Investment & Returns</h4>
+                    <h4>Investment & Returns</h4>
                     <p><strong>Initial Investment:</strong> {product.initial_investment}</p>
                     <p><strong>ROI:</strong> {product.roi}</p>
                   </div>
 
                   <div className={styles.infoSection}>
-                    <h4>📋 Requirements</h4>
+                    <h4>Requirements</h4>
                     <p><strong>Difficulty Level:</strong> {product.difficulty_level}</p>
                     <p><strong>Legal Requirements:</strong> {product.legal_requirements?.join(", ")}</p>
                     <p><strong>Government Schemes:</strong> {product.govt_schemes?.join(", ")}</p>
                   </div>
 
                   <div className={styles.infoSection}>
-                    <h4>📍 Location & Market</h4>
+                    <h4>Location & Market</h4>
                     <p><strong>Best Locations:</strong> {product.location_suitability?.join(", ")}</p>
                     <p><strong>Target Market:</strong> {product.target_market?.join(", ")}</p>
                   </div>
@@ -233,7 +236,7 @@ function LemonProducts() {
 
                 {product.budget_breakdown && (
                   <div className={styles.budgetSection}>
-                    <h4>💰 Budget Breakdown</h4>
+                    <h4>Budget Breakdown</h4>
                     <div className={styles.budgetGrid}>
                       {Object.entries(product.budget_breakdown).map(([key, value]) => (
                         <div key={key} className={styles.budgetItem}>
@@ -247,17 +250,17 @@ function LemonProducts() {
 
                 <div className={styles.detailedInfo}>
                   <div className={styles.infoSection}>
-                    <h4>⚖️ Legal Details</h4>
+                    <h4>Legal Details</h4>
                     <p>{product.law_details}</p>
                   </div>
 
                   <div className={styles.infoSection}>
-                    <h4>📋 License Process</h4>
+                    <h4>License Process</h4>
                     <p>{product.license_process}</p>
                   </div>
 
                   <div className={styles.infoSection}>
-                    <h4>🏛️ Government Scheme Details</h4>
+                    <h4>Government Scheme Details</h4>
                     <p>{product.govt_scheme_details}</p>
                   </div>
                 </div>

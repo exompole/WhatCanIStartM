@@ -34,6 +34,21 @@ app.use(cors({
 // JSON body parser
 app.use(express.json());
 
+// Body parser error handler (return JSON instead of HTML on malformed JSON)
+app.use((err, req, res, next) => {
+  if (err && err.type === 'entity.parse.failed') {
+    console.error('Body parse error:', err);
+    return res.status(400).json({ error: 'Invalid JSON in request body' });
+  }
+
+  // Common SyntaxError from JSON.parse
+  if (err instanceof SyntaxError && err.status === 400 && 'body' in err) {
+    console.error('JSON SyntaxError:', err.message);
+    return res.status(400).json({ error: 'Invalid JSON in request body' });
+  }
+  next();
+});
+
 // Debug middleware to log all requests
 app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);

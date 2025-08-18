@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './Services.module.css';
 import { Link } from 'react-router-dom';
+import { FiBarChart2, FiTarget, FiCheck, FiGlobe, FiPhone, FiImage, FiTv } from 'react-icons/fi';
 
 const Marketing = () => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const Marketing = () => {
 
         <section className={styles.servicesGrid}>
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🌐</div>
+            <div className={styles.serviceIcon}><FiGlobe /></div>
             <h3>Digital Marketing</h3>
             <ul>
               <li>Search Engine Optimization (SEO)</li>
@@ -38,7 +39,7 @@ const Marketing = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📱</div>
+            <div className={styles.serviceIcon}><FiPhone /></div>
             <h3>Social Media Management</h3>
             <ul>
               <li>Platform Strategy Development</li>
@@ -50,7 +51,7 @@ const Marketing = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🎨</div>
+            <div className={styles.serviceIcon}><FiImage /></div>
             <h3>Brand Development</h3>
             <ul>
               <li>Brand Identity Design</li>
@@ -62,7 +63,7 @@ const Marketing = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📺</div>
+            <div className={styles.serviceIcon}><FiTv /></div>
             <h3>Traditional Advertising</h3>
             <ul>
               <li>Print Media Advertising</li>
@@ -74,7 +75,7 @@ const Marketing = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📊</div>
+            <div className={styles.serviceIcon}><FiBarChart2 /></div>
             <h3>Marketing Analytics</h3>
             <ul>
               <li>Campaign Performance Tracking</li>
@@ -86,7 +87,7 @@ const Marketing = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🎯</div>
+            <div className={styles.serviceIcon}><FiTarget /></div>
             <h3>Lead Generation</h3>
             <ul>
               <li>Lead Magnet Development</li>
@@ -128,27 +129,27 @@ const Marketing = () => {
           <h2>Benefits of Our Marketing Services</h2>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefit}>
-              <h4>✅ Increased Brand Awareness</h4>
+              <h4><FiCheck /> Increased Brand Awareness</h4>
               <p>Build strong brand recognition in your target market</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Higher Customer Engagement</h4>
+              <h4><FiCheck /> Higher Customer Engagement</h4>
               <p>Engage with your audience across multiple platforms</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Improved Lead Generation</h4>
+              <h4><FiCheck /> Improved Lead Generation</h4>
               <p>Generate quality leads and increase sales opportunities</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Better ROI</h4>
+              <h4><FiCheck /> Better ROI</h4>
               <p>Data-driven strategies for maximum return on investment</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Competitive Advantage</h4>
+              <h4><FiCheck /> Competitive Advantage</h4>
               <p>Stay ahead of competitors with innovative marketing</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Scalable Growth</h4>
+              <h4><FiCheck /> Scalable Growth</h4>
               <p>Marketing strategies that grow with your business</p>
             </div>
           </div>

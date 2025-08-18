@@ -27,7 +27,7 @@ const IdeaPage = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       alert(" Please login first to use the idea generator.");
-      navigate("/user-login");
+              navigate("/LoginRegistration");
       return;
     }
 
@@ -192,23 +192,37 @@ const IdeaPage = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
+  <div className={styles.wrapper}>
       <div className={styles.container}>
-        <h1 className={styles.heading}>💡 AI Startup Idea Generator</h1>
-        <textarea
-          className={styles.textarea}
-          rows="6"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Enter your idea, e.g. 'Lemon Oil Extraction'"
-        />
-        <button
-          className={styles.button}
-          onClick={() => generateIdea()}
-          disabled={loading}
-        >
-          {loading ? "Generating..." : "Generate Idea"}
-        </button>
+  <h1 className={styles.heading}>Here Is Your detailed Buisness Plan</h1>
+  {/* Prompt input and generate button removed. Page only shows business plan if prompt is passed. */}
+
+        {loading && (
+          <div style={{ textAlign: "center", margin: "40px 0" }}>
+            <div style={{ fontSize: 22, color: "#232946", marginBottom: 16 }}>
+              <span role="img" aria-label="loading" style={{ marginRight: 8 }}>
+                ⏳
+              </span>
+              Your business plan is coming up...
+            </div>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <div style={{
+                width: 40,
+                height: 40,
+                border: "4px solid #eebbc3",
+                borderTop: "4px solid #232946",
+                borderRadius: "50%",
+                animation: "spin 1s linear infinite"
+              }} />
+            </div>
+            <style>{`
+              @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+              }
+            `}</style>
+          </div>
+        )}
 
         {showTimeoutWarning && (
           <div className={styles.timeoutWarning}>
@@ -219,8 +233,27 @@ const IdeaPage = () => {
 
         {idea && (
           <div className={styles.resultBox}>
-            <h3>Generated Business Plan</h3>
+            <h3 style={{ color: '#fff' }}>Generated Business Plan</h3>
             {renderSections(idea)}
+            <div style={{ textAlign: "center", marginTop: 32 }}>
+              <button
+                style={{
+                  background: "#232946",
+                  color: "#eebbc3",
+                  border: "none",
+                  borderRadius: 8,
+                  padding: "14px 32px",
+                  fontSize: "1.1rem",
+                  fontWeight: 600,
+                  cursor: "pointer",
+                  boxShadow: "0 2px 8px rgba(35,41,70,0.08)",
+                  transition: "background 0.2s, color 0.2s"
+                }}
+                onClick={() => navigate("/roadmap")}
+              >
+                View Entrepreneur Roadmap
+              </button>
+            </div>
           </div>
         )}
       </div>

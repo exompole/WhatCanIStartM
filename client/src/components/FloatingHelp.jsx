@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styles from "./FloatingHelp.module.css";
 import Button from "./Button";
+import { FiMessageSquare } from 'react-icons/fi';
 
 const FloatingHelp = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +14,7 @@ const FloatingHelp = () => {
   return (
     <div>
       <div className={styles.floating_help} onClick={toggleChat}>
-        💬
+        <FiMessageSquare size={20} />
       </div>
 
       <div

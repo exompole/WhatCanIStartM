@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './Services.module.css';
 import { Link } from 'react-router-dom';
+import { FiTrendingUp, FiBarChart2, FiCheck, FiSettings, FiUsers, FiShoppingCart } from 'react-icons/fi';
 
 const PerformanceImprovement = () => {
   useEffect(() => {
@@ -26,7 +27,7 @@ const PerformanceImprovement = () => {
 
         <section className={styles.servicesGrid}>
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📈</div>
+            <div className={styles.serviceIcon}><FiTrendingUp /></div>
             <h3>Performance Analysis</h3>
             <ul>
               <li>Business Process Audit</li>
@@ -38,7 +39,7 @@ const PerformanceImprovement = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>⚙️</div>
+            <div className={styles.serviceIcon}><FiSettings /></div>
             <h3>Process Optimization</h3>
             <ul>
               <li>Workflow Redesign</li>
@@ -50,7 +51,7 @@ const PerformanceImprovement = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>💰</div>
+            <div className={styles.serviceIcon}><FiTrendingUp /></div>
             <h3>Financial Optimization</h3>
             <ul>
               <li>Cost Reduction Strategies</li>
@@ -62,7 +63,7 @@ const PerformanceImprovement = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>👥</div>
+            <div className={styles.serviceIcon}><FiUsers /></div>
             <h3>Team Performance</h3>
             <ul>
               <li>Employee Training Programs</li>
@@ -74,7 +75,7 @@ const PerformanceImprovement = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>🛒</div>
+            <div className={styles.serviceIcon}><FiShoppingCart /></div>
             <h3>Customer Experience</h3>
             <ul>
               <li>Customer Journey Mapping</li>
@@ -86,7 +87,7 @@ const PerformanceImprovement = () => {
           </div>
 
           <div className={styles.serviceCard}>
-            <div className={styles.serviceIcon}>📊</div>
+            <div className={styles.serviceIcon}><FiBarChart2 /></div>
             <h3>Data Analytics</h3>
             <ul>
               <li>Business Intelligence Setup</li>
@@ -128,27 +129,27 @@ const PerformanceImprovement = () => {
           <h2>Benefits of Performance Improvement</h2>
           <div className={styles.benefitsGrid}>
             <div className={styles.benefit}>
-              <h4>✅ Increased Efficiency</h4>
+              <h4><FiCheck /> Increased Efficiency</h4>
               <p>Streamlined processes lead to higher productivity and reduced costs</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Better Profitability</h4>
+              <h4><FiCheck /> Better Profitability</h4>
               <p>Optimized operations result in improved profit margins</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Enhanced Customer Satisfaction</h4>
+              <h4><FiCheck /> Enhanced Customer Satisfaction</h4>
               <p>Improved processes lead to better customer experiences</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Competitive Advantage</h4>
+              <h4><FiCheck /> Competitive Advantage</h4>
               <p>Better performance gives you an edge over competitors</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Sustainable Growth</h4>
+              <h4><FiCheck /> Sustainable Growth</h4>
               <p>Optimized operations support long-term business growth</p>
             </div>
             <div className={styles.benefit}>
-              <h4>✅ Employee Satisfaction</h4>
+              <h4><FiCheck /> Employee Satisfaction</h4>
               <p>Better processes improve employee morale and retention</p>
             </div>
           </div>

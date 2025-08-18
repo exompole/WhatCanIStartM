@@ -59,7 +59,7 @@ const EnvTest = () => {
 
   return (
     <div style={{ padding: '20px', maxWidth: '800px', margin: '0 auto' }}>
-      <h2>🔧 Environment & API Test</h2>
+  <h2>Environment & API Test</h2>
       
       <button 
         onClick={runTests} 
@@ -83,7 +83,7 @@ const EnvTest = () => {
           
           {testResults.env && (
             <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
-              <h4>🌍 Environment Variables:</h4>
+              <h4>Environment Variables:</h4>
               <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '3px', overflow: 'auto' }}>
                 {JSON.stringify(testResults.env, null, 2)}
               </pre>
@@ -92,9 +92,9 @@ const EnvTest = () => {
 
           {testResults.health && (
             <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
-              <h4>🏥 Health Endpoint:</h4>
+              <h4>Health Endpoint:</h4>
               <div style={{ color: testResults.health.success ? 'green' : 'red' }}>
-                {testResults.health.success ? '✅ Success' : '❌ Failed'}
+                {testResults.health.success ? 'Success' : 'Failed'}
               </div>
               <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '3px', overflow: 'auto' }}>
                 {JSON.stringify(testResults.health, null, 2)}
@@ -104,9 +104,9 @@ const EnvTest = () => {
 
           {testResults.test && (
             <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
-              <h4>🧪 Test Endpoint:</h4>
+              <h4>Test Endpoint:</h4>
               <div style={{ color: testResults.test.success ? 'green' : 'red' }}>
-                {testResults.test.success ? '✅ Success' : '❌ Failed'}
+                {testResults.test.success ? 'Success' : 'Failed'}
               </div>
               <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '3px', overflow: 'auto' }}>
                 {JSON.stringify(testResults.test, null, 2)}
@@ -116,9 +116,9 @@ const EnvTest = () => {
 
           {testResults.directFetch && (
             <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ddd', borderRadius: '5px' }}>
-              <h4>🌐 Direct Fetch:</h4>
+              <h4>Direct Fetch:</h4>
               <div style={{ color: testResults.directFetch.success ? 'green' : 'red' }}>
-                {testResults.directFetch.success ? '✅ Success' : '❌ Failed'}
+                {testResults.directFetch.success ? 'Success' : 'Failed'}
               </div>
               <pre style={{ background: '#f5f5f5', padding: '10px', borderRadius: '3px', overflow: 'auto' }}>
                 {JSON.stringify(testResults.directFetch, null, 2)}
@@ -128,7 +128,7 @@ const EnvTest = () => {
 
           {testResults.error && (
             <div style={{ marginBottom: '20px', padding: '15px', border: '1px solid #ff6b6b', borderRadius: '5px', backgroundColor: '#ffe6e6' }}>
-              <h4>❌ General Error:</h4>
+              <h4>General Error:</h4>
               <pre style={{ color: 'red' }}>{testResults.error}</pre>
             </div>
           )}

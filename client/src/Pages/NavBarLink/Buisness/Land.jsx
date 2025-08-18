@@ -12,7 +12,7 @@ const Land = () => {
     const user = JSON.parse(localStorage.getItem("user"));
     if (!user) {
       alert("Please login to explore this business idea.");
-      navigate("/user-login");
+              navigate("/LoginRegistration");
     } else {
       // Navigate with prompt
       navigate("/idea", { state: { prompt: `Suggest a business idea based on: ${idea}` } });

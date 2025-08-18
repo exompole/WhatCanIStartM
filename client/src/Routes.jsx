@@ -10,13 +10,17 @@ import Land from "./Pages/NavBarLink/Buisness/Land";
 import RawMaterials from "./Pages/NavBarLink/Buisness/RawMaterial";
 import Farming from "./Pages/NavBarLink/Buisness/Farming";
 import Skills from "./Pages/NavBarLink/Buisness/Skill";
-import AdminDashboard from "./Pages/LoginRegistration/AdminDashboard";
+import AdminDashboard from "./components/AdminDashboard/AdminDashboard";
 import ForgotPassword from "./components/ForgotPassword";
 import ResetPassword from "./components/ResetPassword";
 import IdeaPage from "./Pages/Idea/IdeaPage";
 import LemonProducts from "./components/LemonProduct";
 import ProtectedRoute from "./components/ProtectedRoute";
 import PaymentForm from "./components/PaymentForm";
+import LoginRegistration from "./Pages/LoginRegistration/LoginRegistration";
+import RoadMap from "./components/RoadMap";
+
+
 
 // Service Pages
 import LegalCompliance from "./Pages/Services/LegalCompliance";
@@ -24,6 +28,8 @@ import ProposalFunding from "./Pages/Services/ProposalFunding";
 import PerformanceImprovement from "./Pages/Services/PerformanceImprovement";
 import ProfessionalServices from "./Pages/Services/ProfessionalServices";
 import Marketing from "./Pages/Services/Marketing";
+import PremiumPlans from "./components/PremiumPlans";
+
 
 
 
@@ -45,7 +51,10 @@ export const routes = [
   { path: "/forgot-password", element: <ForgotPassword />},
   { path: "/reset-password/:token", element: <ResetPassword/>},
   { path: "/Idea", element: <ProtectedRoute><IdeaPage/></ProtectedRoute>},
+  { path: "/roadmap", element: <RoadMap /> },
   { path: "/PaymentForm", element: <PaymentForm/>},
+  { path: "/LoginRegistration", element: <LoginRegistration/>},
+  { path: "//PremiumPlans", element: <PremiumPlans/>},
 
   
   // Service Routes

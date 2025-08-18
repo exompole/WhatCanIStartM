@@ -29,10 +29,20 @@ export const validateEnv = () => {
 // Get API URL with fallback
 export const getApiUrl = () => {
   if (!ENV.API_URL) {
-    console.error('VITE_API_URL is not set. Defaulting to localhost.');
+    console.error('VITE_API_URL is not set. Defaulting to localhost with /api suffix.');
     return 'http://localhost:5000/api';
   }
-  return ENV.API_URL;
+
+  // Normalize: ensure the API URL ends with /api so client requests map to server routes
+  try {
+    const url = ENV.API_URL.trim();
+    if (url.endsWith('/api')) return url;
+    if (url.endsWith('/')) return url + 'api';
+    return url + '/api';
+  } catch (err) {
+    console.warn('Error normalizing API URL, falling back to default:', err);
+    return 'http://localhost:5000/api';
+  }
 };
 
 // Log detailed environment info (for dev only)

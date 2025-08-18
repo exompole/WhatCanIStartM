@@ -88,7 +88,8 @@ api.interceptors.response.use(
     if (error.response?.status === 401) {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      window.location.href = '/user-login';
+      localStorage.removeItem('sessionExpire');
+      window.location.href = '/LoginRegistration';
     }
     return Promise.reject(error);
   }
@@ -143,6 +144,15 @@ export const lemonAPI = {
 export const adminAPI = {
   getUsers: () => api.get('/admin/users'),
   getContacts: () => api.get('/admin/contacts'),
+  approvePayment: (userId) => api.post(`/admin/users/${userId}/approve-payment`),
+  setSubscription: (userId, plan) => api.post(`/admin/users/${userId}/set-subscription`, { plan }),
+  setAdmin: (userId, isAdmin) => api.post(`/admin/users/${userId}/set-admin`, { isAdmin }),
+  deleteUser: (userId) => api.delete(`/admin/users/${userId}`),
+  // New role-based admin APIs
+  getSubAdmins: () => api.get('/admin/sub-admins'),
+  createSubAdmin: (creatorId, userData) => api.post(`/admin/users/${creatorId}/create-sub-admin`, userData),
+  approveSubAdmin: (userId, approvedBy) => api.post(`/admin/users/${userId}/approve-sub-admin`, { approvedBy }),
+  updateUserRole: (userId, role, updatedBy) => api.post(`/admin/users/${userId}/update-role`, { role, updatedBy }),
 };
 
 // Test function for debugging

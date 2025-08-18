@@ -1,7 +1,15 @@
+// -------------------- Verify Admin Secret Key --------------------
+const verifyAdminSecretKey = (req, res) => {
+  const { key } = req.body;
+  if (key === ADMIN_SECRET_KEY) {
+    return res.json({ success: true });
+  }
+  return res.status(401).json({ success: false, message: "Invalid secret key" });
+};
+
 const User = require("../models/User");
 const Contact = require("../models/Contact");
 const bcrypt = require("bcryptjs");
-require("dotenv").config({ path: "../../.env" });
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
 const ResetToken = require("../models/ResetToken");
@@ -80,17 +88,19 @@ const adminLogin = async (req, res) => {
 
         admin = new User({
           username: ADMIN_USERNAME,
-          firstname: "Admin",
-          surname: "User",
+          firstname: "Super",
+          surname: "Admin",
           email: ADMIN_EMAIL,
           phone: ADMIN_PHONE,
           password: hashedPassword,
+          role: 'super-admin',
+          isApproved: true,
         });
 
         await admin.save();
         return res
           .status(201)
-          .json({ message: "Admin created and logged in", user: admin });
+          .json({ message: "Super admin created and logged in", user: admin });
       } else {
         return res.status(404).json({
           message: "Admin not found and credentials do not match setup",
@@ -143,7 +153,7 @@ const getAllContacts = async (req, res) => {
 // -------------------- Get All Users --------------------
 const getAllUsers = async (req, res) => {
   try {
-    const users = await User.find().select("-password"); // Exclude passwords
+    const users = await User.find().select("-password").populate('approvedBy', 'firstname surname email').populate('createdBy', 'firstname surname email');
     res.status(200).json(users);
   } catch (err) {
     console.error("Error fetching users:", err);
@@ -151,18 +161,227 @@ const getAllUsers = async (req, res) => {
   }
 };
 
+// -------------------- Approve Payment --------------------
+const approvePayment = async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    user.paymentStatus = 'approved';
+    // If subscription previously pending, do not change subscription here
+    await user.save();
+    res.json({ message: 'Payment approved', user });
+  } catch (err) {
+    console.error('Error approving payment', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// -------------------- Set Subscription Tag --------------------
+const setSubscription = async (req, res) => {
+  const { userId } = req.params;
+  // expected 'Basic' or 'Pro' or 'Free'
+  console.log(`SET-SUBSCRIPTION called: ${req.method} ${req.originalUrl}`);
+  console.log('Request body:', req.body);
+  const { plan } = req.body || {};
+  if (!['Free', 'Basic', 'Pro'].includes(plan)) return res.status(400).json({ message: 'Invalid plan' });
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    user.subscription = plan;
+    // If setting a paid plan, and paymentStatus was none, mark pending
+    if (plan !== 'Free' && user.paymentStatus === 'none') user.paymentStatus = 'pending';
+    await user.save();
+    res.json({ message: 'Subscription updated', user });
+  } catch (err) {
+    console.error('Error setting subscription', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// -------------------- Set Admin Role --------------------
+const setAdmin = async (req, res) => {
+  const { userId } = req.params;
+  const { isAdmin } = req.body; // expected boolean
+  try {
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+    user.isAdmin = !!isAdmin;
+    await user.save();
+    res.json({ message: 'User admin status updated', user });
+  } catch (err) {
+    console.error('Error setting admin status', err);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// -------------------- Create Sub Admin --------------------
+const createSubAdmin = async (req, res) => {
+  const { username, firstname, surname, email, phone, password } = req.body;
+  const { userId: creatorId } = req.params; // ID of the super admin creating the sub admin
+
+  try {
+    // Check if creator is admin or super admin
+    const creator = await User.findById(creatorId);
+    if (!creator || (creator.role !== 'super-admin' && creator.role !== 'admin')) {
+      return res.status(403).json({ message: 'Only admins or super admins can create sub admins' });
+    }
+
+    // Check if user already exists
+    const existingUser = await User.findOne({ email });
+    if (existingUser) {
+      return res.status(400).json({ message: 'User with this email already exists' });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const subAdmin = new User({
+      username,
+      firstname,
+      surname,
+      email,
+      phone,
+      password: hashedPassword,
+      role: 'sub-admin',
+      isApproved: false, // Requires approval from super admin
+      createdBy: creatorId,
+    });
+
+    await subAdmin.save();
+    res.status(201).json({ message: 'Sub admin created successfully. Pending approval.', user: subAdmin });
+  } catch (error) {
+    console.error('Error creating sub admin:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// -------------------- Approve Sub Admin --------------------
+const approveSubAdmin = async (req, res) => {
+  const { userId } = req.params;
+  const { approvedBy } = req.body; // ID of the super admin approving
+
+  try {
+    // Check if approver is super admin
+    const approver = await User.findById(approvedBy);
+    if (!approver || approver.role !== 'super-admin') {
+      return res.status(403).json({ message: 'Only super admins can approve sub admins' });
+    }
+
+    const subAdmin = await User.findById(userId);
+    if (!subAdmin) {
+      return res.status(404).json({ message: 'Sub admin not found' });
+    }
+
+    if (subAdmin.role !== 'sub-admin') {
+      return res.status(400).json({ message: 'User is not a sub admin' });
+    }
+
+    subAdmin.isApproved = true;
+    subAdmin.approvedBy = approvedBy;
+    subAdmin.approvedAt = new Date();
+    await subAdmin.save();
+
+    res.json({ message: 'Sub admin approved successfully', user: subAdmin });
+  } catch (error) {
+    console.error('Error approving sub admin:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// -------------------- Get Sub Admins --------------------
+const getSubAdmins = async (req, res) => {
+  try {
+    const subAdmins = await User.find({ role: 'sub-admin' })
+      .select('-password')
+      .populate('approvedBy', 'firstname surname email')
+      .populate('createdBy', 'firstname surname email');
+    res.status(200).json(subAdmins);
+  } catch (error) {
+    console.error('Error fetching sub admins:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// -------------------- Update User Role --------------------
+const updateUserRole = async (req, res) => {
+  const { userId } = req.params;
+  const { role, updatedBy } = req.body;
+
+  try {
+    // Check if updater is super admin
+    const updater = await User.findById(updatedBy);
+    if (!updater || updater.role !== 'super-admin') {
+      return res.status(403).json({ message: 'Only super admins can update user roles' });
+    }
+
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Prevent changing super admin role
+    if (user.role === 'super-admin') {
+      return res.status(403).json({ message: 'Cannot modify super admin role' });
+    }
+
+    user.role = role;
+    
+    // If promoting to sub-admin, set approval status
+    if (role === 'sub-admin') {
+      user.isApproved = false;
+      user.createdBy = updatedBy;
+    } else {
+      user.isApproved = true;
+    }
+
+    await user.save();
+    res.json({ message: 'User role updated successfully', user });
+  } catch (error) {
+    console.error('Error updating user role:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+// -------------------- Delete User --------------------
+const deleteUser = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Prevent deleting super admin
+    if (user.role === 'super-admin') {
+      return res.status(403).json({ message: 'Cannot delete super admin' });
+    }
+
+    await User.findByIdAndDelete(userId);
+    res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    console.error('Error deleting user:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 //-----------------------ForgotPassword----------------------//
 
 const forgotPassword = async (req, res) => {
   const { email } = req.body;
+  console.log("ForgotPassword - Request received for email:", email);
   try {
     const user = await User.findOne({ email });
+    console.log("ForgotPassword - User found:", user ? "Yes" : "No");
     if (!user) return res.status(404).json({ message: "User not found" });
 
     const token = crypto.randomBytes(32).toString("hex");
+    console.log("ForgotPassword - Generated token:", token);
     await new ResetToken({ userId: user._id, token }).save();
+    console.log("ForgotPassword - ResetToken saved to database");
 
     const resetLink = `http://localhost:3000/reset-password/${token}`;
+    console.log("ForgotPassword - Reset link:", resetLink);
 
     // Check if email configuration is available
     if (!process.env.EMAIL_USER || !process.env.EMAIL_PASS) {
@@ -244,6 +463,15 @@ module.exports = {
   getAllContacts,
   forgotPassword,
   resetPassword,
+  verifyAdminSecretKey,
+  approvePayment,
+  setSubscription,
+  setAdmin,
+  createSubAdmin,
+  approveSubAdmin,
+  getSubAdmins,
+  updateUserRole,
+  deleteUser,
 };
 
 
