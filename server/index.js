@@ -11,6 +11,7 @@ const lemonRoutes = require("./routes/lemonRoutes");
 const app = express();
 const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
+const path = require('path');
 
 // Set server timeout for long-running requests
 app.use((req, res, next) => {
@@ -109,15 +110,27 @@ app.use("/api/*", (req, res) => {
   });
 });
 
-// Catch-all route for all other requests
-app.use("*", (req, res) => {
-  console.log(`404 - Route not found: ${req.method} ${req.originalUrl}`);
-  res.status(404).json({ 
-    error: "Route not found",
-    path: req.originalUrl,
-    method: req.method
+// In production, serve the client static files and return index.html for non-API routes (SPA support)
+if (process.env.NODE_ENV === 'production') {
+  const clientDist = path.join(__dirname, '..', 'client', 'dist');
+  app.use(express.static(clientDist));
+
+  // Serve index.html for any non-API GET route (so client-side routing works)
+  app.get('*', (req, res) => {
+    if (req.originalUrl.startsWith('/api')) return res.status(404).json({ error: 'API endpoint not found' });
+    res.sendFile(path.join(clientDist, 'index.html'));
   });
-});
+} else {
+  // Catch-all route for all other requests in development: return JSON 404 for clarity
+  app.use("*", (req, res) => {
+    console.log(`404 - Route not found: ${req.method} ${req.originalUrl}`);
+    res.status(404).json({ 
+      error: "Route not found",
+      path: req.originalUrl,
+      method: req.method
+    });
+  });
+}
 
 // MongoDB connection and server start
 if (!MONGO_URI) {
