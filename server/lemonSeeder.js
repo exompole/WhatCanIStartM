@@ -540,17 +540,35 @@ const lemonProducts = [
   }
 ];
 
-mongoose
-  .connect(MONGO_URI)
-  .then(async () => {
-    console.log("Connected to MongoDB");
+// Function to seed lemon data
+const seedLemonData = async () => {
+  try {
+    console.log('Connecting to MongoDB...');
+    await mongoose.connect(MONGO_URI);
+    console.log('Connected to MongoDB successfully');
+
+    // Clear existing data
+    console.log('Clearing existing lemon products...');
     await Lemon.deleteMany({});
-    console.log("Cleared old lemon product data");
-    await Lemon.insertMany(lemonProducts);
-    console.log("Lemon product data inserted successfully");
-    process.exit();
-  })
-  .catch((err) => {
-    console.error("Error connecting to MongoDB:", err);
-    process.exit(1);
-  });
+    console.log('Existing data cleared');
+
+    // Insert new data
+    console.log('Inserting lemon products...');
+    const result = await Lemon.insertMany(lemonProducts);
+    console.log(`Successfully inserted ${result.length} lemon products`);
+
+    console.log('Lemon data seeding completed successfully!');
+  } catch (error) {
+    console.error('Error seeding lemon data:', error);
+  } finally {
+    await mongoose.connection.close();
+    console.log('Database connection closed');
+  }
+};
+
+// Run the seeder if this file is executed directly
+if (require.main === module) {
+  seedLemonData();
+}
+
+module.exports = seedLemonData;
