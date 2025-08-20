@@ -23,23 +23,13 @@ app.use((req, res, next) => {
 
 // CORS setup for frontend
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? [
-        "https://what-can-i-start-m.vercel.app",
-        "https://whatcanistartm.vercel.app",
-        "https://whatcanistart.vercel.app",
-        "https://www.whatcanistart.com",
-        "https://whatcanistart.com"
-      ]
-    : [
-        "http://localhost:3000",
-        "http://localhost:5173",
-        "http://localhost:5174",
-        "http://localhost:5175"
-      ],
+  origin: [
+    "https://what-can-i-start-m.vercel.app",
+    "https://whatcanistartm.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:5173"
+  ],
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // JSON body parser

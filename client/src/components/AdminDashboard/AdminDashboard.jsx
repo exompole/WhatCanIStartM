@@ -305,7 +305,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className={styles.dashboardWrapper}>
+  <div className={styles.dashboardWrapper}>
       <div className={styles.dashboardHeader}>
         <h1>Admin Dashboard</h1>
         <div className={styles.userInfo}>
@@ -494,10 +494,10 @@ const AdminDashboard = () => {
                         </td>
                         <td>
                           <div className={styles.actionButtons}>
-                            <button className={styles.actionBtn} onClick={() => openUserModal(user)}>View</button>
-                            {user.paymentStatus === 'pending' && (
-                              <button className={styles.actionBtn} onClick={() => handleApprovePayment(user._id)}>Approve Payment</button>
-                            )}
+                          <button className={styles.actionBtn} onClick={() => openUserModal(user)}>View</button>
+                          {user.paymentStatus === 'pending' && (
+                            <button className={styles.actionBtn} onClick={() => handleApprovePayment(user._id)}>Approve Payment</button>
+                          )}
                             {isSuperAdmin && user.role !== 'super-admin' && (
                               <select 
                                 className={styles.roleSelect}
@@ -612,20 +612,20 @@ const AdminDashboard = () => {
               {subAdmins.length === 0 ? (
                 <div className={styles.emptyState}>
                   <p>No sub-admins found. Create a new sub-admin to get started.</p>
-                </div>
+            </div>
               ) : (
-                <table className={styles.userTable}>
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Email</th>
+        <table className={styles.userTable}>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
                       <th>Status</th>
                       <th>Created By</th>
                       <th>Approved By</th>
-                      <th>Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
                     {subAdmins.map((subAdmin, i) => (
                       <tr key={subAdmin._id || i}>
                         <td>{subAdmin.firstname} {subAdmin.surname}</td>
@@ -634,7 +634,7 @@ const AdminDashboard = () => {
                           <span className={`${styles.statusBadge} ${subAdmin.isApproved ? styles.statusApproved : styles.statusPending}`}>
                             {subAdmin.isApproved ? 'Approved' : 'Pending Approval'}
                           </span>
-                        </td>
+                  </td>
                         <td>{subAdmin.createdBy ? `${subAdmin.createdBy.firstname} ${subAdmin.createdBy.surname}` : '-'}</td>
                         <td>{subAdmin.approvedBy ? `${subAdmin.approvedBy.firstname} ${subAdmin.approvedBy.surname}` : '-'}</td>
                         <td>
@@ -649,12 +649,12 @@ const AdminDashboard = () => {
                               </button>
                             )}
                             <button className={styles.actionBtn} onClick={() => openUserModal(subAdmin)}>View Details</button>
-                          </div>
-                        </td>
-                      </tr>
+                    </div>
+                  </td>
+                </tr>
                     ))}
-                  </tbody>
-                </table>
+          </tbody>
+        </table>
               )}
             </div>
           )}
@@ -699,7 +699,7 @@ const AdminDashboard = () => {
                     placeholder="Enter last name"
                     required
                   />
-                </div>
+        </div>
                 
                 <div className={styles.formGroup}>
                   <label>Email *</label>
@@ -711,12 +711,12 @@ const AdminDashboard = () => {
                     placeholder="Enter email address"
                     required
                   />
-                </div>
-                
+      </div>
+
                 <div className={styles.formGroup}>
                   <label>Phone</label>
-                  <input
-                    type="text"
+          <input
+            type="text"
                     value={newSubAdminData.phone}
                     onChange={(e) => setNewSubAdminData({...newSubAdminData, phone: e.target.value})}
                     className={styles.formInput}
@@ -733,8 +733,8 @@ const AdminDashboard = () => {
                     className={styles.formInput}
                     placeholder="Enter password"
                     required
-                  />
-                </div>
+          />
+        </div>
               </div>
               
               <div className={styles.formActions}>
@@ -886,7 +886,7 @@ const AdminDashboard = () => {
               </div>
             </div>
           </div>
-        </div>
+      </div>
       )}
 
       {/* User Detail Modal */}
@@ -895,14 +895,14 @@ const AdminDashboard = () => {
           <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
             <h3>{modalUser.firstname} {modalUser.surname}</h3>
             <div className={styles.modalContent}>
-              <p><strong>Email:</strong> {modalUser.email}</p>
-              <p><strong>Phone:</strong> {modalUser.phone || '-'}</p>
+            <p><strong>Email:</strong> {modalUser.email}</p>
+            <p><strong>Phone:</strong> {modalUser.phone || '-'}</p>
               <p><strong>Role:</strong> 
                 <span className={`${styles.roleBadge} ${styles[`role-${modalUser.role}`]}`}>
                   {modalUser.role}
                 </span>
               </p>
-              <p><strong>Subscription:</strong> {modalUser.subscription || 'Free'}</p>
+            <p><strong>Subscription:</strong> {modalUser.subscription || 'Free'}</p>
               <p><strong>Payment Status:</strong> 
                 <span className={`${styles.statusBadge} ${styles[`status-${modalUser.paymentStatus}`]}`}>
                   {modalUser.paymentStatus || 'none'}

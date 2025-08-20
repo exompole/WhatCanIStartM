@@ -54,7 +54,7 @@ export const routes = [
   { path: "/roadmap", element: <RoadMap /> },
   { path: "/PaymentForm", element: <PaymentForm/>},
   { path: "/LoginRegistration", element: <LoginRegistration/>},
-  { path: "//PremiumPlans", element: <PremiumPlans/>},
+  { path: "/PremiumPlans", element: <PremiumPlans/>},
 
   
   // Service Routes
