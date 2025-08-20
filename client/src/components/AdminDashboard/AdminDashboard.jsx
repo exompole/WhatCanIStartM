@@ -33,10 +33,6 @@ const AdminDashboard = () => {
   const [reviewModal, setReviewModal] = useState({ show: false, request: null });
   const [reviewData, setReviewData] = useState({ status: 'approved', comments: '' });
 
-  // Debug logging
-  console.log('AdminDashboard component loaded');
-  console.log('Current URL:', window.location.href);
-
   // Get current user from localStorage
   useEffect(() => {
     const userData = localStorage.getItem('user');

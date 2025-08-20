@@ -1,119 +1,26 @@
 {
-  "rewrites": [
+  "version": 2,
+  "builds": [
     {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
+      "src": "server/index.js",
+      "use": "@vercel/node"
     },
     {
-      "source": "/admin-dashboard",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/admin-login",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/user-login",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/registration",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/login",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/Contact",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/about",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/business",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/lemon",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/land",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/raw-material",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/farming",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/skill",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/forgot-password",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/reset-password/(.*)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/Idea",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/roadmap",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/PaymentForm",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/LoginRegistration",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/PremiumPlans",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/debug",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/services/(.*)",
-      "destination": "/index.html"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
+      "src": "client/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
     }
   ],
-  "headers": [
+  "routes": [
     {
-      "source": "/api/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "*"
-        },
-        {
-          "key": "Access-Control-Allow-Methods",
-          "value": "GET, POST, PUT, DELETE, OPTIONS"
-        },
-        {
-          "key": "Access-Control-Allow-Headers",
-          "value": "Content-Type, Authorization"
-        }
-      ]
+      "src": "/api/(.*)",
+      "dest": "server/index.js"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "client/dist/$1"
     }
   ]
 }
