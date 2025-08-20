@@ -153,6 +153,16 @@ export const adminAPI = {
   createSubAdmin: (creatorId, userData) => api.post(`/admin/users/${creatorId}/create-sub-admin`, userData),
   approveSubAdmin: (userId, approvedBy) => api.post(`/admin/users/${userId}/approve-sub-admin`, { approvedBy }),
   updateUserRole: (userId, role, updatedBy) => api.post(`/admin/users/${userId}/update-role`, { role, updatedBy }),
+  // Approval request APIs
+  getAllApprovalRequests: () => api.get('/admin/approval-requests'),
+  getPendingApprovalRequests: () => api.get('/admin/approval-requests/pending'),
+  reviewApprovalRequest: (requestId, reviewData) => api.post(`/admin/approval-requests/${requestId}/review`, reviewData),
+};
+
+// APPROVAL REQUEST APIs (for sub-admins)
+export const approvalAPI = {
+  createApprovalRequest: (requestData) => api.post('/approval-requests', requestData),
+  getMyApprovalRequests: (userId) => api.get(`/approval-requests/${userId}`),
 };
 
 // Test function for debugging

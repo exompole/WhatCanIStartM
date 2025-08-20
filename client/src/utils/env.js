@@ -28,6 +28,12 @@ export const validateEnv = () => {
 
 // Get API URL with fallback
 export const getApiUrl = () => {
+  // For production, use relative URL (same domain as frontend)
+  if (import.meta.env.PROD) {
+    return '/api';
+  }
+  
+  // For development, use localhost
   if (!ENV.API_URL) {
     console.error('VITE_API_URL is not set. Defaulting to localhost with /api suffix.');
     return 'http://localhost:5000/api';

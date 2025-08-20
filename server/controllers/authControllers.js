@@ -9,6 +9,7 @@ const verifyAdminSecretKey = (req, res) => {
 
 const User = require("../models/User");
 const Contact = require("../models/Contact");
+const ApprovalRequest = require("../models/ApprovalRequest");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 const nodemailer = require("nodemailer");
@@ -453,6 +454,180 @@ const resetPassword = async (req, res) => {
 
 
 
+// -------------------- Approval Request Controllers --------------------
+
+// Create approval request (for sub-admins)
+const createApprovalRequest = async (req, res) => {
+  const { requestedBy, actionType, targetUser, requestDetails, requestData, priority } = req.body;
+
+  try {
+    // Verify the requester is a sub-admin
+    const requester = await User.findById(requestedBy);
+    if (!requester || requester.role !== 'sub-admin') {
+      return res.status(403).json({ message: 'Only sub-admins can create approval requests' });
+    }
+
+    const approvalRequest = new ApprovalRequest({
+      requestedBy,
+      actionType,
+      targetUser,
+      requestDetails,
+      requestData,
+      priority: priority || 'medium'
+    });
+
+    await approvalRequest.save();
+
+    res.status(201).json({ 
+      message: 'Approval request created successfully',
+      requestId: approvalRequest._id 
+    });
+  } catch (error) {
+    console.error('Create approval request error:', error);
+    res.status(500).json({ error: 'Server error creating approval request' });
+  }
+};
+
+// Get all approval requests (for super admin)
+const getAllApprovalRequests = async (req, res) => {
+  try {
+    const requests = await ApprovalRequest.find()
+      .populate('requestedBy', 'firstname surname email')
+      .populate('targetUser', 'firstname surname email')
+      .populate('reviewedBy', 'firstname surname')
+      .sort({ createdAt: -1 });
+
+    res.json(requests);
+  } catch (error) {
+    console.error('Get approval requests error:', error);
+    res.status(500).json({ error: 'Server error fetching approval requests' });
+  }
+};
+
+// Get pending approval requests (for super admin)
+const getPendingApprovalRequests = async (req, res) => {
+  try {
+    const requests = await ApprovalRequest.find({ status: 'pending' })
+      .populate('requestedBy', 'firstname surname email')
+      .populate('targetUser', 'firstname surname email')
+      .sort({ priority: -1, createdAt: -1 });
+
+    res.json(requests);
+  } catch (error) {
+    console.error('Get pending approval requests error:', error);
+    res.status(500).json({ error: 'Server error fetching pending requests' });
+  }
+};
+
+// Review approval request (super admin only)
+const reviewApprovalRequest = async (req, res) => {
+  const { requestId } = req.params;
+  const { status, reviewComments, reviewedBy } = req.body;
+
+  try {
+    // Verify the reviewer is a super admin
+    const reviewer = await User.findById(reviewedBy);
+    if (!reviewer || reviewer.role !== 'super-admin') {
+      return res.status(403).json({ message: 'Only super admins can review approval requests' });
+    }
+
+    const approvalRequest = await ApprovalRequest.findById(requestId);
+    if (!approvalRequest) {
+      return res.status(404).json({ message: 'Approval request not found' });
+    }
+
+    if (approvalRequest.status !== 'pending') {
+      return res.status(400).json({ message: 'Request has already been reviewed' });
+    }
+
+    // Update the request
+    approvalRequest.status = status;
+    approvalRequest.reviewedBy = reviewedBy;
+    approvalRequest.reviewedAt = new Date();
+    approvalRequest.reviewComments = reviewComments;
+
+    await approvalRequest.save();
+
+    // If approved, execute the requested action
+    if (status === 'approved') {
+      await executeApprovedAction(approvalRequest);
+    }
+
+    res.json({ 
+      message: `Request ${status} successfully`,
+      request: approvalRequest 
+    });
+  } catch (error) {
+    console.error('Review approval request error:', error);
+    res.status(500).json({ error: 'Server error reviewing request' });
+  }
+};
+
+// Execute approved action
+const executeApprovedAction = async (approvalRequest) => {
+  try {
+    switch (approvalRequest.actionType) {
+      case 'payment_approval':
+        if (approvalRequest.targetUser) {
+          const user = await User.findById(approvalRequest.targetUser);
+          if (user) {
+            user.paymentStatus = 'approved';
+            await user.save();
+          }
+        }
+        break;
+      
+      case 'subscription_change':
+        if (approvalRequest.targetUser && approvalRequest.requestData.newSubscription) {
+          const user = await User.findById(approvalRequest.targetUser);
+          if (user) {
+            user.subscription = approvalRequest.requestData.newSubscription;
+            await user.save();
+          }
+        }
+        break;
+      
+      case 'user_deletion':
+        if (approvalRequest.targetUser) {
+          await User.findByIdAndDelete(approvalRequest.targetUser);
+        }
+        break;
+      
+      case 'role_change':
+        if (approvalRequest.targetUser && approvalRequest.requestData.newRole) {
+          const user = await User.findById(approvalRequest.targetUser);
+          if (user) {
+            user.role = approvalRequest.requestData.newRole;
+            await user.save();
+          }
+        }
+        break;
+      
+      default:
+        console.log('Unknown action type:', approvalRequest.actionType);
+    }
+  } catch (error) {
+    console.error('Error executing approved action:', error);
+  }
+};
+
+// Get approval requests by requester (for sub-admins)
+const getMyApprovalRequests = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const requests = await ApprovalRequest.find({ requestedBy: userId })
+      .populate('targetUser', 'firstname surname email')
+      .populate('reviewedBy', 'firstname surname')
+      .sort({ createdAt: -1 });
+
+    res.json(requests);
+  } catch (error) {
+    console.error('Get my approval requests error:', error);
+    res.status(500).json({ error: 'Server error fetching requests' });
+  }
+};
+
 // -------------------- Export All --------------------
 module.exports = {
   register,
@@ -472,6 +647,12 @@ module.exports = {
   getSubAdmins,
   updateUserRole,
   deleteUser,
+  // Approval request exports
+  createApprovalRequest,
+  getAllApprovalRequests,
+  getPendingApprovalRequests,
+  reviewApprovalRequest,
+  getMyApprovalRequests,
 };
 
 

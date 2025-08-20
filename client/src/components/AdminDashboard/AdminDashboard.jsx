@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react";
-import { adminAPI } from "../../services/api";
+import { adminAPI, approvalAPI } from "../../services/api";
 import { useNavigate } from "react-router-dom";
 import styles from "./AdminDashboard.module.css";
-import { FiBarChart2, FiUsers, FiCreditCard, FiMail, FiShield, FiPlus } from 'react-icons/fi';
+import { FiBarChart2, FiUsers, FiCreditCard, FiMail, FiShield, FiPlus, FiCheckCircle, FiXCircle, FiClock } from 'react-icons/fi';
 
 const AdminDashboard = () => {
   const navigate = useNavigate();
   const [users, setUsers] = useState([]);
   const [contacts, setContacts] = useState([]);
   const [subAdmins, setSubAdmins] = useState([]);
+  const [approvalRequests, setApprovalRequests] = useState([]);
+  const [pendingRequests, setPendingRequests] = useState([]);
   const [userPlans, setUserPlans] = useState([]);
   const [userSearch, setUserSearch] = useState("");
   const [contactSearch, setContactSearch] = useState("");
@@ -28,6 +30,8 @@ const AdminDashboard = () => {
     password: ''
   });
   const [notification, setNotification] = useState({ show: false, message: '', type: 'success' });
+  const [reviewModal, setReviewModal] = useState({ show: false, request: null });
+  const [reviewData, setReviewData] = useState({ status: 'approved', comments: '' });
 
   // Get current user from localStorage
   useEffect(() => {
@@ -61,10 +65,12 @@ const AdminDashboard = () => {
         const results = await Promise.allSettled([
           adminAPI.getUsers(),
           adminAPI.getContacts(),
-          adminAPI.getSubAdmins()
+          adminAPI.getSubAdmins(),
+          adminAPI.getAllApprovalRequests(),
+          adminAPI.getPendingApprovalRequests()
         ]);
 
-        const [usersResult, contactsResult, subAdminsResult] = results;
+        const [usersResult, contactsResult, subAdminsResult, approvalRequestsResult, pendingRequestsResult] = results;
 
         if (usersResult.status === 'fulfilled') {
           setUsers(usersResult.value.data || []);
@@ -85,6 +91,20 @@ const AdminDashboard = () => {
         } else {
           console.warn('Failed to fetch sub-admins:', subAdminsResult.reason);
           setSubAdmins([]);
+        }
+
+        if (approvalRequestsResult.status === 'fulfilled') {
+          setApprovalRequests(approvalRequestsResult.value.data || []);
+        } else {
+          console.warn('Failed to fetch approval requests:', approvalRequestsResult.reason);
+          setApprovalRequests([]);
+        }
+
+        if (pendingRequestsResult.status === 'fulfilled') {
+          setPendingRequests(pendingRequestsResult.value.data || []);
+        } else {
+          console.warn('Failed to fetch pending requests:', pendingRequestsResult.reason);
+          setPendingRequests([]);
         }
 
         // Simulate userPlans fetch (replace with real API if available)
@@ -190,11 +210,52 @@ const AdminDashboard = () => {
       await adminAPI.updateUserRole(userId, newRole, currentUser._id);
       const userRes = await adminAPI.getUsers();
       setUsers(userRes.data);
-      alert('User role updated successfully');
+      showNotification('User role updated successfully');
     } catch (err) {
       console.error(err);
-      alert('Failed to update user role');
+      showNotification('Failed to update user role', 'error');
     }
+  };
+
+  // Approval request handlers
+  const handleReviewRequest = async () => {
+    try {
+      if (!currentUser?._id || !reviewModal.request) {
+        showNotification('Missing data for review', 'error');
+        return;
+      }
+
+      await adminAPI.reviewApprovalRequest(reviewModal.request._id, {
+        ...reviewData,
+        reviewedBy: currentUser._id
+      });
+
+      // Refresh data
+      const [approvalRequestsRes, pendingRequestsRes] = await Promise.all([
+        adminAPI.getAllApprovalRequests(),
+        adminAPI.getPendingApprovalRequests()
+      ]);
+
+      setApprovalRequests(approvalRequestsRes.data || []);
+      setPendingRequests(pendingRequestsRes.data || []);
+      
+      setReviewModal({ show: false, request: null });
+      setReviewData({ status: 'approved', comments: '' });
+      showNotification(`Request ${reviewData.status} successfully`);
+    } catch (err) {
+      console.error('Review request error:', err);
+      showNotification('Failed to review request', 'error');
+    }
+  };
+
+  const openReviewModal = (request) => {
+    setReviewModal({ show: true, request });
+    setReviewData({ status: 'approved', comments: '' });
+  };
+
+  const closeReviewModal = () => {
+    setReviewModal({ show: false, request: null });
+    setReviewData({ status: 'approved', comments: '' });
   };
 
   const exportUsersCSV = () => {
@@ -277,6 +338,19 @@ const AdminDashboard = () => {
             >
               <FiCreditCard className={styles.sideIcon} /> Payments
             </button>
+            
+            {isSuperAdmin && (
+              <button 
+                className={`${styles.sidebarLink} ${selectedSection === 'approval-requests' ? styles.active : ''}`}
+                onClick={() => setSelectedSection('approval-requests')}
+              >
+                <FiClock className={styles.sideIcon} /> 
+                Approval Requests
+                {pendingRequests.length > 0 && (
+                  <span className={styles.badge}>{pendingRequests.length}</span>
+                )}
+              </button>
+            )}
             
             <button 
               className={`${styles.sidebarLink} ${selectedSection === 'contacts' ? styles.active : ''}`}
@@ -686,6 +760,67 @@ const AdminDashboard = () => {
               </div>
             </div>
           )}
+
+          {/* Approval Requests Section (Super Admin Only) */}
+          {selectedSection === 'approval-requests' && isSuperAdmin && (
+            <div className={styles.section}>
+              <div className={styles.sectionTitle}>Approval Requests</div>
+              
+              {approvalRequests.length === 0 ? (
+                <div className={styles.emptyState}>
+                  <p>No approval requests found.</p>
+                </div>
+              ) : (
+                <div className={styles.requestsContainer}>
+                  {approvalRequests.map((request, index) => (
+                    <div key={request._id || index} className={styles.requestCard}>
+                      <div className={styles.requestHeader}>
+                        <div className={styles.requestInfo}>
+                          <h4>{request.actionType.replace('_', ' ').toUpperCase()}</h4>
+                          <p><strong>Requested by:</strong> {request.requestedBy?.firstname} {request.requestedBy?.surname}</p>
+                          <p><strong>Target:</strong> {request.targetUser ? `${request.targetUser.firstname} ${request.targetUser.surname}` : 'N/A'}</p>
+                          <p><strong>Details:</strong> {request.requestDetails}</p>
+                          <p><strong>Priority:</strong> 
+                            <span className={`${styles.priorityBadge} ${styles[`priority-${request.priority}`]}`}>
+                              {request.priority}
+                            </span>
+                          </p>
+                        </div>
+                        <div className={styles.requestStatus}>
+                          <span className={`${styles.statusBadge} ${styles[`status-${request.status}`]}`}>
+                            {request.status === 'pending' && <FiClock className={styles.statusIcon} />}
+                            {request.status === 'approved' && <FiCheckCircle className={styles.statusIcon} />}
+                            {request.status === 'rejected' && <FiXCircle className={styles.statusIcon} />}
+                            {request.status}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      {request.status === 'pending' && (
+                        <div className={styles.requestActions}>
+                          <button 
+                            className={styles.actionBtn}
+                            onClick={() => openReviewModal(request)}
+                            style={{ backgroundColor: '#10b981' }}
+                          >
+                            Review Request
+                          </button>
+                        </div>
+                      )}
+                      
+                      {request.status !== 'pending' && request.reviewComments && (
+                        <div className={styles.reviewComments}>
+                          <p><strong>Review Comments:</strong> {request.reviewComments}</p>
+                          <p><strong>Reviewed by:</strong> {request.reviewedBy?.firstname} {request.reviewedBy?.surname}</p>
+                          <p><strong>Reviewed at:</strong> {new Date(request.reviewedAt).toLocaleString()}</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
         </main>
       </div>
 
@@ -699,6 +834,58 @@ const AdminDashboard = () => {
           >
             ×
           </button>
+        </div>
+      )}
+
+      {/* Review Modal */}
+      {reviewModal.show && (
+        <div className={styles.modalBackdrop} onClick={closeReviewModal}>
+          <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>
+            <h3>Review Approval Request</h3>
+            <div className={styles.modalContent}>
+              <div className={styles.formGroup}>
+                <label>Action Type:</label>
+                <p>{reviewModal.request?.actionType?.replace('_', ' ').toUpperCase()}</p>
+              </div>
+              
+              <div className={styles.formGroup}>
+                <label>Request Details:</label>
+                <p>{reviewModal.request?.requestDetails}</p>
+              </div>
+              
+              <div className={styles.formGroup}>
+                <label>Status:</label>
+                <select 
+                  value={reviewData.status} 
+                  onChange={(e) => setReviewData({...reviewData, status: e.target.value})}
+                  className={styles.formInput}
+                >
+                  <option value="approved">Approve</option>
+                  <option value="rejected">Reject</option>
+                </select>
+              </div>
+              
+              <div className={styles.formGroup}>
+                <label>Comments:</label>
+                <textarea 
+                  value={reviewData.comments} 
+                  onChange={(e) => setReviewData({...reviewData, comments: e.target.value})}
+                  className={styles.formInput}
+                  placeholder="Add review comments..."
+                  rows="3"
+                />
+              </div>
+              
+              <div className={styles.modalActions}>
+                <button className={styles.actionBtn} onClick={handleReviewRequest}>
+                  Submit Review
+                </button>
+                <button className={styles.secondaryBtn} onClick={closeReviewModal}>
+                  Cancel
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       )}
 
