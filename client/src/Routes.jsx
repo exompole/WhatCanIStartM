@@ -33,6 +33,103 @@ import PremiumPlans from "./components/PremiumPlans";
 
 
 
+// Debug Page Component
+const DebugPage = () => (
+  <div style={{ 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    minHeight: '60vh',
+    textAlign: 'center',
+    padding: '20px'
+  }}>
+    <h1 style={{ fontSize: '2rem', color: '#10b981', marginBottom: '1rem' }}>Debug Page</h1>
+    <p style={{ color: '#6b7280', marginBottom: '1rem' }}>
+      This page is working correctly.
+    </p>
+    <p style={{ color: '#6b7280', marginBottom: '2rem' }}>
+      Current URL: {window.location.href}
+    </p>
+    <a 
+      href="/admin-dashboard" 
+      style={{
+        padding: '12px 24px',
+        backgroundColor: '#3b82f6',
+        color: 'white',
+        textDecoration: 'none',
+        borderRadius: '8px',
+        fontWeight: '600',
+        marginRight: '10px'
+      }}
+    >
+      Go to Admin Dashboard
+    </a>
+    <a 
+      href="/" 
+      style={{
+        padding: '12px 24px',
+        backgroundColor: '#6b7280',
+        color: 'white',
+        textDecoration: 'none',
+        borderRadius: '8px',
+        fontWeight: '600'
+      }}
+    >
+      Go Home
+    </a>
+  </div>
+);
+
+// 404 Page Component
+const NotFound = () => (
+  <div style={{ 
+    display: 'flex', 
+    flexDirection: 'column', 
+    alignItems: 'center', 
+    justifyContent: 'center', 
+    minHeight: '60vh',
+    textAlign: 'center',
+    padding: '20px'
+  }}>
+    <h1 style={{ fontSize: '3rem', color: '#ef4444', marginBottom: '1rem' }}>404</h1>
+    <h2 style={{ fontSize: '1.5rem', color: '#374151', marginBottom: '1rem' }}>Page Not Found</h2>
+    <p style={{ color: '#6b7280', marginBottom: '2rem' }}>
+      The page you're looking for doesn't exist.
+    </p>
+    <p style={{ color: '#6b7280', marginBottom: '1rem' }}>
+      Current URL: {window.location.href}
+    </p>
+    <a 
+      href="/debug" 
+      style={{
+        padding: '12px 24px',
+        backgroundColor: '#10b981',
+        color: 'white',
+        textDecoration: 'none',
+        borderRadius: '8px',
+        fontWeight: '600',
+        marginRight: '10px'
+      }}
+    >
+      Debug Page
+    </a>
+    <a 
+      href="/" 
+      style={{
+        padding: '12px 24px',
+        backgroundColor: '#3b82f6',
+        color: 'white',
+        textDecoration: 'none',
+        borderRadius: '8px',
+        fontWeight: '600'
+      }}
+    >
+      Go Home
+    </a>
+  </div>
+);
+
 export const routes = [
   { path: "/", element:  <HomeInfo/>},
   { path: "/Contact", element: <Contact/> },
@@ -54,7 +151,8 @@ export const routes = [
   { path: "/roadmap", element: <RoadMap /> },
   { path: "/PaymentForm", element: <PaymentForm/>},
   { path: "/LoginRegistration", element: <LoginRegistration/>},
-  { path: "//PremiumPlans", element: <PremiumPlans/>},
+  { path: "/PremiumPlans", element: <PremiumPlans/>}, // Fixed the double slash
+  { path: "/debug", element: <DebugPage/> }, // Debug route for testing
 
   
   // Service Routes
@@ -63,4 +161,7 @@ export const routes = [
   { path: "/services/performance-improvement", element: <PerformanceImprovement /> },
   { path: "/services/professional-services", element: <ProfessionalServices /> },
   { path: "/services/marketing", element: <Marketing /> },
+  
+  // Catch-all route for 404
+  { path: "*", element: <NotFound /> },
 ];
